@@ -8,14 +8,14 @@ import { requests } from '../../api/request';
 export const Top: FC = () => {
   return (
     <div>
-      <Row fetchUrl={requests.fetchActionMovies} />
-      {/* <Row fetchUrl={requests.fetchComedyMovies} /> */}
-      {/* <Row fetchUrl={requests.fetchDocumentMovies} /> */}
-      {/* <Row fetchUrl={requests.fetchHorrorMovies} /> */}
-      {/* <Row fetchUrl={requests.fetchNetflixOriginals} /> */}
-      {/* <Row fetchUrl={requests.fetchRomanceMovies} /> */}
-      {/* <Row fetchUrl={requests.fetchTopRated} /> */}
-      {/* <Row fetchUrl={requests.fetchTrending} /> */}
+      <Row fetchUrl={requests.fetchNetflixOriginals} title={'Netflix Originals'} />
+      <Row fetchUrl={requests.fetchTopRated} title={'Top Rated'} />
+      <Row fetchUrl={requests.fetchTrending} title={'Trending'} />
+      <Row fetchUrl={requests.fetchActionMovies} title={'Action Movies'} />
+      <Row fetchUrl={requests.fetchComedyMovies} title={'Comedy Movies'} />
+      <Row fetchUrl={requests.fetchDocumentMovies} title={'Document Movies'} />
+      <Row fetchUrl={requests.fetchHorrorMovies} title={'Horror Movies'} />
+      <Row fetchUrl={requests.fetchRomanceMovies} title={'Romance Movies'} />
     </div>
   );
 };

@@ -6,7 +6,9 @@ import './App.css';
 import { Top } from './components/pages/Top';
 
 export const App: FC = () => {
-  return <div className="App">
-    <Top />
-  </div>;
+  return (
+    <div className="App">
+      <Top />
+    </div>
+  );
 };
