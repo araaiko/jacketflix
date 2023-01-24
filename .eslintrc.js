@@ -33,7 +33,7 @@ module.exports = {
     'no-use-before-define': 'off', // 関数や変数が定義される前に使われているとエラーになるデフォルトの機能をoff
     '@typescript-eslint/no-use-before-define': ['error'], // typescript側のno-use-before-defineを使うようにする
     'import/prefer-default-export': 'off', // named exportがエラーになるので使えるようにoff
-    '@typescript-eslint/consistent-type-definitions': 'off', // 型エイリアスがエラーになるので使えるようにoff
+    '@typescript-eslint/consistent-type-definitions': 'off', // 型エイリアス(type)がエラーになるので使えるようにoff
     '@typescript-eslint/no-unused-vars': 'off', // unused-importsを使うため削除
     'unused-imports/no-unused-imports': 'error', // 不要なimportの削除
     'unused-imports/no-unused-vars': [
