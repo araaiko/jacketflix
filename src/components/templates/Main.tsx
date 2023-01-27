@@ -3,6 +3,7 @@ import { FC } from 'react';
 
 /** 内部import */
 import type { MovieInfo } from '../../types/api/fetchData';
+import { Banner } from '../organisms/Banner';
 import { MoviesList } from '../organisms/MoviesList';
 
 type Props = {
@@ -32,6 +33,7 @@ export const Main: FC<Props> = (props) => {
     <>
       {/* ヘッダー */}
       {/* バナー */}
+      <Banner data={netflixOriginals} />
       {/* 映画一覧 */}
       <MoviesList data={netflixOriginals} title={'Netflix Originals'} />
       <MoviesList data={topRated} title={'Top Rated'} />
