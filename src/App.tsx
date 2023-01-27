@@ -1,13 +1,19 @@
 /** 外部import */
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 
 /** 内部import */
-import './App.css';
+import { GlobalStyle } from './style/GlobalStyle';
 import { Top } from './components/pages/Top';
+import { changeViewport } from "./lib/changeViewport";
 
 export const App: FC = () => {
+  useEffect(() => {
+    changeViewport();
+  });
+
   return (
     <div className="App">
+      <GlobalStyle />
       <Top />
     </div>
   );
