@@ -42,7 +42,7 @@ export const Banner: FC<Props> = (props) => {
     <SBanner bgImg={`https://image.tmdb.org/t/p/original/${movie?.backdrop_path ?? ''}`}>
       <SInfoWrapper>
         <MovieTitle>{movie?.title ?? movie?.name ?? movie?.original_name}</MovieTitle>
-        <TwoButtons btnName1={'My Listへ登録'} btnName2={'Netflixで視聴する'} />
+        <TwoButtons btnName1={'作品情報を見る'} btnName2={'Netflixで視聴する'} />
         <STextWrapper>
           <PrimaryText>{truncate(movie?.overview, 150)}</PrimaryText>
         </STextWrapper>
