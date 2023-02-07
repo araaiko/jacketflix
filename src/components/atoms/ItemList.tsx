@@ -27,7 +27,7 @@ export const ItemList: FC<Props> = (props) => {
 /** style */
 type SItemProps = {
   itemHeight: string;
-}
+};
 
 const SList = styled.ul`
   width: auto;

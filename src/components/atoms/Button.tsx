@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 type Props = {
   children: ReactNode;
-  onClick?: () => void;
+  onClick: () => void;
 };
 
 export const Button: FC<Props> = ({ children, onClick }) => {

@@ -3,9 +3,7 @@ import { FC } from 'react';
 
 /** 内部import */
 import type { MovieInfo } from '../../types/api/fetchData';
-import { Banner } from '../organisms/Banner';
-import { Header } from '../organisms/Header';
-import { MoviesList } from '../organisms/MoviesList';
+import { Banner, Header, MoviesList } from '../organisms';
 
 type Props = {
   netflixOriginals: MovieInfo[];

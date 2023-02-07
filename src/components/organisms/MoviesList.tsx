@@ -4,8 +4,8 @@ import styled from 'styled-components';
 
 /** 内部import */
 import type { MovieInfo } from '../../types/api/fetchData';
-import { CategoryTitle } from '../atoms/CategoryTitle';
-import { SideScrollItems } from '../molecules/SideScrollItems';
+import { CategoryTitle } from '../atoms';
+import { SideScrollItems } from '../molecules';
 
 type Props = {
   data: MovieInfo[];

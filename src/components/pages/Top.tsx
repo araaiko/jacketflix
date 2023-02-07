@@ -5,7 +5,7 @@ import React, { FC, useEffect, useState } from 'react';
 import type { MovieInfo, FetchData } from '../../types/api/fetchData';
 import { instance } from '../../api/axios';
 import { requests } from '../../api/request';
-import { Main } from '../templates/Main';
+import { Main } from '../templates';
 
 type Movie = MovieInfo;
 type PromiseFetchData = (fetchUrl: string, setState: React.Dispatch<Movie[]>) => Promise<Movie[]>;

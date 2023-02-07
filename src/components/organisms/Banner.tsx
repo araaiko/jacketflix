@@ -1,12 +1,12 @@
 /** 外部import */
 import { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 /** 内部import */
 import type { MovieInfo } from '../../types/api/fetchData';
-import { MovieTitle } from '../atoms/MovieTitle';
-import { TwoButtons } from '../molecules/TwoButtons';
-import { PrimaryText } from '../atoms/PrimaryText';
+import { MovieTitle, PrimaryText } from '../atoms';
+import { TwoButtons } from '../molecules';
 
 type Props = {
   data: MovieInfo[];
@@ -19,11 +19,13 @@ type Movie = {
   original_name?: string;
   backdrop_path?: string;
   overview?: string;
+  id?: number;
 };
 type Truncate = (str: string | undefined, n: number) => string | undefined;
 
 export const Banner: FC<Props> = (props) => {
   const { data } = props;
+  const navigate = useNavigate();
   const [movie, setMovie] = useState<Movie>({});
 
   // 親から値(props)が渡される前に初回レンダリングが実行されるため、dataが更新される度に走るよう記述
@@ -38,11 +40,30 @@ export const Banner: FC<Props> = (props) => {
     }
   };
 
+  // ボタンリンク先
+  const onClickToProductDetail = (): void => {
+    if (movie.id !== null && movie.id !== undefined) {
+      navigate(`/product/${movie.id}`);      
+    } else {
+      alert('ページが存在しません');
+    }
+  };
+  const onClickToNetflix = (): void => {
+    window.open('https://www.netflix.com/jp/');
+  };
+
+  console.log(movie);
+
   return (
     <SBanner bgImg={`https://image.tmdb.org/t/p/original/${movie?.backdrop_path ?? ''}`}>
       <SInfoWrapper>
         <MovieTitle>{movie?.title ?? movie?.name ?? movie?.original_name}</MovieTitle>
-        <TwoButtons btnName1={'作品情報を見る'} btnName2={'Netflixで視聴する'} />
+        <TwoButtons
+          btnName1={'作品情報を見る'}
+          onClick1={onClickToProductDetail}
+          btnName2={'Netflixで視聴する'}
+          onClick2={onClickToNetflix}
+        />
         <STextWrapper>
           <PrimaryText>{truncate(movie?.overview, 150)}</PrimaryText>
         </STextWrapper>
@@ -89,7 +110,7 @@ const SInfoWrapper = styled.div`
   position: absolute;
   bottom: 10%;
   text-align: left;
-  
+
   @media (min-width: 768px) {
     position: relative;
     top: 50%;
@@ -102,10 +123,8 @@ const STextWrapper = styled.div`
   margin-top: 24px;
   width: 100%;
   max-width: 350px;
-  
+
   @media (min-width: 768px) {
     margin-top: 32px;
-
   }
 `;
-
