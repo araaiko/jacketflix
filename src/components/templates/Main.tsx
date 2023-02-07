@@ -8,7 +8,6 @@ import { Banner, Header, MoviesList } from '../organisms';
 type Props = {
   netflixOriginals: MovieInfo[];
   topRated: MovieInfo[];
-  trending: MovieInfo[];
   actionMovies: MovieInfo[];
   comedyMovies: MovieInfo[];
   documentMovies: MovieInfo[];
@@ -20,7 +19,6 @@ export const Main: FC<Props> = (props) => {
   const {
     netflixOriginals,
     topRated,
-    trending,
     actionMovies,
     comedyMovies,
     documentMovies,
@@ -33,16 +31,15 @@ export const Main: FC<Props> = (props) => {
       {/* ヘッダー */}
       <Header />
       {/* バナー */}
-      <Banner data={netflixOriginals} />
+      <Banner data={netflixOriginals} mediaType={'tv'} />
       {/* 映画一覧 */}
-      <MoviesList data={netflixOriginals} title={'Netflix Originals'} />
-      <MoviesList data={topRated} title={'Top Rated'} />
-      <MoviesList data={trending} title={'Trending'} />
-      <MoviesList data={actionMovies} title={'Action Movies'} />
-      <MoviesList data={comedyMovies} title={'Comedy Movies'} />
-      <MoviesList data={documentMovies} title={'Document Movies'} />
-      <MoviesList data={horrorMovies} title={'Horror Movies'} />
-      <MoviesList data={RomanceMovies} title={'Romance Movies'} />
+      <MoviesList data={netflixOriginals} title={'Netflix Originals'} mediaType={'tv'} />
+      <MoviesList data={topRated} title={'Top Rated'} mediaType={'movie'} />
+      <MoviesList data={actionMovies} title={'Action Movies'} mediaType={'movie'} />
+      <MoviesList data={comedyMovies} title={'Comedy Movies'} mediaType={'movie'} />
+      <MoviesList data={documentMovies} title={'Document Movies'} mediaType={'movie'} />
+      <MoviesList data={horrorMovies} title={'Horror Movies'} mediaType={'movie'} />
+      <MoviesList data={RomanceMovies} title={'Romance Movies'} mediaType={'movie'} />
     </>
   );
 };

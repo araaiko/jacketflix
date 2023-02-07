@@ -8,15 +8,16 @@ import { ItemList, ScrollHint } from '../atoms';
 type Props = {
   movies: MovieInfo[];
   itemHeight: string;
+  mediaType: string;
 };
 
 export const SideScrollItems: FC<Props> = (props) => {
-  const { movies, itemHeight } = props;
+  const { movies, itemHeight, mediaType } = props;
 
   return (
     <>
       <ScrollHint>scroll ▶︎</ScrollHint>
-      <ItemList movies={movies} itemHeight={itemHeight} />
+      <ItemList movies={movies} mediaType={mediaType} itemHeight={itemHeight} />
     </>
   );
 };

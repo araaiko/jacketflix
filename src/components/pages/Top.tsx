@@ -13,7 +13,6 @@ type PromiseFetchData = (fetchUrl: string, setState: React.Dispatch<Movie[]>) =>
 export const Top: FC = () => {
   const [netflixOriginals, setNetflixOriginals] = useState<Movie[]>([]);
   const [topRated, setTopRated] = useState<Movie[]>([]);
-  const [trending, setTrending] = useState<Movie[]>([]);
   const [actionMovies, setActionMovies] = useState<Movie[]>([]);
   const [comedyMovies, setComedyMovies] = useState<Movie[]>([]);
   const [documentMovies, setDocumentMovies] = useState<Movie[]>([]);
@@ -29,7 +28,6 @@ export const Top: FC = () => {
 
     void fetchData(requests.fetchNetflixOriginals, setNetflixOriginals);
     void fetchData(requests.fetchTopRated, setTopRated);
-    void fetchData(requests.fetchTrending, setTrending);
     void fetchData(requests.fetchActionMovies, setActionMovies);
     void fetchData(requests.fetchComedyMovies, setComedyMovies);
     void fetchData(requests.fetchDocumentMovies, setDocumentMovies);
@@ -42,7 +40,6 @@ export const Top: FC = () => {
       <Main
         netflixOriginals={netflixOriginals}
         topRated={topRated}
-        trending={trending}
         actionMovies={actionMovies}
         comedyMovies={comedyMovies}
         documentMovies={documentMovies}

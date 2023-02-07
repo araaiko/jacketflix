@@ -1,2 +1,2 @@
 export { Top } from './Top';
-export { ProductDetail } from './ProductDetail';
+export { WorkInfo } from './WorkInfo';

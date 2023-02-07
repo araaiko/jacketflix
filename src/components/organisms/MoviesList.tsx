@@ -10,15 +10,16 @@ import { SideScrollItems } from '../molecules';
 type Props = {
   data: MovieInfo[];
   title: string;
+  mediaType: string;
 };
 
 export const MoviesList: FC<Props> = (props) => {
-  const { data, title } = props;
+  const { data, title, mediaType } = props;
 
   return (
     <SWrapper>
       <CategoryTitle>{title}</CategoryTitle>
-      <SideScrollItems movies={data} itemHeight={'250px'} />
+      <SideScrollItems movies={data} mediaType={mediaType} itemHeight={'250px'} />
     </SWrapper>
   );
 };
