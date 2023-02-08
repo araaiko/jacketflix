@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import type { MovieInfo } from '../../types/api/fetchData';
 import { MovieTitle, PrimaryText } from '../atoms';
 import { TwoButtons } from '../molecules';
-import { onClickToWorkInfo } from '../../function/commonOnClick';
+import { onClickToWorkInfo, onClickToNetflix } from '../../function/commonOnClick';
 
 type Props = {
   data: MovieInfo[];
@@ -32,28 +32,27 @@ export const Banner: FC<Props> = (props) => {
     }
   };
 
-  // ボタンリンク先
-  const onClickToNetflix = (): void => {
-    window.open('https://www.netflix.com/jp/');
-  };
-
   return (
-    <SBanner bgImg={`https://image.tmdb.org/t/p/original/${movie?.backdrop_path ?? ''}`}>
-      <SInfoWrapper>
-        <MovieTitle>{movie?.title ?? movie?.name ?? movie?.original_name}</MovieTitle>
-        <TwoButtons
-          btnName1={'作品情報を見る'}
-          onClick1={() => {
-            onClickToWorkInfo(movie?.id, mediaType, navigate);
-          }}
-          btnName2={'Netflixで視聴する'}
-          onClick2={onClickToNetflix}
-        />
-        <STextWrapper>
-          <PrimaryText>{truncate(movie?.overview, 150)}</PrimaryText>
-        </STextWrapper>
-      </SInfoWrapper>
-    </SBanner>
+    <>
+      {movie !== null && (
+        <SBanner bgImg={`https://image.tmdb.org/t/p/original/${movie?.backdrop_path ?? ''}`}>
+          <SInfoWrapper>
+            <MovieTitle>{movie?.title ?? movie?.name ?? movie?.original_name}</MovieTitle>
+            <TwoButtons
+              btnName1={'作品情報を見る'}
+              onClick1={() => {
+                onClickToWorkInfo(movie?.id, mediaType, navigate);
+              }}
+              btnName2={'Netflixで視聴する'}
+              onClick2={onClickToNetflix}
+            />
+            <STextWrapper>
+              <PrimaryText>{truncate(movie?.overview, 150)}</PrimaryText>
+            </STextWrapper>
+          </SInfoWrapper>
+        </SBanner>
+      )}
+    </>
   );
 };
 
@@ -78,7 +77,7 @@ const SBanner = styled.div<SBannerProps>`
     left: 0;
     width: 100%;
     height: 7.4rem;
-    background-image: linear-gradient(180deg, transparent, rgba(37, 37, 37, 0.61), #111);
+    background-image: linear-gradient(180deg, transparent, rgba(37, 37, 37, 0.1), #000);
   }
 
   @media (min-width: 768px) {

@@ -5,6 +5,7 @@ import { useParams, useLocation } from 'react-router-dom';
 /** 内部import */
 import type { FetchDetailData } from '../../types/api/fetchData';
 import { instance } from '../../api/axios';
+import { DetailPage } from '../templates';
 
 /** types */
 type State = {
@@ -12,10 +13,13 @@ type State = {
 };
 
 export const WorkInfo: FC = () => {
+  // URLの末尾（パラメーター）を取得（※動的パスで設定した定数名と同じ名前にすること）
   const { id } = useParams();
+  // ページ遷移時に渡したstate(mediaType)の取得
   const location = useLocation();
   const state = location.state as State;
-  const [data, setData] = useState < FetchDetailData | null>(null);
+
+  const [data, setData] = useState<FetchDetailData | null>(null);
 
   useEffect(() => {
     // テンプレートリテラル(fetchUrl)ではstring | undefinedしか定義されていないため、stringに合致するよう調整
@@ -41,15 +45,7 @@ export const WorkInfo: FC = () => {
 
   return (
     <>
-      <h1>作品情報ページ</h1>
-      <p>ここのidは{id}です</p>
-      <p>media typeは{state.mediaType}です</p>
-      <p>作品名：{data?.name}</p>
-      <p>作品ID：{data?.id}</p>
-      <p>オリジナルタイトル：{data?.original_name}</p>
-      <p>タイトル：{data?.title}</p>
-      <p>あらすじ：{data?.overview}</p>
-      <p>画像パス：{data?.backdrop_path}</p>
+      <DetailPage data={data} />
     </>
   );
 };

@@ -29,7 +29,7 @@ export const Main: FC<Props> = (props) => {
   return (
     <>
       {/* ヘッダー */}
-      <Header />
+      <Header home />
       {/* バナー */}
       <Banner data={netflixOriginals} mediaType={'tv'} />
       {/* 映画一覧 */}

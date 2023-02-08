@@ -87,5 +87,10 @@ export const GlobalStyle = createGlobalStyle`
   body {
     background-color: #000;
     color: #fff;
+    padding-bottom: 80px;
+
+    @media (min-width: 768px) {
+        padding-bottom: 0;
+    }
   }
 `;

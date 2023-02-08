@@ -17,13 +17,10 @@ const SButton = styled.button`
   color: #fff;
   font-weight: bold;
   background-color: rgba(51, 51, 51, 0.5);
-  padding: 16px;
+  padding: 16px 14px;
   border-radius: 8px;
   transition: all 0.3s ease;
-
-  &:nth-child(n + 2) {
-    margin-left: 16px;
-  }
+  min-width: 164px;
 
   &:hover {
     color: #000;
