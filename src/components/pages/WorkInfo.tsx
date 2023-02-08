@@ -3,31 +3,22 @@ import { FC, useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 
 /** 内部import */
+import type { FetchDetailData } from '../../types/api/fetchData';
 import { instance } from '../../api/axios';
 
 /** types */
 type State = {
   mediaType: string;
 };
-// useStateの初期値に{}をセットしたいため、
-// 各プロパティが存在しなくてもエラーにならないよう ? をつけている
-type Movie = {
-  title?: string;
-  name?: string;
-  original_name?: string;
-  backdrop_path?: string;
-  overview?: string;
-  id?: number;
-};
 
 export const WorkInfo: FC = () => {
   const { id } = useParams();
   const location = useLocation();
   const state = location.state as State;
-  const [data, setData] = useState<Movie>({});
+  const [data, setData] = useState < FetchDetailData | null>(null);
 
   useEffect(() => {
-    // テンプレートリテラルではstring | undefinedしか定義されていないため、stringに合致するよう調整
+    // テンプレートリテラル(fetchUrl)ではstring | undefinedしか定義されていないため、stringに合致するよう調整
     const REACT_APP_TMDB_API_KEY = process.env.REACT_APP_TMDB_API_KEY;
     const workInfoId = id?.toString();
     let fetchUrl: string;
@@ -42,7 +33,7 @@ export const WorkInfo: FC = () => {
     }
 
     const fetchData = async (): Promise<void> => {
-      const request = await instance.get<Movie>(fetchUrl);
+      const request = await instance.get<FetchDetailData>(fetchUrl);
       setData(request.data);
     };
     void fetchData();

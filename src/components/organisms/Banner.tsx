@@ -13,22 +13,12 @@ type Props = {
   data: MovieInfo[];
   mediaType: string;
 };
-// useStateの初期値に{}をセットしたいため、
-// 各プロパティが存在しなくてもエラーにならないよう ? をつけている
-type Movie = {
-  title?: string;
-  name?: string;
-  original_name?: string;
-  backdrop_path?: string;
-  overview?: string;
-  id?: number;
-};
 type Truncate = (str: string | undefined, n: number) => string | undefined;
 
 export const Banner: FC<Props> = (props) => {
   const { data, mediaType } = props;
   const navigate = useNavigate();
-  const [movie, setMovie] = useState<Movie>({});
+  const [movie, setMovie] = useState<MovieInfo | null>(null);
 
   // 親から値(props)が渡される前に初回レンダリングが実行されるため、props(data)が更新される度に走るよう記述
   useEffect(() => {
@@ -54,7 +44,7 @@ export const Banner: FC<Props> = (props) => {
         <TwoButtons
           btnName1={'作品情報を見る'}
           onClick1={() => {
-            onClickToWorkInfo(movie.id, mediaType, navigate);
+            onClickToWorkInfo(movie?.id, mediaType, navigate);
           }}
           btnName2={'Netflixで視聴する'}
           onClick2={onClickToNetflix}

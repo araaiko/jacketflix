@@ -8,7 +8,7 @@ import { requests } from '../../api/request';
 import { Main } from '../templates';
 
 type Movie = MovieInfo;
-type PromiseFetchData = (fetchUrl: string, setState: React.Dispatch<Movie[]>) => Promise<Movie[]>;
+type PromiseFetchData = (fetchUrl: string, setState: React.Dispatch<Movie[]>) => Promise<void>;
 
 export const Top: FC = () => {
   const [netflixOriginals, setNetflixOriginals] = useState<Movie[]>([]);
@@ -23,7 +23,6 @@ export const Top: FC = () => {
     const fetchData: PromiseFetchData = async (fetchUrl, setState) => {
       const request = await instance.get<FetchData>(fetchUrl);
       setState(request.data.results);
-      return request.data.results;
     };
 
     void fetchData(requests.fetchNetflixOriginals, setNetflixOriginals);
