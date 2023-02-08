@@ -82,4 +82,10 @@ export const GlobalStyle = createGlobalStyle`
       border-radius: 0;
       -webkit-appearance: none;
   }
+  
+  /* base */
+  body {
+    background-color: #000;
+    color: #fff;
+  }
 `;
