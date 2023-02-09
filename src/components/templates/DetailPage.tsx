@@ -1,5 +1,5 @@
 /** 外部import */
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import styled from 'styled-components';
 
 /** 内部import */
@@ -12,15 +12,19 @@ import { onClickToNetflix } from '../../function/commonOnClick';
 /** types */
 type Props = {
   data: FetchDetailData | null;
+  videoId: string;
 };
 
 export const DetailPage: FC<Props> = (props) => {
-  const { data } = props;
+  const { data, videoId } = props;
+  const [isThumbnail, setIsThumbnail] = useState(true);
+
   return (
     <>
       {/* ヘッダー */}
       <Header />
       {data !== null && (
+        // 作品情報
         <SInfoItems>
           <SInfoImgWrapper>
             <SInfoImg
@@ -43,6 +47,18 @@ export const DetailPage: FC<Props> = (props) => {
             />
           </SInfoTextWrapper>
         </SInfoItems>
+      )}
+      {/* 動画 */}
+      {videoId !== '' && (
+        <div>
+          <iframe
+            src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
+            frameBorder="0"
+            title="YouTube"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        </div>
       )}
     </>
   );
@@ -118,7 +134,7 @@ const SInfoTextWrapper = styled(SInfoItem)`
   @media (min-width: 1024px) {
     padding-left: 32px;
     align-self: center;
-  }    
+  }
 `;
 
 const STextWrapper = styled.div`

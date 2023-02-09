@@ -3,7 +3,7 @@ import { FC, useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 
 /** 内部import */
-import type { FetchDetailData } from '../../types/api/fetchData';
+import type { FetchDetailData, FetchVideoData } from '../../types/api/fetchData';
 import { instance } from '../../api/axios';
 import { DetailPage } from '../templates';
 
@@ -20,19 +20,23 @@ export const WorkInfo: FC = () => {
   const state = location.state as State;
 
   const [data, setData] = useState<FetchDetailData | null>(null);
+  const [videoId, setVideoId] = useState<string>('');
 
   useEffect(() => {
     // テンプレートリテラル(fetchUrl)ではstring | undefinedしか定義されていないため、stringに合致するよう調整
     const REACT_APP_TMDB_API_KEY = process.env.REACT_APP_TMDB_API_KEY;
     const workInfoId = id?.toString();
     let fetchUrl: string;
+    let fetchVideoUrl: string;
 
-    // media typeによってURLを出し分ける
+    // media typeによって各URLを出し分ける
     if (REACT_APP_TMDB_API_KEY !== undefined && workInfoId !== undefined) {
       if (state.mediaType === 'movie') {
         fetchUrl = `/movie/${workInfoId}?api_key=${REACT_APP_TMDB_API_KEY}&language=en-US`;
+        fetchVideoUrl = `/movie/${workInfoId}/videos?api_key=${REACT_APP_TMDB_API_KEY}&language=en-US`;
       } else if (state.mediaType === 'tv') {
         fetchUrl = `/tv/${workInfoId}?api_key=${REACT_APP_TMDB_API_KEY}&language=en-US`;
+        fetchVideoUrl = `/tv/${workInfoId}/videos?api_key=${REACT_APP_TMDB_API_KEY}&language=ja-JP`;
       }
     }
 
@@ -40,12 +44,18 @@ export const WorkInfo: FC = () => {
       const request = await instance.get<FetchDetailData>(fetchUrl);
       setData(request.data);
     };
+    const fetchVideoId = async (): Promise<void> => {
+      const request = await instance.get<FetchVideoData>(fetchVideoUrl);
+      setVideoId(request.data.results[0]?.key);
+    };
     void fetchData();
+    void fetchVideoId();
   }, []);
-
+  
+  console.log(videoId);
   return (
     <>
-      <DetailPage data={data} />
+      <DetailPage data={data} videoId={videoId} />
     </>
   );
 };
