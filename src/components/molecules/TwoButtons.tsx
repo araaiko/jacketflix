@@ -26,8 +26,14 @@ export const TwoButtons: FC<Props> = (props) => {
 /** style */
 const SButtonsWrapper = styled.div`
   margin-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 360px;
 
   @media (min-width: 768px) {
     margin-top: 32px;
+    justify-content: flex-start;
+    max-width: 100%;
   }
 `;

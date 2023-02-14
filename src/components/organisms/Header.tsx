@@ -2,8 +2,15 @@
 import { FC, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { HeartIcon, ExitIcon } from '@radix-ui/react-icons';
+import { Link } from 'react-router-dom';
 
-export const Header: FC = () => {
+/** types */
+type Props = {
+  home?: boolean;
+};
+
+export const Header: FC<Props> = (props) => {
+  const { home = false } = props;
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -24,7 +31,13 @@ export const Header: FC = () => {
   return (
     <SHeader show={show}>
       {/* logo */}
-      <SLogo>JACKETFLIX</SLogo>
+      {home ? (
+        <SLogo>JACKETFLIX</SLogo>
+      ) : (
+        <SLogo>
+          <SLink to={'/'}>JACKETFLIX</SLink>
+        </SLogo>
+      )}
 
       <SNav>
         {/* user name */}
@@ -97,6 +110,11 @@ const SHeader = styled.header<SHeaderProps>`
   padding-right: 16px;
   transition: background-color 0.4s ease;
   background-color: ${({ show }) => (show ? '#000' : 'transparent')};
+
+  @media (min-width: 1024px) {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
 `;
 
 const SLogo = styled.h1`
@@ -106,6 +124,15 @@ const SLogo = styled.h1`
     font-size: 32px;
   }
 `;
+
+const SLink = styled(Link)`
+  color: #fff;
+  transition: opacity 0.3s ease;
+
+  &:hover {
+    opacity: 0.7;
+  }
+`
 
 const SNav = styled.ul`
   display: flex;
