@@ -1,5 +1,5 @@
 /** 外部import */
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 
 /** 内部import */
@@ -17,7 +17,6 @@ type Props = {
 
 export const DetailPage: FC<Props> = (props) => {
   const { data, videoId } = props;
-  const [isThumbnail, setIsThumbnail] = useState(true);
 
   return (
     <>
@@ -50,15 +49,15 @@ export const DetailPage: FC<Props> = (props) => {
       )}
       {/* 動画 */}
       {videoId !== '' && (
-        <div>
-          <iframe
-            src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
+        <SVideoWrapper>
+          <SVideo
+            src={`https://www.youtube.com/embed/${videoId}`}
             frameBorder="0"
             title="YouTube"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
           />
-        </div>
+        </SVideoWrapper>
       )}
     </>
   );
@@ -99,8 +98,9 @@ const SInfoImgWrapper = styled(SInfoItem)`
   }
 
   @media (min-width: 1024px) {
-    min-height: 450px;
+    min-height: 650px;
     height: auto;
+    width: 55%;
 
     &::before {
       content: '';
@@ -132,8 +132,12 @@ const SInfoTextWrapper = styled(SInfoItem)`
   padding-right: 16px;
 
   @media (min-width: 1024px) {
+    padding-top: 96px;
+    padding-bottom: 96px;
     padding-left: 32px;
+    padding-right: 0;
     align-self: center;
+    width: 45%
   }
 `;
 
@@ -146,3 +150,21 @@ const STextWrapper = styled.div`
     margin-top: 32px;
   }
 `;
+
+const SVideoWrapper = styled.div`
+  margin-top: 40px;
+  aspect-ratio: 16 / 9;
+  width: calc(100% - 32px);
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+  
+  @media (min-width: 768px) {
+    margin-top: 80px;
+  }
+`;
+
+const SVideo = styled.iframe`
+  width: 100%;
+  height: 100%;
+`
