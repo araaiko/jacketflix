@@ -137,7 +137,7 @@ const SInfoTextWrapper = styled(SInfoItem)`
     padding-left: 32px;
     padding-right: 0;
     align-self: center;
-    width: 45%
+    width: 45%;
   }
 `;
 
@@ -158,7 +158,7 @@ const SVideoWrapper = styled.div`
   max-width: 1440px;
   margin-left: auto;
   margin-right: auto;
-  
+
   @media (min-width: 768px) {
     margin-top: 80px;
   }
@@ -167,4 +167,4 @@ const SVideoWrapper = styled.div`
 const SVideo = styled.iframe`
   width: 100%;
   height: 100%;
-`
+`;

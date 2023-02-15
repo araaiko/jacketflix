@@ -17,6 +17,5 @@ export const onClickToWorkInfo: Params = (id, mediaType, navigate) => {
 };
 
 export const onClickToNetflix = (): void => {
-    window.open('https://www.netflix.com/jp/');
-  };
-
+  window.open('https://www.netflix.com/jp/');
+};

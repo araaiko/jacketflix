@@ -51,7 +51,7 @@ export const WorkInfo: FC = () => {
     void fetchData();
     void fetchVideoId();
   }, []);
-  
+
   console.log(videoId);
   return (
     <>

@@ -132,7 +132,7 @@ const SLink = styled(Link)`
   &:hover {
     opacity: 0.7;
   }
-`
+`;
 
 const SNav = styled.ul`
   display: flex;

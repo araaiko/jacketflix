@@ -4,10 +4,9 @@ import styled from 'styled-components';
 
 type Props = {
   children: ReactNode;
-}
+};
 
-export const MovieTitle: FC<Props> = ({children}) => {
-
+export const MovieTitle: FC<Props> = ({ children }) => {
   return <SMovieTitle>{children}</SMovieTitle>;
 };
 

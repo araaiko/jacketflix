@@ -1,2 +1,2 @@
 export { Main } from './Main';
-export { DetailPage } from "./DetailPage";
+export { DetailPage } from './DetailPage';
