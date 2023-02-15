@@ -16,15 +16,7 @@ type Props = {
 };
 
 export const Main: FC<Props> = (props) => {
-  const {
-    netflixOriginals,
-    topRated,
-    actionMovies,
-    comedyMovies,
-    documentMovies,
-    horrorMovies,
-    RomanceMovies,
-  } = props;
+  const { netflixOriginals, topRated, actionMovies, comedyMovies, documentMovies, horrorMovies, RomanceMovies } = props;
 
   return (
     <>
