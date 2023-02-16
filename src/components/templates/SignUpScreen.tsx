@@ -75,7 +75,7 @@ export const SignUpScreen: FC = () => {
           {/* パスワード */}
           <SInputField>
             <SLabelWrapper>
-              <SLabel htmlFor={'password'}>パスワード</SLabel>
+              <SLabel htmlFor={'password'}>パスワード <span>※6文字以上</span></SLabel>
             </SLabelWrapper>
             <SInputWrapper>
               <SInput type={'password'} id={'password'} value={password} onChange={inputPassword} />
@@ -168,6 +168,11 @@ const SLabelWrapper = styled.dt`
 const SLabel = styled.label`
   font-weight: bold;
   font-size: 16px;
+
+  span {
+    font-size: 12px;
+    color: ${c.point};
+  }
 
   @media (min-width: 768px) {
     font-size: 18px;

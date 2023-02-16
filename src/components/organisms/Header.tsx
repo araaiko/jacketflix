@@ -4,6 +4,9 @@ import styled from 'styled-components';
 import { HeartIcon, ExitIcon } from '@radix-ui/react-icons';
 import { Link } from 'react-router-dom';
 
+/** 内部import */
+import { colorVariables as c } from '../../style';
+
 /** types */
 type Props = {
   home?: boolean;
@@ -119,6 +122,7 @@ const SHeader = styled.header<SHeaderProps>`
 
 const SLogo = styled.h1`
   font-size: 24px;
+  color: ${c.point};
 
   @media (min-width: 768px) {
     font-size: 32px;
