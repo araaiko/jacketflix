@@ -35,16 +35,14 @@ export const Top: FC = () => {
   }, []);
 
   return (
-    <div>
-      <Main
-        netflixOriginals={netflixOriginals}
-        topRated={topRated}
-        actionMovies={actionMovies}
-        comedyMovies={comedyMovies}
-        documentMovies={documentMovies}
-        horrorMovies={horrorMovies}
-        RomanceMovies={RomanceMovies}
-      />
-    </div>
+    <Main
+      netflixOriginals={netflixOriginals}
+      topRated={topRated}
+      actionMovies={actionMovies}
+      comedyMovies={comedyMovies}
+      documentMovies={documentMovies}
+      horrorMovies={horrorMovies}
+      RomanceMovies={RomanceMovies}
+    />
   );
 };

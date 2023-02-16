@@ -52,10 +52,6 @@ export const WorkInfo: FC = () => {
     void fetchVideoId();
   }, []);
 
-  console.log(videoId);
-  return (
-    <>
-      <DetailPage data={data} videoId={videoId} />
-    </>
-  );
+  // console.log(videoId);
+  return <DetailPage data={data} videoId={videoId} />;
 };

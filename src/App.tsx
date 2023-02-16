@@ -2,7 +2,7 @@
 import React, { FC, useEffect } from 'react';
 
 /** 内部import */
-import { GlobalStyle } from './style/GlobalStyle';
+import { GlobalStyle } from './style';
 import { Router } from './router/Router';
 import { changeViewport } from './lib/changeViewport';
 

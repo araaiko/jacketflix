@@ -1,4 +1,8 @@
+/** 外部import */
 import { createGlobalStyle } from 'styled-components';
+
+/** 内部import */
+import { colorVariables as c } from './colorVariables';
 
 export const GlobalStyle = createGlobalStyle`
   /* reset css */
@@ -88,10 +92,20 @@ export const GlobalStyle = createGlobalStyle`
     background-color: #000;
     color: #fff;
     line-height: 1.3;
-    padding-bottom: 80px;
+  }
 
-    @media (min-width: 768px) {
-        padding-bottom: 120px;
+  button,
+  a {
+    &:focus {
+        outline: none;
+        border: 3px solid ${c.point};
+        border-radius: 8px;
+    }
+
+    &:focus-visible {
+        outline: none;
+        border: 3px solid ${c.point};
+        border-radius: 8px;
     }
   }
 `;
