@@ -76,6 +76,11 @@ module.exports = {
         allowAsStatement: true,
       },
     ],
+    // createContextで{} as {}が使えるようにする
+    '@typescript-eslint/consistent-type-assertions': [
+      'error',
+      { assertionStyle: 'as', objectLiteralTypeAssertions: 'allow-as-parameter' },
+    ],
   },
   settings: {
     'import/resolver': {

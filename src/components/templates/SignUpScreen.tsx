@@ -1,5 +1,5 @@
 /** 外部import */
-import { ChangeEvent, FC, useCallback, useState } from 'react';
+import { ChangeEvent, FC, useCallback, useState, useContext } from 'react';
 import styled from 'styled-components';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
@@ -10,15 +10,14 @@ import { auth, db, FirebaseTimestamp } from '../../firebase/index';
 import { OnePointButton } from '../molecules';
 import { colorVariables as c } from '../../style';
 import { isValidEmailFormat, isValidRequiredInput } from '../../lib';
+import { UserContext } from '../../providers/UserProvider';
 
 /** types */
-type SignUpParams = (username: string,
-  email: string,
-  password: string,
-  confirmPassword: string) => void;
+type SignUpParams = (username: string, email: string, password: string, confirmPassword: string) => void;
 
 export const SignUpScreen: FC = () => {
   const navigate = useNavigate();
+  const { setUser } = useContext(UserContext);
 
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -75,32 +74,32 @@ export const SignUpScreen: FC = () => {
     }
 
     // firebase アカウント登録
-    void createUserWithEmailAndPassword(auth, email, password)
-      .then((result) => {
-        // 新しいアカウントが作成されるので、定数userに格納
-        const user = result.user;
+    void createUserWithEmailAndPassword(auth, email, password).then((result) => {
+      // 新しいアカウントが作成されるので、定数userに格納
+      const user = result.user;
 
-        // != でnullとundefinedの両方をチェックできる
-        if (user != null) {
-          const uid = user.uid;
-          const timestamp = FirebaseTimestamp.now();
+      // != でnullとundefinedの両方をチェックできる
+      if (user != null) {
+        const uid = user.uid;
+        const timestamp = FirebaseTimestamp.now();
 
-          const userInitialData = {
-            created_at: timestamp,
-            email,
-            role: 'customer',
-            uid,
-            updated_at: timestamp,
-            username,
-          };
+        const userInitialData = {
+          created_at: timestamp,
+          email,
+          role: 'customer',
+          uid,
+          updated_at: timestamp,
+          username,
+        };
 
-          // firebase collection登録
-          // doc(db, collection名, id)
-          void setDoc(doc(db, 'users', uid), userInitialData).then(() => {
-            navigate('/');
-          });
-        }
-      });
+        // firebase collection登録
+        // doc(db, collection名, id)
+        void setDoc(doc(db, 'users', uid), userInitialData).then(() => {
+          setUser({isSignedIn: true, role: 'customer', uid, username});
+          navigate('/');
+        });
+      }
+    });
   };
 
   return (
@@ -135,7 +134,9 @@ export const SignUpScreen: FC = () => {
           {/* パスワード */}
           <SInputField>
             <SLabelWrapper>
-              <SLabel htmlFor={'password'}>パスワード <span>※6文字以上</span></SLabel>
+              <SLabel htmlFor={'password'}>
+                パスワード <span>※6文字以上</span>
+              </SLabel>
             </SLabelWrapper>
             <SInputWrapper>
               <SInput type={'password'} id={'password'} value={password} onChange={inputPassword} />
@@ -159,7 +160,12 @@ export const SignUpScreen: FC = () => {
         </SFormWrapper>
 
         {/* 登録ボタン */}
-        <OnePointButton btnName={'アカウントを登録する'} onClick={() => { onClickToSignUp(username, email, password, confirmPassword) }} />
+        <OnePointButton
+          btnName={'アカウントを登録する'}
+          onClick={() => {
+            onClickToSignUp(username, email, password, confirmPassword);
+          }}
+        />
       </SInfoWrapper>
     </SBody>
   );
