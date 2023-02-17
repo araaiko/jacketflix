@@ -1,12 +1,25 @@
 /** 外部import */
 import { ChangeEvent, FC, useCallback, useState } from 'react';
 import styled from 'styled-components';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
 
 /** 内部import */
+import { auth, db, FirebaseTimestamp } from '../../firebase/index';
 import { OnePointButton } from '../molecules';
 import { colorVariables as c } from '../../style';
+import { isValidEmailFormat, isValidRequiredInput } from '../../lib';
+
+/** types */
+type SignUpParams = (username: string,
+  email: string,
+  password: string,
+  confirmPassword: string) => void;
 
 export const SignUpScreen: FC = () => {
+  const navigate = useNavigate();
+
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -39,8 +52,55 @@ export const SignUpScreen: FC = () => {
   );
 
   // アカウント登録
-  const onClickToAddAccount = (): void => {
-    alert('これから実装しようね！');
+  const onClickToSignUp: SignUpParams = (username, email, password, confirmPassword) => {
+    // バリデーション
+    if (!isValidRequiredInput(username, email, password, confirmPassword)) {
+      alert('全て入力してください');
+      return false;
+    }
+
+    if (!isValidEmailFormat(email)) {
+      alert('メールアドレスの形式が不正です。もう1度お試しください。');
+      return false;
+    }
+
+    if (password !== confirmPassword) {
+      alert('パスワードが一致しません。もう1度お試しください。');
+      return false;
+    }
+
+    if (password.length < 6) {
+      alert('パスワードは6文字以上で入力してください。');
+      return false;
+    }
+
+    // firebase アカウント登録
+    void createUserWithEmailAndPassword(auth, email, password)
+      .then((result) => {
+        // 新しいアカウントが作成されるので、定数userに格納
+        const user = result.user;
+
+        // != でnullとundefinedの両方をチェックできる
+        if (user != null) {
+          const uid = user.uid;
+          const timestamp = FirebaseTimestamp.now();
+
+          const userInitialData = {
+            created_at: timestamp,
+            email,
+            role: 'customer',
+            uid,
+            updated_at: timestamp,
+            username,
+          };
+
+          // firebase collection登録
+          // doc(db, collection名, id)
+          void setDoc(doc(db, 'users', uid), userInitialData).then(() => {
+            navigate('/');
+          });
+        }
+      });
   };
 
   return (
@@ -55,7 +115,7 @@ export const SignUpScreen: FC = () => {
           {/* ユーザー名 */}
           <SInputField>
             <SLabelWrapper>
-              <SLabel htmlFor={'username'}>貴社名</SLabel>
+              <SLabel htmlFor={'username'}>ユーザー名</SLabel>
             </SLabelWrapper>
             <SInputWrapper>
               <SInput type={'text'} id={'username'} value={username} onChange={inputUsername} />
@@ -99,7 +159,7 @@ export const SignUpScreen: FC = () => {
         </SFormWrapper>
 
         {/* 登録ボタン */}
-        <OnePointButton btnName={'アカウントを登録する'} onClick={onClickToAddAccount} />
+        <OnePointButton btnName={'アカウントを登録する'} onClick={() => { onClickToSignUp(username, email, password, confirmPassword) }} />
       </SInfoWrapper>
     </SBody>
   );

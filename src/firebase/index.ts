@@ -1,7 +1,7 @@
 /** 外部import */
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import { getFirestore, Timestamp } from 'firebase/firestore/lite';
+import { getFirestore, Timestamp } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 import { getFunctions } from 'firebase/functions';
 import { firebaseConfig } from './config';

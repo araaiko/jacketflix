@@ -38,7 +38,7 @@ export const Header: FC<Props> = (props) => {
         <SLogo>JACKETFLIX</SLogo>
       ) : (
         <SLogo>
-          <SLink to={'/'}>JACKETFLIX</SLink>
+          <SLogoLink to={'/'}>JACKETFLIX</SLogoLink>
         </SLogo>
       )}
 
@@ -129,8 +129,8 @@ const SLogo = styled.h1`
   }
 `;
 
-const SLink = styled(Link)`
-  color: #fff;
+const SLogoLink = styled(Link)`
+  color: ${c.point};
   transition: opacity 0.3s ease;
 
   &:hover {
