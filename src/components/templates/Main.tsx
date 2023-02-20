@@ -1,6 +1,7 @@
 /** 外部import */
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 import styled from 'styled-components';
+import { UserContext } from '../../providers/UserProvider';
 
 /** 内部import */
 import type { MovieInfo } from '../../types/api/fetchData';
@@ -19,8 +20,8 @@ type Props = {
 export const Main: FC<Props> = (props) => {
   const { netflixOriginals, topRated, actionMovies, comedyMovies, documentMovies, horrorMovies, RomanceMovies } = props;
 
-  // const { user } = useContext(UserContext)
-  // console.log(user);
+  const { user } = useContext(UserContext)
+  console.log(user);
 
   return (
     <SBody>
