@@ -21,7 +21,7 @@ export const Main: FC<Props> = (props) => {
   const { netflixOriginals, topRated, actionMovies, comedyMovies, documentMovies, horrorMovies, RomanceMovies } = props;
 
   const { user } = useContext(UserContext)
-  console.log(user);
+  console.log('トップページ：', user);
 
   return (
     <SBody>

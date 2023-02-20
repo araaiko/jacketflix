@@ -3,7 +3,7 @@ import { ChangeEvent, FC, useCallback, useState, useContext } from 'react';
 import styled from 'styled-components';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 /** 内部import */
 import { auth, db, FirebaseTimestamp } from '../../firebase/index';
@@ -185,6 +185,10 @@ export const SignUpScreen: FC = () => {
             onClickToSignUp(username, email, password, confirmPassword);
           }}
         />
+
+        <SLinkWrapper>
+          <SLink to={'/signin'}>アカウントをお持ちの方はこちら</SLink>
+        </SLinkWrapper>
       </SInfoWrapper>
     </SBody>
   );
@@ -233,7 +237,7 @@ const STitle = styled.h2`
 `;
 
 const SFormWrapper = styled.div`
-  margin-top: 24px;
+  margin-top: 40px;
 `;
 
 const SInputField = styled.div`
@@ -302,5 +306,18 @@ const SInput = styled.input`
     outline: none;
     border: 3px solid ${c.point};
     border-radius: 8px;
+  }
+`;
+
+const SLinkWrapper = styled.p`
+  margin-top: 24px;
+`
+
+const SLink = styled(Link)`
+  color: ${c.secondary};
+  text-decoration: underline;
+
+  &:hover {
+    text-decoration: none;
   }
 `;
