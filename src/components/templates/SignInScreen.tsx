@@ -72,7 +72,12 @@ export const SignInScreen: FC = () => {
           void getDoc(doc(db, 'users', uid)).then((snapshot) => {
             const data = snapshot.data() as User;
 
-            setUser({ isSignedIn: true, role: data.role, uid, username: data.username });
+            setUser({
+              isSignedIn: true,
+              role: data.role,
+              uid,
+              username: data.username,
+            });
             navigate('/');
           });
         }

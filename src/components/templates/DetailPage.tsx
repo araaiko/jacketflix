@@ -1,5 +1,5 @@
 /** 外部import */
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 import styled from 'styled-components';
 
 /** 内部import */
@@ -8,6 +8,7 @@ import { MovieTitle, PrimaryText } from '../atoms';
 import { TwoButtons } from '../molecules';
 import { Header } from '../organisms';
 import { onClickToNetflix } from '../../function/commonOnClick';
+import { UserContext } from '../../providers/UserProvider';
 
 /** types */
 type Props = {
@@ -17,6 +18,9 @@ type Props = {
 
 export const DetailPage: FC<Props> = (props) => {
   const { data, videoId } = props;
+
+  const { user } = useContext(UserContext);
+  console.log('詳細ページ：', user);
 
   return (
     <SBody>

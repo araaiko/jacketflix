@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
 
 /** 内部import */
-import { SignIn, SignUp, Top, WorkInfo } from '../components/pages';
+import { Auth, SignIn, SignUp, Top, WorkInfo } from '../components/pages';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -11,8 +11,10 @@ const router = createBrowserRouter(
       <Route path={'/signup'} element={<SignUp />} />
       <Route path={'/signin'} element={<SignIn />} />
 
-      <Route index element={<Top />} />
-      <Route path={'/product/:id'} element={<WorkInfo />} />
+      <Route path={'/'} element={<Auth />}>
+        <Route index element={<Top />} />
+        <Route path={'/product/:id'} element={<WorkInfo />} />
+      </Route>
     </>
   )
 );
