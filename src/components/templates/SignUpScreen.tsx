@@ -23,6 +23,7 @@ export const SignUpScreen: FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [btnName, setBtnName] = useState('アカウントを登録する');
 
   // 入力値の更新
   const inputUsername = useCallback(
@@ -73,33 +74,51 @@ export const SignUpScreen: FC = () => {
       return false;
     }
 
+    setBtnName('登録中...');
     // firebase アカウント登録
-    void createUserWithEmailAndPassword(auth, email, password).then((result) => {
-      // 新しいアカウントが作成されるので、定数userに格納
-      const user = result.user;
+    void createUserWithEmailAndPassword(auth, email, password)
+      .then((result) => {
+        // 新しいアカウントが作成されるので、定数userに格納
+        const user = result.user;
 
-      // != でnullとundefinedの両方をチェックできる
-      if (user != null) {
-        const uid = user.uid;
-        const timestamp = FirebaseTimestamp.now();
+        // != でnullとundefinedの両方をチェックできる
+        if (user != null) {
+          const uid = user.uid;
+          const timestamp = FirebaseTimestamp.now();
 
-        const userInitialData = {
-          created_at: timestamp,
-          email,
-          role: 'customer',
-          uid,
-          updated_at: timestamp,
-          username,
-        };
+          const userInitialData = {
+            created_at: timestamp,
+            email,
+            role: 'customer',
+            uid,
+            updated_at: timestamp,
+            username,
+          };
 
-        // firebase collection登録
-        // doc(db, collection名, id)
-        void setDoc(doc(db, 'users', uid), userInitialData).then(() => {
-          setUser({isSignedIn: true, role: 'customer', uid, username});
-          navigate('/');
-        });
-      }
-    });
+          // firebase collection登録とcontextのstate更新
+          // doc(db, collection名, id)
+          void setDoc(doc(db, 'users', uid), userInitialData).then(() => {
+            setUser({ isSignedIn: true, role: 'customer', uid, username });
+            navigate('/');
+          });
+        }
+      })
+      .catch((e: { code: string }) => {
+        switch (e.code) {
+          case 'auth/email-already-in-use':
+            alert('このメールアドレスは既に使用されています。');
+            setBtnName('アカウントを登録する');
+            break;
+          case 'invalid-email':
+            alert('メールアドレスが有効ではありません。');
+            setBtnName('アカウントを登録する');
+            break;
+          case 'weak-password':
+            alert('パスワードが強くありません。');
+            setBtnName('アカウントを登録する');
+            break;
+        }
+      });
   };
 
   return (
@@ -161,7 +180,7 @@ export const SignUpScreen: FC = () => {
 
         {/* 登録ボタン */}
         <OnePointButton
-          btnName={'アカウントを登録する'}
+          btnName={btnName}
           onClick={() => {
             onClickToSignUp(username, email, password, confirmPassword);
           }}

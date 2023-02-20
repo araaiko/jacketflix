@@ -9,17 +9,16 @@ type User = {
   username: string;
 };
 
+type UserContextType = {
+  user: User;
+  setUser: Dispatch<SetStateAction<User>>;
+};
+
 type Props = {
   children: ReactNode;
 };
 
-// type で定義して設定すると、初期値に{}がセットできずエラーになるため、{} as {}で記述
-export const UserContext = createContext(
-  {} as {
-    user: User;
-    setUser: Dispatch<SetStateAction<User>>;
-  }
-);
+export const UserContext = createContext<UserContextType>({} as UserContextType);
 
 export const UserProvider: FC<Props> = (props) => {
   const { children } = props;
