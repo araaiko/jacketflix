@@ -1,11 +1,14 @@
 /** 外部import */
-import { FC, useState, useEffect } from 'react';
+import { FC, useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { HeartIcon, ExitIcon } from '@radix-ui/react-icons';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { signOut } from 'firebase/auth';
 
 /** 内部import */
 import { colorVariables as c } from '../../style';
+import { auth } from '../../firebase';
+import { UserContext } from '../../providers/UserProvider';
 
 /** types */
 type Props = {
@@ -14,7 +17,21 @@ type Props = {
 
 export const Header: FC<Props> = (props) => {
   const { home = false } = props;
+  const navigate = useNavigate();
+  const { setUser } = useContext(UserContext);
   const [show, setShow] = useState(false);
+
+  const onClickToSignOut = (): void => {
+    void signOut(auth).then(() => {
+      setUser({
+        isSignedIn: false,
+        role: '',
+        uid: '',
+        username: '',
+      });
+      navigate('/signin');
+    });
+  };
 
   useEffect(() => {
     const handleShow = (): void => {
@@ -55,7 +72,7 @@ export const Header: FC<Props> = (props) => {
         </SNavItem>
 
         {/* log out */}
-        <SNavItem hover>
+        <SNavItem hover onClick={onClickToSignOut}>
           <SIconWrap>
             <ExitIcon />
           </SIconWrap>
@@ -74,7 +91,7 @@ export const Header: FC<Props> = (props) => {
         </SSpNavItem>
 
         {/* log out */}
-        <SSpNavItem>
+        <SSpNavItem onClick={onClickToSignOut}>
           <SIconWrap>
             <ExitIcon />
           </SIconWrap>
