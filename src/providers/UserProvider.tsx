@@ -1,14 +1,10 @@
 /** 外部import */
 import { createContext, Dispatch, FC, ReactNode, SetStateAction, useState } from 'react';
 
-/** types */
-type User = {
-  isSignedIn: boolean;
-  role: string;
-  uid: string;
-  username: string;
-};
+/** 内部import */
+import type { User } from '../types/Context/user';
 
+/** types */
 type UserContextType = {
   user: User;
   setUser: Dispatch<SetStateAction<User>>;

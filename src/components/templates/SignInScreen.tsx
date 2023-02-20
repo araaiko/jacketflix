@@ -1,37 +1,30 @@
 /** 外部import */
 import { ChangeEvent, FC, useCallback, useState, useContext } from 'react';
 import styled from 'styled-components';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 
 /** 内部import */
-import { auth, db, FirebaseTimestamp } from '../../firebase/index';
+import type { User } from '../../types/Context/user';
+import { auth, db } from '../../firebase/index';
 import { OnePointButton } from '../molecules';
 import { colorVariables as c } from '../../style';
 import { isValidEmailFormat, isValidRequiredInput } from '../../lib';
 import { UserContext } from '../../providers/UserProvider';
 
 /** types */
-type SignUpParams = (username: string, email: string, password: string, confirmPassword: string) => void;
+type SignInParams = (email: string, password: string) => void;
 
-export const SignUpScreen: FC = () => {
+export const SignInScreen: FC = () => {
   const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
 
-  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [btnName, setBtnName] = useState('アカウントを登録する');
+  const [btnName, setBtnName] = useState('サインイン');
 
   // 入力値の更新
-  const inputUsername = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      setUsername(e.target.value);
-    },
-    [setUsername]
-  );
   const inputEmail = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       setEmail(e.target.value);
@@ -44,17 +37,11 @@ export const SignUpScreen: FC = () => {
     },
     [setPassword]
   );
-  const inputConfirmPassword = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      setConfirmPassword(e.target.value);
-    },
-    [setConfirmPassword]
-  );
 
   // アカウント登録
-  const onClickToSignUp: SignUpParams = (username, email, password, confirmPassword) => {
+  const onClickToSignIn: SignInParams = (email, password) => {
     // バリデーション
-    if (!isValidRequiredInput(username, email, password, confirmPassword)) {
+    if (!isValidRequiredInput(email, password)) {
       alert('全て入力してください');
       return false;
     }
@@ -64,19 +51,14 @@ export const SignUpScreen: FC = () => {
       return false;
     }
 
-    if (password !== confirmPassword) {
-      alert('パスワードが一致しません。もう1度お試しください。');
-      return false;
-    }
-
     if (password.length < 6) {
       alert('パスワードは6文字以上で入力してください。');
       return false;
     }
 
-    setBtnName('登録中...');
+    setBtnName('確認中...');
     // firebase アカウント登録
-    void createUserWithEmailAndPassword(auth, email, password)
+    void signInWithEmailAndPassword(auth, email, password)
       .then((result) => {
         // 新しいアカウントが作成されるので、定数userに格納
         const user = result.user;
@@ -84,38 +66,40 @@ export const SignUpScreen: FC = () => {
         // != でnullとundefinedの両方をチェックできる
         if (user != null) {
           const uid = user.uid;
-          const timestamp = FirebaseTimestamp.now();
 
-          const userInitialData = {
-            created_at: timestamp,
-            email,
-            role: 'customer',
-            uid,
-            updated_at: timestamp,
-            username,
-          };
-
-          // firebase collection登録とcontextのstate更新
+          // firebase アカウントデータ取得とcontextのstate更新
           // doc(db, collection名, id)
-          void setDoc(doc(db, 'users', uid), userInitialData).then(() => {
-            setUser({ isSignedIn: true, role: 'customer', uid, username });
+          void getDoc(doc(db, 'users', uid)).then((snapshot) => {
+            const data = snapshot.data() as User;
+
+            setUser({ isSignedIn: true, role: data.role, uid, username: data.username });
             navigate('/');
           });
         }
       })
       .catch((e: { code: string }) => {
         switch (e.code) {
-          case 'auth/email-already-in-use':
-            alert('このメールアドレスは既に使用されています。');
-            setBtnName('アカウントを登録する');
-            break;
           case 'auth/invalid-email':
             alert('メールアドレスが有効ではありません。');
-            setBtnName('アカウントを登録する');
+            setBtnName('サインイン');
             break;
-          case 'auth/weak-password':
-            alert('パスワードが強くありません。');
-            setBtnName('アカウントを登録する');
+          case 'auth/user-disabled':
+            alert('アカウントが存在しません。');
+            setBtnName('サインイン');
+            break;
+          case 'auth/user-not-found':
+            alert('アカウントが存在しません。');
+            setBtnName('サインイン');
+            break;
+          case 'auth/wrong-password':
+            alert('パスワードが間違っています。');
+            setBtnName('サインイン');
+            break;
+          case 'auth/too-many-requests':
+            alert(
+              'パスワードを複数回間違われたため、一時的にアカウントをロックしました。\r\n恐れ入りますが時間をあけてから再度お試しください。'
+            );
+            setBtnName('サインイン');
             break;
         }
       });
@@ -126,20 +110,10 @@ export const SignUpScreen: FC = () => {
       <SInfoWrapper>
         <SLogo>JACKETFLIX</SLogo>
         <STitleWrapper>
-          <STitle>アカウント登録</STitle>
+          <STitle>サインイン</STitle>
         </STitleWrapper>
 
         <SFormWrapper>
-          {/* ユーザー名 */}
-          <SInputField>
-            <SLabelWrapper>
-              <SLabel htmlFor={'username'}>ユーザー名</SLabel>
-            </SLabelWrapper>
-            <SInputWrapper>
-              <SInput type={'text'} id={'username'} value={username} onChange={inputUsername} />
-            </SInputWrapper>
-          </SInputField>
-
           {/* メールアドレス */}
           <SInputField>
             <SLabelWrapper>
@@ -161,28 +135,13 @@ export const SignUpScreen: FC = () => {
               <SInput type={'password'} id={'password'} value={password} onChange={inputPassword} />
             </SInputWrapper>
           </SInputField>
-
-          {/* パスワード（再確認） */}
-          <SInputField>
-            <SLabelWrapper>
-              <SLabel htmlFor={'confirmPassword'}>パスワード（再確認）</SLabel>
-            </SLabelWrapper>
-            <SInputWrapper>
-              <SInput
-                type={'password'}
-                id={'confirmPassword'}
-                value={confirmPassword}
-                onChange={inputConfirmPassword}
-              />
-            </SInputWrapper>
-          </SInputField>
         </SFormWrapper>
 
-        {/* 登録ボタン */}
+        {/* サインインボタン */}
         <OnePointButton
           btnName={btnName}
           onClick={() => {
-            onClickToSignUp(username, email, password, confirmPassword);
+            onClickToSignIn(email, password);
           }}
         />
       </SInfoWrapper>
