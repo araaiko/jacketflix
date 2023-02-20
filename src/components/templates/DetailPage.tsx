@@ -19,7 +19,7 @@ export const DetailPage: FC<Props> = (props) => {
   const { data, videoId } = props;
 
   return (
-    <>
+    <SBody>
       {/* ヘッダー */}
       <Header />
       {data !== null && (
@@ -59,11 +59,19 @@ export const DetailPage: FC<Props> = (props) => {
           />
         </SVideoWrapper>
       )}
-    </>
+    </SBody>
   );
 };
 
 /** style */
+const SBody = styled.div`
+  padding-bottom: 80px;
+
+  @media (min-width: 768px) {
+    padding-bottom: 120px;
+  }
+`;
+
 const SInfoItems = styled.div`
   width: 100%;
   max-width: 100%;

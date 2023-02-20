@@ -4,6 +4,9 @@ import styled from 'styled-components';
 import { HeartIcon, ExitIcon } from '@radix-ui/react-icons';
 import { Link } from 'react-router-dom';
 
+/** 内部import */
+import { colorVariables as c } from '../../style';
+
 /** types */
 type Props = {
   home?: boolean;
@@ -35,7 +38,7 @@ export const Header: FC<Props> = (props) => {
         <SLogo>JACKETFLIX</SLogo>
       ) : (
         <SLogo>
-          <SLink to={'/'}>JACKETFLIX</SLink>
+          <SLogoLink to={'/'}>JACKETFLIX</SLogoLink>
         </SLogo>
       )}
 
@@ -119,14 +122,15 @@ const SHeader = styled.header<SHeaderProps>`
 
 const SLogo = styled.h1`
   font-size: 24px;
+  color: ${c.point};
 
   @media (min-width: 768px) {
     font-size: 32px;
   }
 `;
 
-const SLink = styled(Link)`
-  color: #fff;
+const SLogoLink = styled(Link)`
+  color: ${c.point};
   transition: opacity 0.3s ease;
 
   &:hover {
