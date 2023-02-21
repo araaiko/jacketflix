@@ -5,10 +5,16 @@ import styled from 'styled-components';
 type Props = {
   children: ReactNode;
   onClick: () => void;
+  disabled?: boolean;
 };
 
-export const Button: FC<Props> = ({ children, onClick }) => {
-  return <SButton onClick={onClick}>{children}</SButton>;
+export const Button: FC<Props> = (props) => {
+  const { children, onClick, disabled = false } = props;
+  return (
+    <SButton onClick={onClick} disabled={disabled}>
+      {children}
+    </SButton>
+  );
 };
 
 /** style */
@@ -22,9 +28,14 @@ const SButton = styled.button`
   transition: all 0.3s ease;
   min-width: 164px;
 
-  &:hover {
+  &:hover,
+  &:disabled {
     color: #000;
     background-color: #e6e6e6;
+  }
+
+  &:disabled {
+    cursor: auto;
   }
 
   @media (min-width: 768px) {

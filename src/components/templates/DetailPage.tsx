@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 /** 内部import */
 import type { FetchDetailData } from '../../types/api/fetchData';
+import type { BtnState } from '../../types/state/state';
 import { MovieTitle, PrimaryText } from '../atoms';
 import { TwoButtons } from '../molecules';
 import { Header } from '../organisms';
@@ -14,10 +15,12 @@ import { UserContext } from '../../providers/UserProvider';
 type Props = {
   data: FetchDetailData | null;
   videoId: string;
+  onClick1: () => void;
+  onClick1Style: BtnState;
 };
 
 export const DetailPage: FC<Props> = (props) => {
-  const { data, videoId } = props;
+  const { data, videoId, onClick1, onClick1Style } = props;
 
   const { user } = useContext(UserContext);
   console.log('詳細ページ：', user);
@@ -41,10 +44,9 @@ export const DetailPage: FC<Props> = (props) => {
               <PrimaryText>{data?.overview}</PrimaryText>
             </STextWrapper>
             <TwoButtons
-              btnName1={'MyListに登録する'}
-              onClick1={() => {
-                alert('後で実装しようね');
-              }}
+              btnName1={onClick1Style.text}
+              onClick1={onClick1}
+              disabled1={onClick1Style.disabled}
               btnName2={'Netflixで視聴する'}
               onClick2={onClickToNetflix}
             />
