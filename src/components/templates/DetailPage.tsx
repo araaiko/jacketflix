@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 /** 内部import */
 import type { FetchDetailData } from '../../types/api/fetchData';
-import type { BtnState } from '../../types/state/state';
+import type { BtnState } from '../../types/dataAndState/dataAndState';
 import { MovieTitle, PrimaryText } from '../atoms';
 import { TwoButtons } from '../molecules';
 import { Header } from '../organisms';

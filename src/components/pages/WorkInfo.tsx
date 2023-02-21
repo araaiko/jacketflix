@@ -5,7 +5,7 @@ import { collection, doc, setDoc, getDocs } from 'firebase/firestore';
 
 /** 内部import */
 import type { FetchDetailData, FetchVideoData } from '../../types/api/fetchData';
-import type { BtnState } from '../../types/state/state';
+import type { BtnState, MyListInfo } from '../../types/dataAndState/dataAndState';
 import { instance } from '../../api/axios';
 import { DetailPage } from '../templates';
 import { UserContext } from '../../providers/UserProvider';
@@ -16,17 +16,7 @@ type State = {
   mediaType: string;
 };
 
-type AddFavoriteParams = (data: FetchDetailData | null) => void;
-
-type FavoriteInfo = {
-  id: number;
-  poster_path: string;
-  backdrop_path: string;
-  original_name: string;
-  name: string;
-  title: string;
-  favoriteId: string;
-};
+type AddMyListParams = (data: FetchDetailData | null) => void;
 
 export const WorkInfo: FC = () => {
   const { user } = useContext(UserContext);
@@ -39,14 +29,14 @@ export const WorkInfo: FC = () => {
 
   const [data, setData] = useState<FetchDetailData | null>(null);
   const [videoId, setVideoId] = useState<string>(''); // YouTube
-  const [favoriteBtn, setFavoriteBtn] = useState<BtnState>({ text: 'MyListに登録する', disabled: false });
+  const [myListBtn, setMyListBtn] = useState<BtnState>({ text: 'MyListに登録する', disabled: false });
 
   // お気に入り登録
-  const onClickToAddFavorite: AddFavoriteParams = (data) => {
-    // usersコレクションのuidに、favoriteサブコレクションを作成（doc()でidを自動採番）
-    const favoriteRef = doc(collection(db, 'users', uid, 'favorite'));
+  const onClickToAddMyList: AddMyListParams = (data) => {
+    // usersコレクションのuidに、my_listサブコレクションを作成（doc()でidを自動採番）
+    const myListRef = doc(collection(db, 'users', uid, 'my_list'));
     // 採番したidを格納
-    const id = favoriteRef.id;
+    const id = myListRef.id;
 
     const posterPath = data?.poster_path !== undefined ? data?.poster_path : '';
     const backdropPath = data?.backdrop_path !== undefined ? data?.backdrop_path : '';
@@ -54,18 +44,18 @@ export const WorkInfo: FC = () => {
     const originalName = data?.original_name !== undefined ? data?.original_name : '';
     const name = data?.name !== undefined ? data?.name : '';
 
-    const addedFavorite = {
+    const addedMyList = {
       id: data?.id,
       poster_path: posterPath,
       backdrop_path: backdropPath,
       original_name: originalName,
       name,
       title,
-      favoriteId: favoriteRef.id,
+      my_list_id: myListRef.id,
     };
 
-    void setDoc(doc(db, 'users', uid, 'favorite', id), addedFavorite);
-    setFavoriteBtn({
+    void setDoc(doc(db, 'users', uid, 'my_list', id), addedMyList);
+    setMyListBtn({
       text: 'MyListに登録済み',
       disabled: true,
     });
@@ -98,12 +88,12 @@ export const WorkInfo: FC = () => {
       setVideoId(request.data.results[0]?.key);
     };
     // お気に入り登録済みかどうか確認
-    const checkAddedFavorite = async (): Promise<void> => {
+    const checkAddedMyList = async (): Promise<void> => {
       const workInfoIds: string[] = [];
-      
-      await getDocs(collection(db, 'users', uid, 'favorite')).then((snapshots) => {
+
+      await getDocs(collection(db, 'users', uid, 'my_list')).then((snapshots) => {
         snapshots.forEach((snapshot) => {
-          const data = snapshot.data() as FavoriteInfo;
+          const data = snapshot.data() as MyListInfo;
           const dataId = data.id.toString();
           workInfoIds.push(dataId);
         });
@@ -111,7 +101,7 @@ export const WorkInfo: FC = () => {
       // console.log('配列', workInfoIds);
 
       if (workInfoIds.includes(workInfoId)) {
-        setFavoriteBtn({
+        setMyListBtn({
           text: 'MyListに登録済み',
           disabled: true,
         });
@@ -119,7 +109,7 @@ export const WorkInfo: FC = () => {
     };
     void fetchData();
     void fetchVideoId();
-    void checkAddedFavorite();
+    void checkAddedMyList();
   }, []);
 
   // console.log(videoId);
@@ -128,9 +118,9 @@ export const WorkInfo: FC = () => {
       data={data}
       videoId={videoId}
       onClick1={() => {
-        onClickToAddFavorite(data);
+        onClickToAddMyList(data);
       }}
-      onClick1Style={favoriteBtn}
+      onClick1Style={myListBtn}
     />
   );
 };
