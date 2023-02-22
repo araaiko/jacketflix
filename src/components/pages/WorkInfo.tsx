@@ -16,7 +16,7 @@ type State = {
   mediaType: string;
 };
 
-type AddMyListParams = (data: FetchDetailData | null) => void;
+// type AddMyListParams = () => void;
 
 export const WorkInfo: FC = () => {
   const { user } = useContext(UserContext);
@@ -32,11 +32,11 @@ export const WorkInfo: FC = () => {
   const [myListBtn, setMyListBtn] = useState<BtnState>({ text: 'MyListに登録する', disabled: false });
 
   // お気に入り登録
-  const onClickToAddMyList: AddMyListParams = (data) => {
-    // usersコレクションのuidに、my_listサブコレクションを作成（doc()でidを自動採番）
-    const myListRef = doc(collection(db, 'users', uid, 'my_list'));
+  const onClickToAddMyList = (): void => {
+    // usersコレクションのuidに、myListサブコレクションを作成（doc()でidを自動採番）
+    const myListRef = doc(collection(db, 'users', uid, 'myList'));
     // 採番したidを格納
-    const id = myListRef.id;
+    const myListId = myListRef.id;
     const timestamp = FirebaseTimestamp.now();
 
     const posterPath = data?.poster_path !== undefined ? data?.poster_path : '';
@@ -57,7 +57,7 @@ export const WorkInfo: FC = () => {
       media_type: state.mediaType,
     };
 
-    void setDoc(doc(db, 'users', uid, 'my_list', id), addedMyList);
+    void setDoc(doc(db, 'users', uid, 'myList', myListId), addedMyList);
     setMyListBtn({
       text: 'MyListに登録済み',
       disabled: true,
@@ -94,7 +94,7 @@ export const WorkInfo: FC = () => {
     const checkAddedMyList = async (): Promise<void> => {
       const workInfoIds: string[] = [];
 
-      await getDocs(collection(db, 'users', uid, 'my_list')).then((snapshots) => {
+      await getDocs(collection(db, 'users', uid, 'myList')).then((snapshots) => {
         snapshots.forEach((snapshot) => {
           const data = snapshot.data() as MyListInfo;
           const dataId = data.id.toString();
@@ -116,14 +116,5 @@ export const WorkInfo: FC = () => {
   }, []);
 
   // console.log(videoId);
-  return (
-    <DetailPage
-      data={data}
-      videoId={videoId}
-      onClick1={() => {
-        onClickToAddMyList(data);
-      }}
-      onClick1Style={myListBtn}
-    />
-  );
+  return <DetailPage data={data} videoId={videoId} onClick1={onClickToAddMyList} onClick1Style={myListBtn} />;
 };

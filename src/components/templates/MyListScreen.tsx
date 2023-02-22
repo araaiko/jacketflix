@@ -57,7 +57,7 @@ export const MyListScreen: FC = () => {
     // 配列が空である限りは、どれだけ処理が走っても値が重複することはないから
     // もしかしたらmemo化を進めたらif文なしでも大丈夫になるか。。。？
     if (myList.length === 0) {
-      void getDocs(collection(db, 'users', uid, 'my_list')).then((snapshots) => {
+      void getDocs(collection(db, 'users', uid, 'myList')).then((snapshots) => {
         snapshots.forEach((snapshot) => {
           const data = snapshot.data() as MyListInfo;
           setMyList((prevState) => [...prevState, data]);
@@ -76,13 +76,13 @@ export const MyListScreen: FC = () => {
   return (
     <SBody>
       <Header />
-      <h2>MyList</h2>
+      <SPageTitle>MyList</SPageTitle>
       {myList.length !== 0 ? (
-        <ul>
+        <SItems>
           {myList.map((item, i) => (
-            <li key={i}>
-              <div>
-                <h3>{itemTitle(item)}</h3>
+            <SItem key={i}>
+              <SInfoWrapper>
+                <SItemTitle>{itemTitle(item)}</SItemTitle>
                 <ThreeButtons
                   btnName1={'作品情報を見る'}
                   btnName2={'Netflixで視聴する'}
@@ -93,15 +93,15 @@ export const MyListScreen: FC = () => {
                   onClick2={onClickToNetflix}
                   onClick3={onClickToRemoveMyList}
                 />
-              </div>
-              <div>
-                <img src={`https://image.tmdb.org/t/p/original/${item.poster_path ?? ''}`} alt={itemTitle(item)} />
-              </div>
-            </li>
+              </SInfoWrapper>
+              <SImgWrapper>
+                <SImg src={`https://image.tmdb.org/t/p/original/${item.poster_path ?? ''}`} alt={itemTitle(item)} />
+              </SImgWrapper>
+            </SItem>
           ))}
-        </ul>
+        </SItems>
       ) : (
-        <p>myListに登録されている作品はありません。</p>
+        <SText>myListに登録されている作品はありません。</SText>
       )}
     </SBody>
   );
@@ -119,3 +119,12 @@ const SBody = styled.div`
     padding-bottom: 120px;
   }
 `;
+
+const SPageTitle = styled.h2``;
+const SItems = styled.ul``;
+const SItem = styled.li``;
+const SInfoWrapper = styled.div``;
+const SImgWrapper = styled.div``;
+const SItemTitle = styled.h3``;
+const SImg = styled.img``;
+const SText = styled.p``;
