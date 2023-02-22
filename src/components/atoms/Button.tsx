@@ -27,6 +27,7 @@ const SButton = styled.button`
   border-radius: 8px;
   transition: all 0.3s ease;
   min-width: 164px;
+  width: 100%;
 
   &:hover,
   &:disabled {
@@ -40,9 +41,5 @@ const SButton = styled.button`
 
   @media (min-width: 768px) {
     padding: 16px 32px;
-
-    &:nth-child(n + 2) {
-      margin-left: 24px;
-    }
   }
 `;

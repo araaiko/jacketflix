@@ -71,11 +71,7 @@ export const DetailPage: FC<Props> = (props) => {
 
 /** style */
 const SBody = styled.div`
-  padding-bottom: 80px;
-
-  @media (min-width: 768px) {
-    padding-bottom: 120px;
-  }
+  padding-bottom: 120px;
 `;
 
 const SInfoItems = styled.div`

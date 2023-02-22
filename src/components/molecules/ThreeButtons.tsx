@@ -19,24 +19,31 @@ export const ThreeButtons: FC<Props> = (props) => {
 
   return (
     <SButtonsWrapper>
-      <Button onClick={onClick1}>{btnName1}</Button>
-      <Button onClick={onClick2}>{btnName2}</Button>
-      <Button onClick={onClick3}>{btnName3}</Button>
+      <SButtonWrapper>
+        <Button onClick={onClick1}>{btnName1}</Button>
+      </SButtonWrapper>
+      <SButtonWrapper>
+        <Button onClick={onClick2}>{btnName2}</Button>
+      </SButtonWrapper>
+      <SButtonWrapper>
+        <Button onClick={onClick3}>{btnName3}</Button>
+      </SButtonWrapper>
     </SButtonsWrapper>
   );
 };
 
 /** style */
 const SButtonsWrapper = styled.div`
-  margin-top: 24px;
-  display: flex;
-  justify-content: space-between;
+  margin-top: 16px;
   width: 100%;
-  max-width: 360px;
 
   @media (min-width: 768px) {
     margin-top: 32px;
-    justify-content: flex-start;
-    max-width: 100%;
   }
 `;
+
+const SButtonWrapper = styled.div`
+  &:not(:first-child) {
+    margin-top: 24px;
+  }
+`

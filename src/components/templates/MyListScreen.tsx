@@ -77,32 +77,36 @@ export const MyListScreen: FC = () => {
     <SBody>
       <Header />
       <SPageTitle>MyList</SPageTitle>
-      {myList.length !== 0 ? (
-        <SItems>
-          {myList.map((item, i) => (
-            <SItem key={i}>
-              <SInfoWrapper>
-                <SItemTitle>{itemTitle(item)}</SItemTitle>
-                <ThreeButtons
-                  btnName1={'作品情報を見る'}
-                  btnName2={'Netflixで視聴する'}
-                  btnName3={'MyListから外す'}
-                  onClick1={() => {
-                    onClickToWorkInfo(item.id, item.media_type, navigate);
-                  }}
-                  onClick2={onClickToNetflix}
-                  onClick3={onClickToRemoveMyList}
-                />
-              </SInfoWrapper>
-              <SImgWrapper>
-                <SImg src={`https://image.tmdb.org/t/p/original/${item.poster_path ?? ''}`} alt={itemTitle(item)} />
-              </SImgWrapper>
-            </SItem>
-          ))}
-        </SItems>
-      ) : (
-        <SText>myListに登録されている作品はありません。</SText>
-      )}
+      <SItemsWrapper>
+        {myList.length !== 0 ? (
+          <SItems>
+            {myList.map((item, i) => (
+              <SItem key={i}>
+                <SInfoWrapper>
+                  <SItemTitleWrapper>
+                    <SItemTitle>{itemTitle(item)}</SItemTitle>
+                  </SItemTitleWrapper>
+                  <ThreeButtons
+                    btnName1={'作品情報を見る'}
+                    btnName2={'Netflixで視聴する'}
+                    btnName3={'MyListから外す'}
+                    onClick1={() => {
+                      onClickToWorkInfo(item.id, item.media_type, navigate);
+                    }}
+                    onClick2={onClickToNetflix}
+                    onClick3={onClickToRemoveMyList}
+                  />
+                </SInfoWrapper>
+                <SImgWrapper>
+                  <SImg src={`https://image.tmdb.org/t/p/original/${item.poster_path ?? ''}`} alt={itemTitle(item)} />
+                </SImgWrapper>
+              </SItem>
+            ))}
+          </SItems>
+        ) : (
+          <SText>myListに登録されている作品はありません。</SText>
+        )}
+      </SItemsWrapper>
     </SBody>
   );
 };
@@ -113,18 +117,90 @@ const SBody = styled.div`
   min-height: 100vh;
   height: auto;
   padding-top: 100px;
-  padding-bottom: 80px;
+  padding-bottom: 120px;
 
-  @media (min-width: 768px) {
-    padding-bottom: 120px;
+  @media (min-width: 640px) {
+    padding-top: 120px;
+    /* padding-bottom: 120px; */
   }
 `;
 
-const SPageTitle = styled.h2``;
-const SItems = styled.ul``;
-const SItem = styled.li``;
-const SInfoWrapper = styled.div``;
-const SImgWrapper = styled.div``;
-const SItemTitle = styled.h3``;
-const SImg = styled.img``;
+const SPageTitle = styled.h2`
+  text-align: center;
+  font-weight: bold;
+  font-size: 40px;
+`;
+
+const SItemsWrapper = styled.div`
+  padding-left: 16px;
+  padding-right: 16px;
+
+  @media (min-width: 640px) {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+`;
+
+const SItems = styled.ul`
+  margin-top: 24px;
+  width: 100%;
+  max-width: 360px;
+  margin-left: auto;
+  margin-right: auto;
+  
+  @media (min-width: 640px) {
+    margin-top: 72px;
+    max-width: 800px;
+  }
+`;
+
+const SItem = styled.li`
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: center;
+  gap: 16px;
+  
+  &:not(:first-child) {
+    margin-top: 64px;
+  }
+  
+  @media (min-width: 640px) {
+    flex-direction: row;
+    gap: 40px;
+  }
+`;
+
+const SInfoWrapper = styled.div`
+  width: 100%;
+
+  @media (min-width: 640px) {
+    /* align-self: center; */
+    width: calc(50% - 40px / 2);
+  }
+`;
+
+const SImgWrapper = styled.div`
+  width: 100%;
+
+  @media (min-width: 640px) {
+    width: calc(50% - 40px / 2);
+  }
+`;
+
+const SItemTitleWrapper = styled.div`
+  
+  @media (min-width: 640px) {
+    margin-top: 5%;
+  }
+  `;
+const SItemTitle = styled.h3`
+  font-weight: bold;
+  font-size: 32px;
+`;
+
+const SImg = styled.img`
+  width: 100%;
+  height: auto;
+`;
+
 const SText = styled.p``;

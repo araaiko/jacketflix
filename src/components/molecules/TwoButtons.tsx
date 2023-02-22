@@ -18,10 +18,14 @@ export const TwoButtons: FC<Props> = (props) => {
 
   return (
     <SButtonsWrapper>
-      <Button onClick={onClick1} disabled={disabled1}>
-        {btnName1}
-      </Button>
-      <Button onClick={onClick2}>{btnName2}</Button>
+      <SButtonWrapper>
+        <Button onClick={onClick1} disabled={disabled1}>
+          {btnName1}
+        </Button>
+      </SButtonWrapper>
+      <SButtonWrapper>
+        <Button onClick={onClick2}>{btnName2}</Button>
+      </SButtonWrapper>
     </SButtonsWrapper>
   );
 };
@@ -32,11 +36,17 @@ const SButtonsWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
-  max-width: 360px;
 
   @media (min-width: 768px) {
     margin-top: 32px;
     justify-content: flex-start;
-    max-width: 100%;
+  }
+`;
+
+const SButtonWrapper = styled.div`
+  @media (min-width: 768px) {
+    &:nth-child(n + 2) {
+      margin-left: 24px;
+    }
   }
 `;
