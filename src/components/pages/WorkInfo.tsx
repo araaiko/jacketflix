@@ -9,7 +9,7 @@ import type { BtnState, MyListInfo } from '../../types/dataAndState/dataAndState
 import { instance } from '../../api/axios';
 import { DetailPage } from '../templates';
 import { UserContext } from '../../providers/UserProvider';
-import { db } from '../../firebase';
+import { db, FirebaseTimestamp } from '../../firebase';
 
 /** types */
 type State = {
@@ -37,6 +37,7 @@ export const WorkInfo: FC = () => {
     const myListRef = doc(collection(db, 'users', uid, 'my_list'));
     // 採番したidを格納
     const id = myListRef.id;
+    const timestamp = FirebaseTimestamp.now();
 
     const posterPath = data?.poster_path !== undefined ? data?.poster_path : '';
     const backdropPath = data?.backdrop_path !== undefined ? data?.backdrop_path : '';
@@ -45,6 +46,7 @@ export const WorkInfo: FC = () => {
     const name = data?.name !== undefined ? data?.name : '';
 
     const addedMyList = {
+      created_at: timestamp,
       id: data?.id,
       poster_path: posterPath,
       backdrop_path: backdropPath,
@@ -52,6 +54,7 @@ export const WorkInfo: FC = () => {
       name,
       title,
       my_list_id: myListRef.id,
+      media_type: state.mediaType,
     };
 
     void setDoc(doc(db, 'users', uid, 'my_list', id), addedMyList);
