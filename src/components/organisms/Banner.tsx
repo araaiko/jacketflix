@@ -38,14 +38,16 @@ export const Banner: FC<Props> = (props) => {
         <SBanner bgImg={`https://image.tmdb.org/t/p/original/${movie?.backdrop_path ?? ''}`}>
           <SInfoWrapper>
             <MovieTitle>{movie?.title ?? movie?.name ?? movie?.original_name}</MovieTitle>
-            <TwoButtons
-              btnName1={'作品情報を見る'}
-              onClick1={() => {
-                onClickToWorkInfo(movie?.id, mediaType, navigate);
-              }}
-              btnName2={'Netflixで視聴する'}
-              onClick2={onClickToNetflix}
-            />
+            <STwoButtonsWrapper>
+              <TwoButtons
+                btnName1={'作品情報を見る'}
+                onClick1={() => {
+                  onClickToWorkInfo(movie?.id, mediaType, navigate);
+                }}
+                btnName2={'Netflixで視聴する'}
+                onClick2={onClickToNetflix}
+              />
+            </STwoButtonsWrapper>
             <STextWrapper>
               <PrimaryText>{truncate(movie?.overview, 150)}</PrimaryText>
             </STextWrapper>
@@ -81,7 +83,9 @@ const SBanner = styled.div<SBannerProps>`
   }
 
   @media (min-width: 768px) {
-    height: 448px;
+    min-height: 448px;
+    height: auto;
+    display: flex;
   }
 
   @media (min-width: 1024px) {
@@ -91,15 +95,25 @@ const SBanner = styled.div<SBannerProps>`
 `;
 
 const SInfoWrapper = styled.div`
-  position: absolute;
-  bottom: 10%;
+  position: relative;
+  top: 92%;
+  transform: translateY(-100%);
   text-align: left;
 
   @media (min-width: 768px) {
-    position: relative;
-    top: 50%;
-    bottom: 0;
-    transform: translateY(-50%);
+    top: 0;
+    transform: translateY(0);
+    align-self: center;
+    padding-top: 96px;
+    padding-bottom: 96px;
+  }
+`;
+
+const STwoButtonsWrapper = styled.div`
+  max-width: 360px;
+
+  @media (min-width: 768px) {
+    max-width: 100%;
   }
 `;
 
