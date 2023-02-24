@@ -1,6 +1,6 @@
 /** 外部import */
-import { collection, getDocs } from 'firebase/firestore';
-import { FC, useContext, useEffect, useRef, useState } from 'react';
+import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore';
+import { FC, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
@@ -11,6 +11,7 @@ import { UserContext } from '../../providers/UserProvider';
 import { Header } from '../organisms';
 import { ThreeButtons } from '../molecules';
 import { onClickToNetflix, onClickToWorkInfo } from '../../function/commonOnClick';
+import { PrimaryText } from '../atoms';
 
 export const MyListScreen: FC = () => {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ export const MyListScreen: FC = () => {
   const uid = user.uid;
   const [myList, setMyList] = useState<MyListInfo[]>([]);
   // React.StrictModeによる再レンダリングの回避用
-  const refFirstRef = useRef(true);
+  let oneTimeMountEffect = false;
 
   // JSX内 作品タイトル関連にセットするテキスト
   const itemTitle = (item: MyListInfo): string => {
@@ -34,48 +35,38 @@ export const MyListScreen: FC = () => {
   };
 
   // MyList登録解除
-  const onClickToRemoveMyList = (): void => {
-    alert('後で実装しようね');
+  const onClickToRemoveMyList = async (myListId: string): Promise<void> => {
+    await deleteDoc(doc(db, 'users', uid, 'myList', myListId));
+
+    setMyList((): MyListInfo[] => {
+      return myList.filter((item) => item.my_list_id !== myListId);
+    });
   };
 
   useEffect(() => {
     // React.StrictModeによる再レンダリングの回避
-    // 開発モードの時だけ初回のレンダリングを実行しない
-    if (process.env.NODE_ENV === 'development') {
-      if (refFirstRef.current) {
-        refFirstRef.current = false;
-        return;
+    if (!oneTimeMountEffect) {
+      // if (myList.length === 0){}：開発時に、再レンダリングが起こるたびに処理が走り、配列の値が重複するのを防ぐ
+      if (myList.length === 0) {
+        void getDocs(collection(db, 'users', uid, 'myList')).then((snapshots) => {
+          snapshots.forEach((snapshot) => {
+            const data = snapshot.data() as MyListInfo;
+            setMyList((prevState) => [...prevState, data]);
+          });
+        });
       }
     }
 
-    // let oneTimeMountEffect = false;
-
-    // if (!oneTimeMountEffect) {
-
-    // もしonClickイベントでstate更新後にもuseEffect内の処理が走って配列の値が重複するようなら
-    // if(myList.length === 0){}でgetDocsを囲ってみればいいのでは？
-    // 配列が空である限りは、どれだけ処理が走っても値が重複することはないから
-    // もしかしたらmemo化を進めたらif文なしでも大丈夫になるか。。。？
-    if (myList.length === 0) {
-      void getDocs(collection(db, 'users', uid, 'myList')).then((snapshots) => {
-        snapshots.forEach((snapshot) => {
-          const data = snapshot.data() as MyListInfo;
-          setMyList((prevState) => [...prevState, data]);
-        });
-      });
-    }
-    // }
-
-    // return () => {
-    //   oneTimeMountEffect = true;
-    // };
+    return () => {
+      oneTimeMountEffect = true;
+    };
   }, []);
 
   console.log(myList);
 
   return (
     <SBody>
-      <Header />
+      <Header userName={user.username} />
       <SPageTitle>MyList</SPageTitle>
       <SItemsWrapper>
         {myList.length !== 0 ? (
@@ -94,7 +85,9 @@ export const MyListScreen: FC = () => {
                       onClickToWorkInfo(item.id, item.media_type, navigate);
                     }}
                     onClick2={onClickToNetflix}
-                    onClick3={onClickToRemoveMyList}
+                    onClick3={() => {
+                      void onClickToRemoveMyList(item.my_list_id);
+                    }}
                   />
                 </SInfoWrapper>
                 <SImgWrapper>
@@ -104,7 +97,9 @@ export const MyListScreen: FC = () => {
             ))}
           </SItems>
         ) : (
-          <SText>myListに登録されている作品はありません。</SText>
+          <STextWrapper>
+            <PrimaryText>myListに登録されている作品はありません。</PrimaryText>
+          </STextWrapper>
         )}
       </SItemsWrapper>
     </SBody>
@@ -147,7 +142,7 @@ const SItems = styled.ul`
   max-width: 360px;
   margin-left: auto;
   margin-right: auto;
-  
+
   @media (min-width: 640px) {
     margin-top: 72px;
     max-width: 800px;
@@ -159,11 +154,11 @@ const SItem = styled.li`
   flex-direction: column-reverse;
   justify-content: center;
   gap: 16px;
-  
+
   &:not(:first-child) {
     margin-top: 64px;
   }
-  
+
   @media (min-width: 640px) {
     flex-direction: row;
     gap: 40px;
@@ -188,11 +183,10 @@ const SImgWrapper = styled.div`
 `;
 
 const SItemTitleWrapper = styled.div`
-  
   @media (min-width: 640px) {
     margin-top: 5%;
   }
-  `;
+`;
 const SItemTitle = styled.h3`
   font-weight: bold;
   font-size: 32px;
@@ -203,4 +197,14 @@ const SImg = styled.img`
   height: auto;
 `;
 
-const SText = styled.p``;
+const STextWrapper = styled.div`
+  height: calc(100vh - 100px - 120px - 52px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+
+  @media (min-width: 640px) {
+    height: calc(100vh - 120px - 120px - 52px);
+  }
+`;
