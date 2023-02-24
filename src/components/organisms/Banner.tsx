@@ -70,6 +70,7 @@ const SBanner = styled.div<SBannerProps>`
   color: #fff;
   padding-left: 16px;
   padding-right: 16px;
+  display: flex;
 
   &::after {
     content: '';
@@ -85,7 +86,6 @@ const SBanner = styled.div<SBannerProps>`
   @media (min-width: 768px) {
     min-height: 448px;
     height: auto;
-    display: flex;
   }
 
   @media (min-width: 1024px) {
@@ -95,17 +95,15 @@ const SBanner = styled.div<SBannerProps>`
 `;
 
 const SInfoWrapper = styled.div`
-  position: relative;
-  top: 92%;
-  transform: translateY(-100%);
   text-align: left;
+  align-self: flex-end;
+  margin-bottom: 60px;
 
   @media (min-width: 768px) {
-    top: 0;
-    transform: translateY(0);
     align-self: center;
     padding-top: 96px;
     padding-bottom: 96px;
+    margin-bottom: 0;
   }
 `;
 

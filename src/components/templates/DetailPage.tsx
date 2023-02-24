@@ -28,7 +28,7 @@ export const DetailPage: FC<Props> = (props) => {
   return (
     <SBody>
       {/* ヘッダー */}
-      <Header />
+      <Header userName={user.username} />
       {data !== null && (
         // 作品情報
         <SInfoItems>
