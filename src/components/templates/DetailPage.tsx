@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 /** 内部import */
 import type { FetchDetailData } from '../../types/api/fetchData';
-import type { BtnState } from '../../types/dataAndState/dataAndState';
 import { MovieTitle, PrimaryText } from '../atoms';
 import { TwoButtons } from '../molecules';
 import { Header } from '../organisms';
@@ -15,12 +14,10 @@ import { UserContext } from '../../providers/UserProvider';
 type Props = {
   data: FetchDetailData | null;
   videoId: string;
-  onClick1: () => void;
-  onClick1Style: BtnState;
 };
 
 export const DetailPage: FC<Props> = (props) => {
-  const { data, videoId, onClick1, onClick1Style } = props;
+  const { data, videoId } = props;
 
   const { user } = useContext(UserContext);
   console.log('詳細ページ：', user);
@@ -44,9 +41,10 @@ export const DetailPage: FC<Props> = (props) => {
               <PrimaryText>{data?.overview}</PrimaryText>
             </STextWrapper>
             <TwoButtons
-              btnName1={onClick1Style.text}
-              onClick1={onClick1}
-              disabled1={onClick1Style.disabled}
+              btnName1={'MyListに登録する'}
+              onClick1={() => {
+                alert('後で実装しようね');
+              }}
               btnName2={'Netflixで視聴する'}
               onClick2={onClickToNetflix}
             />
@@ -71,7 +69,11 @@ export const DetailPage: FC<Props> = (props) => {
 
 /** style */
 const SBody = styled.div`
-  padding-bottom: 120px;
+  padding-bottom: 80px;
+
+  @media (min-width: 768px) {
+    padding-bottom: 120px;
+  }
 `;
 
 const SInfoItems = styled.div`

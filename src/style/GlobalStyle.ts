@@ -96,6 +96,12 @@ export const GlobalStyle = createGlobalStyle`
 
   button,
   a {
+    &:focus {
+        outline: none;
+        border: 3px solid ${c.point};
+        border-radius: 8px;
+    }
+
     &:focus-visible {
         outline: none;
         border: 3px solid ${c.point};

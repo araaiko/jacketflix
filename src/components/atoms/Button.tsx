@@ -5,16 +5,10 @@ import styled from 'styled-components';
 type Props = {
   children: ReactNode;
   onClick: () => void;
-  disabled?: boolean;
 };
 
-export const Button: FC<Props> = (props) => {
-  const { children, onClick, disabled = false } = props;
-  return (
-    <SButton onClick={onClick} disabled={disabled}>
-      {children}
-    </SButton>
-  );
+export const Button: FC<Props> = ({ children, onClick }) => {
+  return <SButton onClick={onClick}>{children}</SButton>;
 };
 
 /** style */
@@ -27,19 +21,17 @@ const SButton = styled.button`
   border-radius: 8px;
   transition: all 0.3s ease;
   min-width: 164px;
-  width: 100%;
 
-  &:hover,
-  &:disabled {
+  &:hover {
     color: #000;
     background-color: #e6e6e6;
   }
 
-  &:disabled {
-    cursor: auto;
-  }
-
   @media (min-width: 768px) {
     padding: 16px 32px;
+
+    &:nth-child(n + 2) {
+      margin-left: 24px;
+    }
   }
 `;
