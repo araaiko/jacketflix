@@ -13,10 +13,11 @@ import { UserContext } from '../../providers/UserProvider';
 /** types */
 type Props = {
   home?: boolean;
+  userName: string;
 };
 
 export const Header: FC<Props> = (props) => {
-  const { home = false } = props;
+  const { home = false, userName } = props;
   const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
   const [show, setShow] = useState(false);
@@ -34,7 +35,7 @@ export const Header: FC<Props> = (props) => {
   };
 
   const onClickToMyList = (): void => {
-    navigate('/mylist')
+    navigate('/mylist');
   };
 
   useEffect(() => {
@@ -65,7 +66,7 @@ export const Header: FC<Props> = (props) => {
 
       <SNav>
         {/* user name */}
-        <SNavItem>Hi! userName</SNavItem>
+        <SNavItem>Hi! {userName}</SNavItem>
 
         {/* my list */}
         <SNavItem hover onClick={onClickToMyList}>

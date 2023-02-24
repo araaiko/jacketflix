@@ -26,7 +26,7 @@ export const Main: FC<Props> = (props) => {
   return (
     <SBody>
       {/* ヘッダー */}
-      <Header home />
+      <Header home userName={user.username} />
       {/* バナー */}
       <Banner data={netflixOriginals} mediaType={'tv'} />
       {/* 映画一覧 */}
