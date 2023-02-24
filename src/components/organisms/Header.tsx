@@ -33,10 +33,6 @@ export const Header: FC<Props> = (props) => {
     });
   };
 
-  const onClickToMyList = (): void => {
-    navigate('/mylist')
-  };
-
   useEffect(() => {
     const handleShow = (): void => {
       if (window.scrollY > 100) {
@@ -68,7 +64,7 @@ export const Header: FC<Props> = (props) => {
         <SNavItem>Hi! userName</SNavItem>
 
         {/* my list */}
-        <SNavItem hover onClick={onClickToMyList}>
+        <SNavItem hover>
           <SIconWrap>
             <HeartIcon />
           </SIconWrap>
@@ -87,7 +83,7 @@ export const Header: FC<Props> = (props) => {
       {/* SP 下部固定 */}
       <SSpNav>
         {/* my list */}
-        <SSpNavItem onClick={onClickToMyList}>
+        <SSpNavItem>
           <SIconWrap>
             <HeartIcon />
           </SIconWrap>

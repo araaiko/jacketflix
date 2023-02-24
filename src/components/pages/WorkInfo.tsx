@@ -1,26 +1,18 @@
 /** 外部import */
-import { FC, useContext, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
-import { collection, doc, setDoc, getDocs } from 'firebase/firestore';
 
 /** 内部import */
 import type { FetchDetailData, FetchVideoData } from '../../types/api/fetchData';
-import type { BtnState, MyListInfo } from '../../types/dataAndState/dataAndState';
 import { instance } from '../../api/axios';
 import { DetailPage } from '../templates';
-import { UserContext } from '../../providers/UserProvider';
-import { db, FirebaseTimestamp } from '../../firebase';
 
 /** types */
 type State = {
   mediaType: string;
 };
 
-// type AddMyListParams = () => void;
-
 export const WorkInfo: FC = () => {
-  const { user } = useContext(UserContext);
-  const uid = user.uid;
   // URLの末尾（パラメーター）を取得（※動的パスで設定した定数名と同じ名前にすること）
   const { id } = useParams();
   // ページ遷移時に渡したstate(mediaType)の取得
@@ -28,46 +20,12 @@ export const WorkInfo: FC = () => {
   const state = location.state as State;
 
   const [data, setData] = useState<FetchDetailData | null>(null);
-  const [videoId, setVideoId] = useState<string>(''); // YouTube
-  const [myListBtn, setMyListBtn] = useState<BtnState>({ text: 'MyListに登録する', disabled: false });
-
-  // お気に入り登録
-  const onClickToAddMyList = (): void => {
-    // usersコレクションのuidに、myListサブコレクションを作成（doc()でidを自動採番）
-    const myListRef = doc(collection(db, 'users', uid, 'myList'));
-    // 採番したidを格納
-    const myListId = myListRef.id;
-    const timestamp = FirebaseTimestamp.now();
-
-    const posterPath = data?.poster_path !== undefined ? data?.poster_path : '';
-    const backdropPath = data?.backdrop_path !== undefined ? data?.backdrop_path : '';
-    const title = data?.title !== undefined ? data?.title : '';
-    const originalName = data?.original_name !== undefined ? data?.original_name : '';
-    const name = data?.name !== undefined ? data?.name : '';
-
-    const addedMyList = {
-      created_at: timestamp,
-      id: data?.id,
-      poster_path: posterPath,
-      backdrop_path: backdropPath,
-      original_name: originalName,
-      name,
-      title,
-      my_list_id: myListRef.id,
-      media_type: state.mediaType,
-    };
-
-    void setDoc(doc(db, 'users', uid, 'myList', myListId), addedMyList);
-    setMyListBtn({
-      text: 'MyListに登録済み',
-      disabled: true,
-    });
-  };
+  const [videoId, setVideoId] = useState<string>('');
 
   useEffect(() => {
     // テンプレートリテラル(fetchUrl)ではstring | undefinedしか定義されていないため、stringに合致するよう調整
     const REACT_APP_TMDB_API_KEY = process.env.REACT_APP_TMDB_API_KEY;
-    const workInfoId = id !== undefined ? id?.toString() : '';
+    const workInfoId = id?.toString();
     let fetchUrl: string;
     let fetchVideoUrl: string;
 
@@ -90,31 +48,10 @@ export const WorkInfo: FC = () => {
       const request = await instance.get<FetchVideoData>(fetchVideoUrl);
       setVideoId(request.data.results[0]?.key);
     };
-    // お気に入り登録済みかどうか確認
-    const checkAddedMyList = async (): Promise<void> => {
-      const workInfoIds: string[] = [];
-
-      await getDocs(collection(db, 'users', uid, 'myList')).then((snapshots) => {
-        snapshots.forEach((snapshot) => {
-          const data = snapshot.data() as MyListInfo;
-          const dataId = data.id.toString();
-          workInfoIds.push(dataId);
-        });
-      });
-      // console.log('配列', workInfoIds);
-
-      if (workInfoIds.includes(workInfoId)) {
-        setMyListBtn({
-          text: 'MyListに登録済み',
-          disabled: true,
-        });
-      }
-    };
     void fetchData();
     void fetchVideoId();
-    void checkAddedMyList();
   }, []);
 
   // console.log(videoId);
-  return <DetailPage data={data} videoId={videoId} onClick1={onClickToAddMyList} onClick1Style={myListBtn} />;
+  return <DetailPage data={data} videoId={videoId} />;
 };

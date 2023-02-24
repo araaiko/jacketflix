@@ -10,8 +10,6 @@ export const onClickToWorkInfo: Params = (id, mediaType, navigate) => {
       navigate(`/product/${id}`, { state: { mediaType: 'movie' } });
     } else if (mediaType === 'tv') {
       navigate(`/product/${id}`, { state: { mediaType: 'tv' } });
-    } else {
-      alert('ページが存在しません');
     }
   } else {
     alert('ページが存在しません');
