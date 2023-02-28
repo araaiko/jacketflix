@@ -90,7 +90,7 @@ export const WorkInfo: FC = () => {
       const request = await instance.get<FetchVideoData>(fetchVideoUrl);
       setVideoId(request.data.results[0]?.key);
     };
-    // お気に入り登録済みかどうか確認
+    // myListに登録済みかどうか確認
     const checkAddedMyList = async (): Promise<void> => {
       const workInfoIds: string[] = [];
 

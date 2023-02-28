@@ -194,7 +194,8 @@ const SItemTitle = styled.h3`
 
 const SImg = styled.img`
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
 `;
 
 const STextWrapper = styled.div`
