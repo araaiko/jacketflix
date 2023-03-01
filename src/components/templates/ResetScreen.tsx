@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 /** 内部import */
 import { auth } from '../../firebase/index';
-import { OnePointButton } from '../molecules';
+import { AuthButton } from '../organisms';
 import { colorVariables as c } from '../../style';
 import { isValidEmailFormat, isValidRequiredInput } from '../../lib';
 
@@ -78,7 +78,7 @@ export const ResetScreen: FC = () => {
           </SInputField>
 
           {/* パスワードリセットボタン */}
-          <OnePointButton
+          <AuthButton
             btnName={btnName}
             onClick={() => {
               onClickToReset(email);

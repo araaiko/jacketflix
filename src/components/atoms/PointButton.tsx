@@ -23,7 +23,8 @@ const SButton = styled.button`
   padding: 16px 14px;
   border-radius: 8px;
   transition: all 0.3s ease;
-  min-width: 164px;
+  width: 100%;
+  /* min-width: 164px; */
 
   &:hover {
     color: #000;

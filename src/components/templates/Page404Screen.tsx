@@ -3,7 +3,7 @@ import { FC, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { UserContext } from '../../providers/UserProvider';
-import { Button, PrimaryText } from '../atoms';
+import { PointButton, PrimaryText } from '../atoms';
 import { Header } from '../organisms';
 
 export const Page404Screen: FC = () => {
@@ -17,7 +17,7 @@ export const Page404Screen: FC = () => {
   return (
     <SBody>
       <Header userName={user.username} />
-      <SInfoWrapper>
+      <div>
         <SPageTitle>お探しのページが見つかりません</SPageTitle>
         <STextBox>
           <STextWrapper>
@@ -32,9 +32,9 @@ export const Page404Screen: FC = () => {
           </STextWrapper>
         </STextBox>
         <SButtonWrapper>
-          <Button onClick={onClickToTop}>トップページへ戻る</Button>
+          <PointButton onClick={onClickToTop}>トップページへ戻る</PointButton>
         </SButtonWrapper>
-      </SInfoWrapper>
+      </div>
     </SBody>
   );
 };
@@ -46,6 +46,8 @@ const SBody = styled.div`
   height: auto;
   padding-top: 100px;
   padding-bottom: 120px;
+  padding-left: 16px;
+  padding-right: 16px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -55,16 +57,34 @@ const SBody = styled.div`
   }
 `;
 
-const SInfoWrapper = styled.div``;
+// const SInfoWrapper = styled.div``;
 
 const SPageTitle = styled.h2`
   text-align: center;
   font-weight: bold;
-  font-size: 40px;
+  font-size: clamp(32px, 5vw, 40px);
 `;
 
-const STextBox = styled.div``;
+const STextBox = styled.div`
+  margin-top: 56px;
+`;
 
-const STextWrapper = styled.div``;
+const STextWrapper = styled.div`
+  text-align: center;
 
-const SButtonWrapper = styled.div``;
+  &:not(:first-child) {
+    margin-top: 24px;
+
+    @media (min-width: 640px) {
+      margin-top: 0;
+    }
+  }
+`;
+
+const SButtonWrapper = styled.div`
+  width: 100%;
+  max-width: 250px;
+  margin-top: 40px;
+  margin-left: auto;
+  margin-right: auto;
+`;

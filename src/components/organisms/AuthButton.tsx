@@ -10,7 +10,7 @@ type Props = {
   onClick: () => void;
 };
 
-export const OnePointButton: FC<Props> = (props) => {
+export const AuthButton: FC<Props> = (props) => {
   const { btnName, onClick } = props;
 
   return (
@@ -24,6 +24,9 @@ export const OnePointButton: FC<Props> = (props) => {
 const SButtonWrapper = styled.div`
   margin-top: 48px;
   width: 100%;
+  max-width: 250px;
+  margin-left: auto;
+  margin-right: auto;
 
   @media (min-width: 768px) {
     margin-top: 64px;

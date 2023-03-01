@@ -8,7 +8,7 @@ import { Link, useNavigate } from 'react-router-dom';
 /** 内部import */
 import type { User } from '../../types/Context/user';
 import { auth, db } from '../../firebase/index';
-import { OnePointButton } from '../molecules';
+import { AuthButton } from '../organisms';
 import { colorVariables as c } from '../../style';
 import { isValidEmailFormat, isValidRequiredInput } from '../../lib';
 import { UserContext } from '../../providers/UserProvider';
@@ -143,7 +143,7 @@ export const SignInScreen: FC = () => {
         </SFormWrapper>
 
         {/* サインインボタン */}
-        <OnePointButton
+        <AuthButton
           btnName={btnName}
           onClick={() => {
             onClickToSignIn(email, password);
