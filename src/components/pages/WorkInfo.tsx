@@ -101,7 +101,6 @@ export const WorkInfo: FC = () => {
           workInfoIds.push(dataId);
         });
       });
-      // console.log('配列', workInfoIds);
 
       if (workInfoIds.includes(workInfoId)) {
         setMyListBtn({

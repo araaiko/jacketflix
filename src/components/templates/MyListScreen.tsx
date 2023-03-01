@@ -11,7 +11,7 @@ import { UserContext } from '../../providers/UserProvider';
 import { Header } from '../organisms';
 import { ThreeButtons } from '../molecules';
 import { onClickToNetflix, onClickToWorkInfo } from '../../function/commonOnClick';
-import { PrimaryText } from '../atoms';
+import { Img, PrimaryText } from '../atoms';
 
 export const MyListScreen: FC = () => {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ export const MyListScreen: FC = () => {
   let oneTimeMountEffect = false;
 
   // JSX内 作品タイトル関連にセットするテキスト
-  const itemTitle = (item: MyListInfo): string => {
+  const checkTitle = (item: MyListInfo): string => {
     if (item.title !== '') {
       return item.title;
     } else if (item.name !== '') {
@@ -75,7 +75,7 @@ export const MyListScreen: FC = () => {
               <SItem key={i}>
                 <SInfoWrapper>
                   <SItemTitleWrapper>
-                    <SItemTitle>{itemTitle(item)}</SItemTitle>
+                    <SItemTitle>{checkTitle(item)}</SItemTitle>
                   </SItemTitleWrapper>
                   <ThreeButtons
                     btnName1={'作品情報を見る'}
@@ -91,7 +91,7 @@ export const MyListScreen: FC = () => {
                   />
                 </SInfoWrapper>
                 <SImgWrapper>
-                  <SImg src={`https://image.tmdb.org/t/p/original/${item.poster_path ?? ''}`} alt={itemTitle(item)} />
+                  <Img src={`https://image.tmdb.org/t/p/original/${item.poster_path ?? ''}`} alt={checkTitle(item)} />
                 </SImgWrapper>
               </SItem>
             ))}
@@ -190,12 +190,6 @@ const SItemTitleWrapper = styled.div`
 const SItemTitle = styled.h3`
   font-weight: bold;
   font-size: 32px;
-`;
-
-const SImg = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 `;
 
 const STextWrapper = styled.div`

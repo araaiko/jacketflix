@@ -27,7 +27,10 @@ export const ItemList: FC<Props> = (props) => {
             onClickToWorkInfo(movie.id, mediaType, navigate);
           }}
         >
-          <SImg src={`https://image.tmdb.org/t/p/original/${movie.poster_path ?? ''}`} alt={movie.name} />
+          <SImg
+            src={`https://image.tmdb.org/t/p/original/${movie.poster_path ?? ''}`}
+            alt={movie.title ?? movie.name ?? movie.original_name ?? ''}
+          />
         </SItem>
       ))}
     </SList>
