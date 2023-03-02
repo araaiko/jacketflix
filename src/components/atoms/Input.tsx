@@ -45,6 +45,7 @@ const SLabel = styled.label`
 
   span {
     font-size: 12px;
+    padding-left: 10px;
     color: ${c.point};
   }
 
