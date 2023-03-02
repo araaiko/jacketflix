@@ -37,8 +37,6 @@ export const MyList: FC = () => {
   return (
     <MyListScreen
       userName={user.username}
-      pageTitle={'MyList'}
-      noContentsText={'myListに登録されている作品はありません。'}
       myList={myList}
       setMyList={setMyList}
     />

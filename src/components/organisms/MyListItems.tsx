@@ -9,7 +9,7 @@ import { db } from '../../firebase';
 import { onClickToNetflix, onClickToWorkInfo } from '../../function/commonOnClick';
 import { UserContext } from '../../providers/UserProvider';
 import { MyListInfo } from '../../types/dataAndState/dataAndState';
-import { Img, H3Title } from '../atoms';
+import { Img, H3Title, H2Title, PrimaryText } from '../atoms';
 import { ThreeButtons } from '../molecules';
 
 /** types */
@@ -49,38 +49,65 @@ export const MyListItems: FC<Props> = memo((props) => {
   };
 
   return (
-    <SItems>
-      {myList.map((item, i) => (
-        <SItem key={i}>
-          <SInfoWrapper>
-            <SItemTitleWrapper>
-              <H3Title fontSize={'32px'}>{checkTitle(item)}</H3Title>
-            </SItemTitleWrapper>
-            <ThreeButtons
-              btnName1={'作品情報を見る'}
-              btnName2={'Netflixで視聴する'}
-              btnName3={'MyListから外す'}
-              onClick1={() => {
-                onClickToWorkInfo(item.id, item.media_type, navigate);
-              }}
-              onClick2={onClickToNetflix}
-              onClick3={() => {
-                void onClickToRemoveMyList(item.my_list_id);
-              }}
-            />
-          </SInfoWrapper>
-          <SImgWrapper>
-            <Img src={`https://image.tmdb.org/t/p/original/${item.poster_path ?? ''}`} alt={checkTitle(item)} />
-          </SImgWrapper>
-        </SItem>
-      ))}
-    </SItems>
+    <>
+      <STitleWrapper>
+        <H2Title fontSize={'40px'}>MyList</H2Title>
+      </STitleWrapper>
+      <SItemsWrapper>
+        {myList.length !== 0 ? (
+          <SItems>
+            {myList.map((item, i) => (
+              <SItem key={i}>
+                <SInfoWrapper>
+                  <SItemTitleWrapper>
+                    <H3Title fontSize={'32px'}>{checkTitle(item)}</H3Title>
+                  </SItemTitleWrapper>
+                  <ThreeButtons
+                    btnName1={'作品情報を見る'}
+                    btnName2={'Netflixで視聴する'}
+                    btnName3={'MyListから外す'}
+                    onClick1={() => {
+                      onClickToWorkInfo(item.id, item.media_type, navigate);
+                    }}
+                    onClick2={onClickToNetflix}
+                    onClick3={() => {
+                      void onClickToRemoveMyList(item.my_list_id);
+                    }}
+                  />
+                </SInfoWrapper>
+                <SImgWrapper>
+                  <Img src={`https://image.tmdb.org/t/p/original/${item.poster_path ?? ''}`} alt={checkTitle(item)} />
+                </SImgWrapper>
+              </SItem>
+            ))}
+          </SItems>
+        ) : (
+          <STextWrapper>
+            <PrimaryText>myListに登録されている作品はありません。</PrimaryText>
+          </STextWrapper>
+        )}
+      </SItemsWrapper>
+    </>
   );
 });
 
 MyListItems.displayName = 'MyListItems';
 
 /** style */
+const STitleWrapper = styled.div`
+  text-align: center;
+`;
+
+const SItemsWrapper = styled.div`
+  padding-left: 16px;
+  padding-right: 16px;
+
+  @media (min-width: 640px) {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+`;
+
 const SItems = styled.ul`
   margin-top: 24px;
   width: 100%;
@@ -129,5 +156,17 @@ const SImgWrapper = styled.div`
 const SItemTitleWrapper = styled.div`
   @media (min-width: 640px) {
     margin-top: 5%;
+  }
+`;
+
+const STextWrapper = styled.div`
+  height: calc(100vh - 100px - 120px - 52px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+
+  @media (min-width: 640px) {
+    height: calc(100vh - 120px - 120px - 52px);
   }
 `;
