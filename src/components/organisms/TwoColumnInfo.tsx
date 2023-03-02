@@ -3,7 +3,7 @@ import { FC } from 'react';
 import styled from 'styled-components';
 
 /** 内部import */
-import { Img, MovieTitle, PrimaryText } from '../atoms';
+import { H2Title, Img, PrimaryText } from '../atoms';
 import { TwoButtons } from '../molecules';
 
 /** types */
@@ -28,7 +28,7 @@ export const TwoColumnInfo: FC<Props> = (props) => {
         <Img src={imgSrc} alt={imgAlt} />
       </SInfoImgWrapper>
       <SInfoTextWrapper>
-        <MovieTitle>{title}</MovieTitle>
+        <H2Title fontSize={'clamp(32px, 5.5vw, 48px)'}>{title}</H2Title>
         <STextWrapper>
           <PrimaryText>{overview}</PrimaryText>
         </STextWrapper>

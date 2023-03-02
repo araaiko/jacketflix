@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 /** 内部import */
 import type { MovieInfo } from '../../types/api/fetchData';
-import { CategoryTitle, ItemList, ScrollHint } from '../atoms';
+import { H2Title, ItemList, ScrollHint } from '../atoms';
 
 type Props = {
   data: MovieInfo[];
@@ -17,7 +17,7 @@ export const MoviesList: FC<Props> = (props) => {
 
   return (
     <SBody>
-      <CategoryTitle>{title}</CategoryTitle>
+      <H2Title fontSize={'24px'}>{title}</H2Title>
       <SScrollHintWrapper>
         <ScrollHint>scroll ▶︎</ScrollHint>
       </SScrollHintWrapper>

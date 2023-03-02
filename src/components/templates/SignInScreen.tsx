@@ -8,7 +8,7 @@ import { Link, useNavigate } from 'react-router-dom';
 /** 内部import */
 import type { User } from '../../types/Context/user';
 import { auth, db } from '../../firebase/index';
-import { AuthButton } from '../organisms';
+import { AuthButton } from '../molecules';
 import { colorVariables as c } from '../../style';
 import { isValidEmailFormat, isValidRequiredInput } from '../../lib';
 import { UserContext } from '../../providers/UserProvider';

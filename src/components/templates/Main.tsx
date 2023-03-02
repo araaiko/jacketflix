@@ -1,42 +1,66 @@
 /** 外部import */
-import { FC, useContext } from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
-import { UserContext } from '../../providers/UserProvider';
 
 /** 内部import */
 import type { MovieInfo } from '../../types/api/fetchData';
 import { Banner, Header, MoviesList } from '../organisms';
 
 type Props = {
+  userName: string;
   netflixOriginals: MovieInfo[];
   topRated: MovieInfo[];
   actionMovies: MovieInfo[];
   comedyMovies: MovieInfo[];
   documentMovies: MovieInfo[];
   horrorMovies: MovieInfo[];
-  RomanceMovies: MovieInfo[];
+  romanceMovies: MovieInfo[];
+  categoryTitle1: string;
+  categoryTitle2: string;
+  categoryTitle3: string;
+  categoryTitle4: string;
+  categoryTitle5: string;
+  categoryTitle6: string;
+  categoryTitle7: string;
+  mediaTypeTv: string;
+  mediaTypeMovie: string;
 };
 
 export const Main: FC<Props> = (props) => {
-  const { netflixOriginals, topRated, actionMovies, comedyMovies, documentMovies, horrorMovies, RomanceMovies } = props;
-
-  const { user } = useContext(UserContext);
-  console.log('トップページ：', user);
+  const {
+    userName,
+    netflixOriginals,
+    topRated,
+    actionMovies,
+    comedyMovies,
+    documentMovies,
+    horrorMovies,
+    romanceMovies,
+    categoryTitle1,
+    categoryTitle2,
+    categoryTitle3,
+    categoryTitle4,
+    categoryTitle5,
+    categoryTitle6,
+    categoryTitle7,
+    mediaTypeTv,
+    mediaTypeMovie,
+  } = props;
 
   return (
     <SBody>
       {/* ヘッダー */}
-      <Header home userName={user.username} />
+      <Header home userName={userName} />
       {/* バナー */}
-      <Banner data={netflixOriginals} mediaType={'tv'} />
+      <Banner data={netflixOriginals} mediaType={mediaTypeTv} />
       {/* 映画一覧 */}
-      <MoviesList data={netflixOriginals} title={'Netflix Originals'} mediaType={'tv'} />
-      <MoviesList data={topRated} title={'Top Rated'} mediaType={'movie'} />
-      <MoviesList data={actionMovies} title={'Action Movies'} mediaType={'movie'} />
-      <MoviesList data={comedyMovies} title={'Comedy Movies'} mediaType={'movie'} />
-      <MoviesList data={documentMovies} title={'Document Movies'} mediaType={'movie'} />
-      <MoviesList data={horrorMovies} title={'Horror Movies'} mediaType={'movie'} />
-      <MoviesList data={RomanceMovies} title={'Romance Movies'} mediaType={'movie'} />
+      <MoviesList data={netflixOriginals} title={categoryTitle1} mediaType={mediaTypeTv} />
+      <MoviesList data={topRated} title={categoryTitle2} mediaType={mediaTypeMovie} />
+      <MoviesList data={actionMovies} title={categoryTitle3} mediaType={mediaTypeMovie} />
+      <MoviesList data={comedyMovies} title={categoryTitle4} mediaType={mediaTypeMovie} />
+      <MoviesList data={documentMovies} title={categoryTitle5} mediaType={mediaTypeMovie} />
+      <MoviesList data={horrorMovies} title={categoryTitle6} mediaType={mediaTypeMovie} />
+      <MoviesList data={romanceMovies} title={categoryTitle7} mediaType={mediaTypeMovie} />
     </SBody>
   );
 };

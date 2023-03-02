@@ -3,7 +3,7 @@ import { FC, ReactNode } from 'react';
 import styled from 'styled-components';
 
 /** 内部import */
-import { colorVariables as c } from '../../style';
+import { colorVariables as c } from '../../../style';
 
 type Props = {
   children: ReactNode;

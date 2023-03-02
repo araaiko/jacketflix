@@ -1,104 +1,39 @@
 /** 外部import */
-import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore';
-import { FC, useContext, useEffect, useState } from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
 
 /** 内部import */
 import type { MyListInfo } from '../../types/dataAndState/dataAndState';
-import { db } from '../../firebase';
-import { UserContext } from '../../providers/UserProvider';
-import { Header } from '../organisms';
-import { ThreeButtons } from '../molecules';
-import { onClickToNetflix, onClickToWorkInfo } from '../../function/commonOnClick';
-import { Img, PrimaryText } from '../atoms';
+import { Header, MyListItems } from '../organisms';
+import { H2Title, PrimaryText } from '../atoms';
 
-export const MyListScreen: FC = () => {
-  const navigate = useNavigate();
-  const { user } = useContext(UserContext);
-  const uid = user.uid;
-  const [myList, setMyList] = useState<MyListInfo[]>([]);
-  // React.StrictModeによる再レンダリングの回避用
-  let oneTimeMountEffect = false;
+/** types */
+type Props = {
+  userName: string;
+  pageTitle: string;
+  noContentsText: string;
+  myList: MyListInfo[];
+  setMyList: React.Dispatch<MyListInfo[]>;
+};
 
-  // JSX内 作品タイトル関連にセットするテキスト
-  const checkTitle = (item: MyListInfo): string => {
-    if (item.title !== '') {
-      return item.title;
-    } else if (item.name !== '') {
-      return item.name;
-    } else if (item.original_name !== '') {
-      return item.original_name;
-    } else {
-      return '';
-    }
-  };
+export const MyListScreen: FC<Props> = (props) => {
+  const { userName, pageTitle, noContentsText, myList, setMyList } = props;
 
-  // MyList登録解除
-  const onClickToRemoveMyList = async (myListId: string): Promise<void> => {
-    await deleteDoc(doc(db, 'users', uid, 'myList', myListId));
-
-    setMyList((): MyListInfo[] => {
-      return myList.filter((item) => item.my_list_id !== myListId);
-    });
-  };
-
-  useEffect(() => {
-    // React.StrictModeによる再レンダリングの回避
-    if (!oneTimeMountEffect) {
-      // if (myList.length === 0){}：開発時に、再レンダリングが起こるたびに処理が走り、配列の値が重複するのを防ぐ
-      if (myList.length === 0) {
-        void getDocs(collection(db, 'users', uid, 'myList')).then((snapshots) => {
-          snapshots.forEach((snapshot) => {
-            const data = snapshot.data() as MyListInfo;
-            setMyList((prevState) => [...prevState, data]);
-          });
-        });
-      }
-    }
-
-    return () => {
-      oneTimeMountEffect = true;
-    };
-  }, []);
-
-  console.log(myList);
+  console.log('配列', myList);
 
   return (
     <SBody>
-      <Header userName={user.username} />
-      <SPageTitle>MyList</SPageTitle>
+      <Header userName={userName} />
+      <TitleWrapper>
+        <H2Title fontSize={'40px'}>{pageTitle}</H2Title>
+      </TitleWrapper>
+      {/* MyList一覧 */}
       <SItemsWrapper>
         {myList.length !== 0 ? (
-          <SItems>
-            {myList.map((item, i) => (
-              <SItem key={i}>
-                <SInfoWrapper>
-                  <SItemTitleWrapper>
-                    <SItemTitle>{checkTitle(item)}</SItemTitle>
-                  </SItemTitleWrapper>
-                  <ThreeButtons
-                    btnName1={'作品情報を見る'}
-                    btnName2={'Netflixで視聴する'}
-                    btnName3={'MyListから外す'}
-                    onClick1={() => {
-                      onClickToWorkInfo(item.id, item.media_type, navigate);
-                    }}
-                    onClick2={onClickToNetflix}
-                    onClick3={() => {
-                      void onClickToRemoveMyList(item.my_list_id);
-                    }}
-                  />
-                </SInfoWrapper>
-                <SImgWrapper>
-                  <Img src={`https://image.tmdb.org/t/p/original/${item.poster_path ?? ''}`} alt={checkTitle(item)} />
-                </SImgWrapper>
-              </SItem>
-            ))}
-          </SItems>
+          <MyListItems myList={myList} setMyList={setMyList} />
         ) : (
           <STextWrapper>
-            <PrimaryText>myListに登録されている作品はありません。</PrimaryText>
+            <PrimaryText>{noContentsText}</PrimaryText>
           </STextWrapper>
         )}
       </SItemsWrapper>
@@ -116,14 +51,11 @@ const SBody = styled.div`
 
   @media (min-width: 640px) {
     padding-top: 120px;
-    /* padding-bottom: 120px; */
   }
 `;
 
-const SPageTitle = styled.h2`
+const TitleWrapper = styled.div`
   text-align: center;
-  font-weight: bold;
-  font-size: 40px;
 `;
 
 const SItemsWrapper = styled.div`
@@ -134,62 +66,6 @@ const SItemsWrapper = styled.div`
     padding-left: 24px;
     padding-right: 24px;
   }
-`;
-
-const SItems = styled.ul`
-  margin-top: 24px;
-  width: 100%;
-  max-width: 360px;
-  margin-left: auto;
-  margin-right: auto;
-
-  @media (min-width: 640px) {
-    margin-top: 72px;
-    max-width: 800px;
-  }
-`;
-
-const SItem = styled.li`
-  display: flex;
-  flex-direction: column-reverse;
-  justify-content: center;
-  gap: 16px;
-
-  &:not(:first-child) {
-    margin-top: 64px;
-  }
-
-  @media (min-width: 640px) {
-    flex-direction: row;
-    gap: 40px;
-  }
-`;
-
-const SInfoWrapper = styled.div`
-  width: 100%;
-
-  @media (min-width: 640px) {
-    /* align-self: center; */
-    width: calc(50% - 40px / 2);
-  }
-`;
-
-const SImgWrapper = styled.div`
-  width: 100%;
-
-  @media (min-width: 640px) {
-    width: calc(50% - 40px / 2);
-  }
-`;
-
-const SItemTitleWrapper = styled.div`
-  @media (min-width: 640px) {
-    margin-top: 5%;
-  }
-`;
-const SItemTitle = styled.h3`
-  font-weight: bold;
-  font-size: 32px;
 `;
 
 const STextWrapper = styled.div`

@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 /** 内部import */
 import { auth } from '../../firebase/index';
-import { AuthButton } from '../organisms';
+import { AuthButton } from '../molecules';
 import { colorVariables as c } from '../../style';
 import { isValidEmailFormat, isValidRequiredInput } from '../../lib';
 

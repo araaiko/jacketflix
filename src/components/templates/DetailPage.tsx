@@ -1,49 +1,66 @@
 /** 外部import */
-import { FC, useContext } from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 
 /** 内部import */
 import type { FetchDetailData } from '../../types/api/fetchData';
-import type { BtnState } from '../../types/dataAndState/dataAndState';
-import { Header, TwoColumnInfo } from '../organisms';
-import { onClickToNetflix } from '../../function/commonOnClick';
-import { UserContext } from '../../providers/UserProvider';
-import { Trailer } from '../organisms/Trailer';
+import { Header, Trailer, TwoColumnInfo } from '../organisms';
 
 /** types */
 type Props = {
+  userName: string;
   data: FetchDetailData | null;
   videoId: string;
+  imgSrc: string;
+  imgAlt: string;
+  title: string;
+  overview: string;
+  btnName1: string;
   onClick1: () => void;
-  onClick1Style: BtnState;
+  disabled1: boolean;
+  btnName2: string;
+  onClick2: () => void;
+  trailerSrc: string;
 };
 
 export const DetailPage: FC<Props> = (props) => {
-  const { data, videoId, onClick1, onClick1Style } = props;
-  const { user } = useContext(UserContext);
+  const {
+    userName,
+    data,
+    videoId,
+    imgSrc,
+    imgAlt,
+    title,
+    overview,
+    btnName1,
+    onClick1,
+    disabled1,
+    btnName2,
+    onClick2,
+    trailerSrc,
+  } = props;
 
   return (
     <SBody>
-      {/* ヘッダー */}
-      <Header userName={user.username} />
+      <Header userName={userName} />
       {/* 作品情報 */}
       {data !== null && (
         <TwoColumnInfo
-          imgSrc={`https://image.tmdb.org/t/p/original/${data?.backdrop_path ?? ''}`}
-          imgAlt={data.title ?? data.name ?? data.original_name ?? ''}
-          title={data.title ?? data.name ?? data.original_name ?? ''}
-          overview={data?.overview}
-          btnName1={onClick1Style.text}
+          imgSrc={imgSrc}
+          imgAlt={imgAlt}
+          title={title}
+          overview={overview}
+          btnName1={btnName1}
           onClick1={onClick1}
-          disabled1={onClick1Style.disabled}
-          btnName2={'Netflixで視聴する'}
-          onClick2={onClickToNetflix}
+          disabled1={disabled1}
+          btnName2={btnName2}
+          onClick2={onClick2}
         />
       )}
       {/* 動画 */}
       {videoId !== '' && (
         <STrailerWrapper>
-          <Trailer src={`https://www.youtube.com/embed/${videoId}`} />
+          <Trailer src={trailerSrc} />
         </STrailerWrapper>
       )}
     </SBody>

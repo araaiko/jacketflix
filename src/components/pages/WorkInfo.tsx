@@ -10,6 +10,7 @@ import { instance } from '../../api/axios';
 import { DetailPage } from '../templates';
 import { UserContext } from '../../providers/UserProvider';
 import { db, FirebaseTimestamp } from '../../firebase';
+import { onClickToNetflix } from '../../function/commonOnClick';
 
 /** types */
 type State = {
@@ -115,5 +116,19 @@ export const WorkInfo: FC = () => {
   }, []);
 
   // console.log(videoId);
-  return <DetailPage data={data} videoId={videoId} onClick1={onClickToAddMyList} onClick1Style={myListBtn} />;
+  return <DetailPage
+   userName={user.username}
+   data={data} 
+   videoId={videoId}
+   imgSrc={`https://image.tmdb.org/t/p/original/${data?.backdrop_path ?? ''}`} 
+   imgAlt={data?.title ?? data?.name ?? data?.original_name ?? ''}
+   title={data?.title ?? data?.name ?? data?.original_name ?? ''}
+   overview={data?.overview ?? ''}
+   btnName1={myListBtn.text}
+   onClick1={onClickToAddMyList} 
+   disabled1={myListBtn.disabled}
+   btnName2={'Netflixで視聴する'}
+   onClick2={onClickToNetflix}
+   trailerSrc={`https://www.youtube.com/embed/${videoId}`}
+   />;
 };

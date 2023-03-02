@@ -7,7 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 /** 内部import */
 import { auth, db, FirebaseTimestamp } from '../../firebase/index';
-import { AuthButton } from '../organisms';
+import { AuthButton } from '../molecules';
 import { colorVariables as c } from '../../style';
 import { isValidEmailFormat, isValidRequiredInput } from '../../lib';
 import { UserContext } from '../../providers/UserProvider';

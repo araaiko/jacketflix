@@ -1,16 +1,18 @@
 /** 外部import */
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 
 /** 内部import */
 import type { MovieInfo, FetchData } from '../../types/api/fetchData';
 import { instance } from '../../api/axios';
 import { requests } from '../../api/request';
 import { Main } from '../templates';
+import { UserContext } from '../../providers/UserProvider';
 
 type Movie = MovieInfo;
 type PromiseFetchData = (fetchUrl: string, setState: React.Dispatch<Movie[]>) => Promise<void>;
 
 export const Top: FC = () => {
+  const { user } = useContext(UserContext);
   const [netflixOriginals, setNetflixOriginals] = useState<Movie[]>([]);
   const [topRated, setTopRated] = useState<Movie[]>([]);
   const [actionMovies, setActionMovies] = useState<Movie[]>([]);
@@ -36,13 +38,23 @@ export const Top: FC = () => {
 
   return (
     <Main
+      userName={user.username}
       netflixOriginals={netflixOriginals}
+      categoryTitle1={'Netflix Originals'}
       topRated={topRated}
+      categoryTitle2={'Top Rated'}
       actionMovies={actionMovies}
+      categoryTitle3={'Action Movies'}
       comedyMovies={comedyMovies}
+      categoryTitle4={'Comedy Movies'}
       documentMovies={documentMovies}
+      categoryTitle5={'Document Movies'}
       horrorMovies={horrorMovies}
-      RomanceMovies={RomanceMovies}
+      categoryTitle6={'Horror Movies'}
+      romanceMovies={RomanceMovies}
+      categoryTitle7={'Romance Movies'}
+      mediaTypeTv={'tv'}
+      mediaTypeMovie={'movie'}
     />
   );
 };

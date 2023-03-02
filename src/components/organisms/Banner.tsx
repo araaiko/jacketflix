@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 /** 内部import */
 import type { MovieInfo } from '../../types/api/fetchData';
-import { MovieTitle, PrimaryText } from '../atoms';
+import { H2Title, PrimaryText } from '../atoms';
 import { TwoButtons } from '../molecules';
 import { onClickToWorkInfo, onClickToNetflix } from '../../function/commonOnClick';
 
@@ -37,7 +37,9 @@ export const Banner: FC<Props> = (props) => {
       {movie !== null && (
         <SBanner bgImg={`https://image.tmdb.org/t/p/original/${movie?.backdrop_path ?? ''}`}>
           <SInfoWrapper>
-            <MovieTitle>{movie?.title ?? movie?.name ?? movie?.original_name}</MovieTitle>
+            <H2Title fontSize={'clamp(32px, 6vw, 48px)'}>
+              {movie?.title ?? movie?.name ?? movie?.original_name}
+            </H2Title>
             <STwoButtonsWrapper>
               <TwoButtons
                 btnName1={'作品情報を見る'}
