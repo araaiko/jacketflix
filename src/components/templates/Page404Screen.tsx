@@ -1,38 +1,41 @@
 /** 外部import */
-import { FC, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { FC } from 'react';
 import styled from 'styled-components';
-import { UserContext } from '../../providers/UserProvider';
-import { PointButton, PrimaryText } from '../atoms';
+
+/** 内部import */
+import { H2Title, PointButton, PrimaryText } from '../atoms';
 import { Header } from '../organisms';
 
-export const Page404Screen: FC = () => {
-  const navigate = useNavigate();
-  const { user } = useContext(UserContext);
+/** types */
+type Props = {
+  userName: string;
+  title: string;
+  text1: string;
+  text2: string;
+  btnText: string;
+  onClick: () => void;
+};
 
-  const onClickToTop = (): void => {
-    navigate('/');
-  };
+export const Page404Screen: FC<Props> = (props) => {
+  const { userName, title, text1, text2, btnText, onClick } = props;
 
   return (
     <SBody>
-      <Header userName={user.username} />
+      <Header userName={userName} />
       <div>
-        <SPageTitle>お探しのページが見つかりません</SPageTitle>
+        <STitleWrapper>
+          <H2Title fontSize={'clamp(32px, 5vw, 40px)'}>{title}</H2Title>
+        </STitleWrapper>
         <STextBox>
           <STextWrapper>
-            <PrimaryText>
-              アクセスしようとしたページは削除、変更されたか、現在利用できない可能性があります。
-            </PrimaryText>
+            <PrimaryText>{text1}</PrimaryText>
           </STextWrapper>
           <STextWrapper>
-            <PrimaryText>
-              恐れ入りますが、以下からトップページへ戻り、改めてお探しいただきますようお願いいたします。
-            </PrimaryText>
+            <PrimaryText>{text2}</PrimaryText>
           </STextWrapper>
         </STextBox>
         <SButtonWrapper>
-          <PointButton onClick={onClickToTop}>トップページへ戻る</PointButton>
+          <PointButton onClick={onClick}>{btnText}</PointButton>
         </SButtonWrapper>
       </div>
     </SBody>
@@ -57,12 +60,8 @@ const SBody = styled.div`
   }
 `;
 
-// const SInfoWrapper = styled.div``;
-
-const SPageTitle = styled.h2`
+const STitleWrapper = styled.div`
   text-align: center;
-  font-weight: bold;
-  font-size: clamp(32px, 5vw, 40px);
 `;
 
 const STextBox = styled.div`
