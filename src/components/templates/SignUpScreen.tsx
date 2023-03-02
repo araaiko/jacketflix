@@ -248,7 +248,7 @@ const SInputField = styled.div`
   }
 `;
 
-const SLabelWrapper = styled.dt`
+const SLabelWrapper = styled.div`
   width: 100%;
   margin-top: 0;
   text-align: left;
@@ -268,7 +268,7 @@ const SLabel = styled.label`
   }
 `;
 
-const SInputWrapper = styled.dd`
+const SInputWrapper = styled.div`
   width: 100%;
   margin-top: 8px;
 `;

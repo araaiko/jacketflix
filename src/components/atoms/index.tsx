@@ -6,7 +6,10 @@ export { H2Title } from './Title/H2Title';
 export { H3Title } from './Title/H3Title';
 
 export { Img } from './Img';
+export { Input } from './Input';
 export { ItemList } from './ItemList';
+export { LogoBig} from './LogoBig';
 export { PrimaryText } from './PrimaryText';
 export { ScrollHint } from './ScrollHint';
+export { TextLink } from './TextLink';
 export { YouTube } from './YouTube';
