@@ -1,9 +1,14 @@
 /** 外部import */
 import { FC } from 'react';
+import { SignInForm } from '../organisms';
 
 /** 内部import */
-import { SignInScreen } from '../templates';
+import { AuthScreen } from '../templates';
 
 export const SignIn: FC = () => {
-  return <SignInScreen />;
+  return (
+    <AuthScreen logo={'JACKETFLIX'}>
+      <SignInForm />
+    </AuthScreen>
+  );
 };

@@ -7,7 +7,7 @@ import styled from 'styled-components';
 /** 内部import */
 import { auth } from '../../firebase';
 import { isValidEmailFormat, isValidRequiredInput } from '../../lib';
-import { Input, TextLink } from '../atoms';
+import { H2Title, Input, TextLink } from '../atoms';
 import { AuthButton } from '../molecules';
 
 /** types */
@@ -54,6 +54,16 @@ export const ResetForm: FC = () => {
 
   return (
     <>
+      <STitleWrapper>
+        <H2Title fontSize={'clamp(24px, 4.5vw, 32px)'}>パスワードリセット</H2Title>
+      </STitleWrapper>
+
+      <SLead>
+        メールアドレスを入力し、「リセットする」ボタンを押してください。
+        <br />
+        入力されたアドレス宛にパスワードリセット用のメールをお送りします。
+      </SLead>
+
       <SFormWrapper>
         {/* メールアドレス */}
         <SInputField>
@@ -84,6 +94,22 @@ export const ResetForm: FC = () => {
 };
 
 /** style */
+const STitleWrapper = styled.div`
+  margin-top: 16px;
+
+  @media (min-width: 768px) {
+    margin-top: 24px;
+  }
+
+  @media (min-width: 1024px) {
+    margin-top: 32px;
+  }
+`;
+
+const SLead = styled.p`
+  margin-top: 24px;
+`;
+
 const SFormWrapper = styled.div`
   margin-top: 40px;
 `;

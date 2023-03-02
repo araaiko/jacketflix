@@ -7,7 +7,7 @@ import { colorVariables as c } from '../../style';
 
 /** types */
 type Props = {
-  label: string;
+  label: string | Array<string | JSX.Element>;
   htmlFor: string;
   value: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
