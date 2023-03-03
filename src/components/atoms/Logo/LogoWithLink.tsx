@@ -23,17 +23,15 @@ export const LogoWithLink: FC<Props> = ({ children }) => {
 const SLogo = styled.h1`
   font-size: clamp(24px, 4.2vw, 32px);
   color: ${c.point};
-
-  /* @media (min-width: 768px) {
-    font-size: 32px;
-  } */
 `;
 
 const SLogoLink = styled(Link)`
   color: ${c.point};
   transition: opacity 0.3s ease;
 
-  &:hover {
-    opacity: 0.7;
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      opacity: 0.7;
+    }
   }
 `;

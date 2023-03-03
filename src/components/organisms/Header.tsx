@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 
 /** 内部import */
+import { colorVariables as c, zIndex as z} from '../../style';
 import { auth } from '../../firebase';
 import { UserContext } from '../../providers/UserProvider';
 import { LogoBase, LogoWithLink } from '../atoms';
@@ -117,25 +118,19 @@ const SHeader = styled.header<SHeaderProps>`
   left: 0;
   width: 100%;
   min-height: 56px;
-  z-index: 99999;
-  color: #fff;
+  z-index: ${z.header};
+  color: ${c.secondary};
   font-weight: bold;
   display: flex;
   flex-wrap: wrap;
   padding-top: 10px;
   padding-bottom: 10px;
-  gap: 16px;
+  padding-left: clamp(16px, 3.5vw, 56px);
+  padding-right: clamp(16px, 3.5vw, 56px);
   align-items: center;
   justify-content: space-between;
-  padding-left: 16px;
-  padding-right: 16px;
   transition: background-color 0.4s ease;
-  background-color: ${({ show }) => (show ? '#000' : 'transparent')};
-
-  @media (min-width: 1024px) {
-    padding-left: 32px;
-    padding-right: 32px;
-  }
+  background-color: ${({ show }) => (show ? c.primary : 'transparent')};
 `;
 
 const SNav = styled.ul`
@@ -149,7 +144,7 @@ const SNav = styled.ul`
 `;
 
 const SNavItem = styled.li<SNavItemProps>`
-  :not(:first-child) {
+  &:not(:first-child) {
     display: none;
 
     @media (min-width: 768px) {
@@ -157,7 +152,8 @@ const SNavItem = styled.li<SNavItemProps>`
     }
   }
   white-space: nowrap;
-  ${({ hover = false }) => hover && ':hover {cursor: pointer; text-decoration: underline;}'}
+  ${({ hover = false }) =>
+    hover && '  @media (hover: hover) and (pointer: fine) {&:hover {cursor: pointer; text-decoration: underline;}}'}
 `;
 
 const SSpNav = styled.ul`
@@ -165,7 +161,7 @@ const SSpNav = styled.ul`
   bottom: 0;
   left: 0;
   width: 100%;
-  z-index: 99999;
+  z-index: ${z.header};
   display: flex;
   align-items: center;
 
@@ -183,9 +179,9 @@ const SSpNavItem = styled.li`
   height: 48px;
   line-height: 48px;
   text-align: center;
-  background-color: rgba(51, 51, 51, 1);
+  background-color: ${c.neutral};
 
   &:nth-child(n + 2) {
-    border-left: 2px solid #fff;
+    border-left: 2px solid ${c.secondary};
   }
 `;
