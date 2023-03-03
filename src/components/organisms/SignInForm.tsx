@@ -6,10 +6,10 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 /** 内部import */
+import type { User } from '../../types/Context/user';
 import { auth, db } from '../../firebase';
 import { isValidEmailFormat, isValidRequiredInput } from '../../lib';
 import { UserContext } from '../../providers/UserProvider';
-import { User } from '../../types/Context/user';
 import { H2Title, Input, TextLink } from '../atoms';
 import { AuthButton } from '../molecules';
 

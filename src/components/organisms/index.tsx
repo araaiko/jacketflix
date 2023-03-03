@@ -1,4 +1,5 @@
 export { Banner } from './Banner';
+export { Contents404 } from './Contents404';
 export { Header } from './Header';
 export { MoviesList } from './MoviesList';
 export { MyListItems } from './MyListItems';

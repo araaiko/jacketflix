@@ -4,63 +4,30 @@ import styled from 'styled-components';
 
 /** 内部import */
 import type { FetchDetailData } from '../../types/api/fetchData';
+import type { BtnState } from '../../types/dataAndState/dataAndState';
 import { Header, Trailer, TwoColumnInfo } from '../organisms';
 
 /** types */
 type Props = {
   userName: string;
   data: FetchDetailData | null;
+  myListBtn: BtnState;
   videoId: string;
-  imgSrc: string;
-  imgAlt: string;
-  title: string;
-  overview: string;
-  btnName1: string;
   onClick1: () => void;
-  disabled1: boolean;
-  btnName2: string;
-  onClick2: () => void;
-  trailerSrc: string;
 };
 
 export const DetailPage: FC<Props> = (props) => {
-  const {
-    userName,
-    data,
-    videoId,
-    imgSrc,
-    imgAlt,
-    title,
-    overview,
-    btnName1,
-    onClick1,
-    disabled1,
-    btnName2,
-    onClick2,
-    trailerSrc,
-  } = props;
+  const { userName, data, myListBtn, videoId, onClick1 } = props;
 
   return (
     <SBody>
       <Header userName={userName} />
       {/* 作品情報 */}
-      {data !== null && (
-        <TwoColumnInfo
-          imgSrc={imgSrc}
-          imgAlt={imgAlt}
-          title={title}
-          overview={overview}
-          btnName1={btnName1}
-          onClick1={onClick1}
-          disabled1={disabled1}
-          btnName2={btnName2}
-          onClick2={onClick2}
-        />
-      )}
+      {data !== null && <TwoColumnInfo data={data} onClick1={onClick1} myListBtn={myListBtn} />}
       {/* 動画 */}
       {videoId !== '' && (
         <STrailerWrapper>
-          <Trailer src={trailerSrc} />
+          <Trailer src={`https://www.youtube.com/embed/${videoId}`} />
         </STrailerWrapper>
       )}
     </SBody>

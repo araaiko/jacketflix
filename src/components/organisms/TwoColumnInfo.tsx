@@ -3,41 +3,43 @@ import { FC } from 'react';
 import styled from 'styled-components';
 
 /** 内部import */
+import type { FetchDetailData } from '../../types/api/fetchData';
+import type { BtnState } from '../../types/dataAndState/dataAndState';
+import { onClickToNetflix } from '../../function/commonOnClick';
 import { H2Title, Img, PrimaryText } from '../atoms';
 import { TwoButtons } from '../molecules';
 
 /** types */
 type Props = {
-  imgSrc: string;
-  imgAlt: string;
-  title: string;
-  overview: string | undefined;
-  btnName1: string;
+  data: FetchDetailData;
+  myListBtn: BtnState;
   onClick1: () => void;
-  disabled1: boolean;
-  btnName2: string;
-  onClick2: () => void;
 };
 
 export const TwoColumnInfo: FC<Props> = (props) => {
-  const { imgSrc, imgAlt, title, overview, btnName1, btnName2, onClick1, onClick2, disabled1 } = props;
+  const { data, myListBtn, onClick1 } = props;
 
   return (
     <SInfoItems>
       <SInfoImgWrapper>
-        <Img src={imgSrc} alt={imgAlt} />
+        <Img
+          src={`https://image.tmdb.org/t/p/original/${data?.backdrop_path ?? ''}`}
+          alt={data?.title ?? data?.name ?? data?.original_name ?? ''}
+        />
       </SInfoImgWrapper>
       <SInfoTextWrapper>
-        <H2Title fontSize={'clamp(32px, 5.5vw, 48px)'}>{title}</H2Title>
+        <H2Title fontSize={'clamp(32px, 5.5vw, 48px)'}>
+          {data?.title ?? data?.name ?? data?.original_name ?? ''}
+        </H2Title>
         <STextWrapper>
-          <PrimaryText>{overview}</PrimaryText>
+          <PrimaryText>{data?.overview}</PrimaryText>
         </STextWrapper>
         <TwoButtons
-          btnName1={btnName1}
+          btnName1={myListBtn.text}
           onClick1={onClick1}
-          disabled1={disabled1}
-          btnName2={btnName2}
-          onClick2={onClick2}
+          disabled1={myListBtn.disabled}
+          btnName2={'Netflixで視聴する'}
+          onClick2={onClickToNetflix}
         />
       </SInfoTextWrapper>
     </SInfoItems>

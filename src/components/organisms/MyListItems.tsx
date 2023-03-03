@@ -5,10 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 /** 内部import */
+import type { MyListInfo } from '../../types/dataAndState/dataAndState';
 import { db } from '../../firebase';
 import { onClickToNetflix, onClickToWorkInfo } from '../../function/commonOnClick';
 import { UserContext } from '../../providers/UserProvider';
-import { MyListInfo } from '../../types/dataAndState/dataAndState';
 import { Img, H3Title, H2Title, PrimaryText } from '../atoms';
 import { ThreeButtons } from '../molecules';
 

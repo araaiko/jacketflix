@@ -5,6 +5,7 @@ import styled from 'styled-components';
 /** 内部import */
 import { colorVariables as c } from '../../../style';
 
+/** types */
 type Props = {
   children: ReactNode;
   onClick: () => void;

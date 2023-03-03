@@ -2,6 +2,7 @@
 import { FC, ReactNode } from 'react';
 import styled from 'styled-components';
 
+/** types */
 type Props = {
   children: ReactNode;
   onClick: () => void;

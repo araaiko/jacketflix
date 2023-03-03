@@ -3,9 +3,9 @@ import { collection, getDocs } from 'firebase/firestore';
 import { FC, useContext, useEffect, useState } from 'react';
 
 /** 内部import */
+import type { MyListInfo } from '../../types/dataAndState/dataAndState';
 import { db } from '../../firebase';
 import { UserContext } from '../../providers/UserProvider';
-import { MyListInfo } from '../../types/dataAndState/dataAndState';
 import { MyListScreen } from '../templates';
 
 export const MyList: FC = () => {
