@@ -51,7 +51,7 @@ export const MyListItems: FC<Props> = memo((props) => {
   return (
     <>
       <STitleWrapper>
-        <H2Title fontSize={'40px'}>MyList</H2Title>
+        <H2Title fontSize={'clamp(32px, 5.2vw, 40px)'}>MyList</H2Title>
       </STitleWrapper>
       <SItemsWrapper>
         {myList.length !== 0 ? (
@@ -60,7 +60,7 @@ export const MyListItems: FC<Props> = memo((props) => {
               <SItem key={i}>
                 <SInfoWrapper>
                   <SItemTitleWrapper>
-                    <H3Title fontSize={'32px'}>{checkTitle(item)}</H3Title>
+                    <H3Title fontSize={'clamp(24px, 4vw, 32px)'}>{checkTitle(item)}</H3Title>
                   </SItemTitleWrapper>
                   <ThreeButtons
                     btnName1={'作品情報を見る'}
@@ -101,22 +101,22 @@ const STitleWrapper = styled.div`
 const SItemsWrapper = styled.div`
   padding-left: 16px;
   padding-right: 16px;
+  margin-top: 40px;
 
   @media (min-width: 640px) {
     padding-left: 24px;
     padding-right: 24px;
+    margin-top: 72px;
   }
 `;
 
 const SItems = styled.ul`
-  margin-top: 24px;
   width: 100%;
   max-width: 360px;
   margin-left: auto;
   margin-right: auto;
 
   @media (min-width: 640px) {
-    margin-top: 72px;
     max-width: 800px;
   }
 `;
@@ -146,7 +146,9 @@ const SInfoWrapper = styled.div`
 `;
 
 const SImgWrapper = styled.div`
-  width: 100%;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
 
   @media (min-width: 640px) {
     width: calc(50% - 40px / 2);
@@ -154,6 +156,7 @@ const SImgWrapper = styled.div`
 `;
 
 const SItemTitleWrapper = styled.div`
+  text-align: center;
   @media (min-width: 640px) {
     margin-top: 5%;
   }

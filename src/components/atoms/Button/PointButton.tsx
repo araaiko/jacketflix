@@ -27,9 +27,11 @@ const SButton = styled.button`
   width: 100%;
   /* min-width: 164px; */
 
-  &:hover {
-    color: #000;
-    background-color: ${c.secondary};
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: ${c.primary};
+      background-color: ${c.secondary};
+    }
   }
 
   @media (min-width: 768px) {

@@ -5,6 +5,7 @@ import styled from 'styled-components';
 /** 内部import */
 import type { FetchDetailData } from '../../types/api/fetchData';
 import type { BtnState } from '../../types/dataAndState/dataAndState';
+import { colorVariables as c } from '../../style';
 import { onClickToNetflix } from '../../function/commonOnClick';
 import { H2Title, Img, PrimaryText } from '../atoms';
 import { TwoButtons } from '../molecules';
@@ -34,13 +35,15 @@ export const TwoColumnInfo: FC<Props> = (props) => {
         <STextWrapper>
           <PrimaryText>{data?.overview}</PrimaryText>
         </STextWrapper>
-        <TwoButtons
-          btnName1={myListBtn.text}
-          onClick1={onClick1}
-          disabled1={myListBtn.disabled}
-          btnName2={'Netflixで視聴する'}
-          onClick2={onClickToNetflix}
-        />
+        <STwoButtonsWrapper>
+          <TwoButtons
+            btnName1={myListBtn.text}
+            onClick1={onClick1}
+            disabled1={myListBtn.disabled}
+            btnName2={'Netflixで視聴する'}
+            onClick2={onClickToNetflix}
+          />
+        </STwoButtonsWrapper>
       </SInfoTextWrapper>
     </SInfoItems>
   );
@@ -77,7 +80,7 @@ const SInfoImgWrapper = styled(SInfoItem)`
     position: absolute;
     top: 0;
     left: 0;
-    background: linear-gradient(180deg, transparent, rgba(37, 37, 37, 0.1), #000);
+    background: linear-gradient(180deg, transparent, ${c.gradient}, ${c.primary});
   }
 
   @media (min-width: 1024px) {
@@ -93,11 +96,11 @@ const SInfoImgWrapper = styled(SInfoItem)`
       position: absolute;
       top: 0;
       left: 0;
-      background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.1), #000);
+      background: linear-gradient(180deg, transparent, ${c.gradient255}, ${c.primary});
     }
 
     &::after {
-      background: linear-gradient(90deg, #000, rgba(37, 37, 37, 0.1), transparent);
+      background: linear-gradient(90deg, ${c.primary}, ${c.gradient}, transparent);
     }
   }
 `;
@@ -107,11 +110,12 @@ const SInfoTextWrapper = styled(SInfoItem)`
   padding-bottom: 32px;
   padding-left: 16px;
   padding-right: 16px;
+  padding-left: clamp(16px, 3.5vw, 56px);
+  padding-right: clamp(16px, 3.5vw, 56px);
 
   @media (min-width: 1024px) {
     padding-top: 96px;
     padding-bottom: 96px;
-    padding-left: 32px;
     padding-right: 0;
     align-self: center;
     width: 45%;
@@ -125,5 +129,13 @@ const STextWrapper = styled.div`
 
   @media (min-width: 768px) {
     margin-top: 32px;
+  }
+`;
+
+const STwoButtonsWrapper = styled.div`
+  max-width: 360px;
+
+  @media (min-width: 768px) {
+    max-width: 100%;
   }
 `;

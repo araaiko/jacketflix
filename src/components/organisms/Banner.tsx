@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 /** 内部import */
 import type { MovieInfo } from '../../types/api/fetchData';
+import { colorVariables as c } from '../../style';
 import { H2Title, PrimaryText } from '../atoms';
 import { TwoButtons } from '../molecules';
 import { onClickToWorkInfo, onClickToNetflix } from '../../function/commonOnClick';
@@ -69,9 +70,9 @@ const SBanner = styled.div<SBannerProps>`
   width: 100%;
   height: 100vh;
   position: relative;
-  color: #fff;
-  padding-left: 16px;
-  padding-right: 16px;
+  color: ${c.secondary};
+  padding-left: clamp(16px, 3.5vw, 56px);
+  padding-right: clamp(16px, 3.5vw, 56px);
   display: flex;
 
   &::after {
@@ -82,17 +83,12 @@ const SBanner = styled.div<SBannerProps>`
     left: 0;
     width: 100%;
     height: 7.4rem;
-    background-image: linear-gradient(180deg, transparent, rgba(37, 37, 37, 0.1), #000);
+    background-image: linear-gradient(180deg, transparent, ${c.gradient}, ${c.primary});
   }
 
   @media (min-width: 768px) {
     min-height: 448px;
     height: auto;
-  }
-
-  @media (min-width: 1024px) {
-    padding-left: 56px;
-    padding-right: 56px;
   }
 `;
 

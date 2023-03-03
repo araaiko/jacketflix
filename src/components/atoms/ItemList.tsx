@@ -47,12 +47,15 @@ const SList = styled.ul`
   display: flex;
   overflow-y: hidden;
   overflow-x: scroll;
-  padding-left: 20px;
   padding-right: 20px;
   margin-top: 0;
 
   &::-webkit-scrollbar {
     display: none;
+  }
+
+  @media (min-width: 768px) {
+    padding-left: 20px;
   }
 `;
 
@@ -64,9 +67,11 @@ const SItem = styled.li<SItemProps>`
   height: ${({ itemHeight }) => itemHeight};
   transition: transform 450ms;
 
-  &:hover {
-    cursor: pointer;
-    transform: scale(1.09);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      cursor: pointer;
+      transform: scale(1.09);
+    }
   }
 `;
 

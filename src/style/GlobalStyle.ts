@@ -89,8 +89,8 @@ export const GlobalStyle = createGlobalStyle`
   
   /* base */
   body {
-    background-color: #000;
-    color: #fff;
+    background-color: ${c.primary};
+    color: ${c.secondary};
     line-height: 1.3;
   }
 

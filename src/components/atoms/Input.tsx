@@ -67,19 +67,21 @@ const SInput = styled.input`
   padding-left: 14px;
   padding-right: 14px;
   border-radius: 8px;
-  color: #000;
+  color: ${c.primary};
   appearance: none;
-  background-color: #fff;
+  background-color: ${c.secondary};
   font-size: 16px;
 
   @media (min-width: 768px) {
     font-size: 18px;
   }
 
-  &:hover {
-    outline: none;
-    border: 3px solid ${c.point};
-    border-radius: 8px;
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      outline: none;
+      border: 3px solid ${c.point};
+      border-radius: 8px;
+    }
   }
 
   &:focus {
