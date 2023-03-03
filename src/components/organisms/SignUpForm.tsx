@@ -1,21 +1,21 @@
 /** 外部import */
-import { ChangeEvent, FC, useCallback, useState, useContext } from 'react';
-import styled from 'styled-components';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
-import { Link, useNavigate } from 'react-router-dom';
+import { ChangeEvent, FC, useCallback, useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
 /** 内部import */
-import { auth, db, FirebaseTimestamp } from '../../firebase/index';
-import { OnePointButton } from '../molecules';
-import { colorVariables as c } from '../../style';
+import { auth, db, FirebaseTimestamp } from '../../firebase';
 import { isValidEmailFormat, isValidRequiredInput } from '../../lib';
 import { UserContext } from '../../providers/UserProvider';
+import { H2Title, Input, TextLink } from '../atoms';
+import { AuthButton } from '../molecules';
 
 /** types */
 type SignUpParams = (username: string, email: string, password: string, confirmPassword: string) => void;
 
-export const SignUpScreen: FC = () => {
+export const SignUpForm: FC = () => {
   const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
 
@@ -122,64 +122,62 @@ export const SignUpScreen: FC = () => {
   };
 
   return (
-    <SBody>
-      <SInfoWrapper>
-        <SLogo>JACKETFLIX</SLogo>
-        <STitleWrapper>
-          <STitle>アカウント登録</STitle>
-        </STitleWrapper>
+    <>
+      <STitleWrapper>
+        <H2Title fontSize={'clamp(24px, 4.5vw, 32px)'}>アカウント登録</H2Title>
+      </STitleWrapper>
 
-        <SFormWrapper>
-          {/* ユーザー名 */}
-          <SInputField>
-            <SLabelWrapper>
-              <SLabel htmlFor={'username'}>ユーザー名</SLabel>
-            </SLabelWrapper>
-            <SInputWrapper>
-              <SInput type={'text'} id={'username'} value={username} onChange={inputUsername} />
-            </SInputWrapper>
-          </SInputField>
+      <SFormWrapper>
+        {/* ユーザー名 */}
+        <SInputField>
+          <Input
+            label={'ユーザー名'}
+            htmlFor={'username'}
+            value={username}
+            onChange={inputUsername}
+            type={'text'}
+            id={'username'}
+          />
+        </SInputField>
 
-          {/* メールアドレス */}
-          <SInputField>
-            <SLabelWrapper>
-              <SLabel htmlFor={'email'}>メールアドレス</SLabel>
-            </SLabelWrapper>
-            <SInputWrapper>
-              <SInput type={'email'} id={'email'} value={email} onChange={inputEmail} />
-            </SInputWrapper>
-          </SInputField>
+        {/* メールアドレス */}
+        <SInputField>
+          <Input
+            label={'メールアドレス'}
+            htmlFor={'email'}
+            value={email}
+            onChange={inputEmail}
+            type={'email'}
+            id={'email'}
+          />
+        </SInputField>
 
-          {/* パスワード */}
-          <SInputField>
-            <SLabelWrapper>
-              <SLabel htmlFor={'password'}>
-                パスワード <span>※6文字以上</span>
-              </SLabel>
-            </SLabelWrapper>
-            <SInputWrapper>
-              <SInput type={'password'} id={'password'} value={password} onChange={inputPassword} />
-            </SInputWrapper>
-          </SInputField>
+        {/* パスワード */}
+        <SInputField>
+          <Input
+            label={['パスワード', <span key={'spanKey'}>※6文字以上</span>]}
+            htmlFor={'password'}
+            value={password}
+            onChange={inputPassword}
+            type={'password'}
+            id={'password'}
+          />
+        </SInputField>
 
-          {/* パスワード（再確認） */}
-          <SInputField>
-            <SLabelWrapper>
-              <SLabel htmlFor={'confirmPassword'}>パスワード（再確認）</SLabel>
-            </SLabelWrapper>
-            <SInputWrapper>
-              <SInput
-                type={'password'}
-                id={'confirmPassword'}
-                value={confirmPassword}
-                onChange={inputConfirmPassword}
-              />
-            </SInputWrapper>
-          </SInputField>
-        </SFormWrapper>
+        {/* パスワード（再確認） */}
+        <SInputField>
+          <Input
+            label={'パスワード（再確認）'}
+            htmlFor={'confirmPassword'}
+            value={confirmPassword}
+            onChange={inputConfirmPassword}
+            type={'password'}
+            id={'confirmPassword'}
+          />
+        </SInputField>
 
         {/* 登録ボタン */}
-        <OnePointButton
+        <AuthButton
           btnName={btnName}
           onClick={() => {
             onClickToSignUp(username, email, password, confirmPassword);
@@ -187,38 +185,14 @@ export const SignUpScreen: FC = () => {
         />
 
         <SLinkWrapper>
-          <SLink to={'/signin'}>アカウントをお持ちの方はこちら</SLink>
+          <TextLink link={'/signin'}>アカウントをお持ちの方はこちら</TextLink>
         </SLinkWrapper>
-      </SInfoWrapper>
-    </SBody>
+      </SFormWrapper>
+    </>
   );
 };
 
 /** style */
-const SBody = styled.div`
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-top: 40px;
-  padding-bottom: 40px;
-`;
-
-const SInfoWrapper = styled.div`
-  padding-left: 16px;
-  padding-right: 16px;
-  width: 100%;
-  max-width: 600px;
-  text-align: center;
-`;
-
-const SLogo = styled.h1`
-  font-size: clamp(40px, 7.5vw, 56px);
-  font-weight: bold;
-  color: ${c.point};
-`;
-
 const STitleWrapper = styled.div`
   margin-top: 16px;
 
@@ -229,11 +203,6 @@ const STitleWrapper = styled.div`
   @media (min-width: 1024px) {
     margin-top: 32px;
   }
-`;
-
-const STitle = styled.h2`
-  font-size: clamp(24px, 4.5vw, 32px);
-  font-weight: bold;
 `;
 
 const SFormWrapper = styled.div`
@@ -248,76 +217,6 @@ const SInputField = styled.div`
   }
 `;
 
-const SLabelWrapper = styled.dt`
-  width: 100%;
-  margin-top: 0;
-  text-align: left;
-`;
-
-const SLabel = styled.label`
-  font-weight: bold;
-  font-size: 16px;
-
-  span {
-    font-size: 12px;
-    color: ${c.point};
-  }
-
-  @media (min-width: 768px) {
-    font-size: 18px;
-  }
-`;
-
-const SInputWrapper = styled.dd`
-  width: 100%;
-  margin-top: 8px;
-`;
-
-const SInput = styled.input`
-  font-family: inherit;
-  font-weight: normal;
-  width: 100%;
-  height: 48px;
-  padding-left: 14px;
-  padding-right: 14px;
-  border-radius: 8px;
-  color: #000;
-  appearance: none;
-  background-color: #fff;
-  font-size: 16px;
-
-  @media (min-width: 768px) {
-    font-size: 18px;
-  }
-
-  &:hover {
-    outline: none;
-    border: 3px solid ${c.point};
-    border-radius: 8px;
-  }
-
-  &:focus {
-    outline: none;
-    border: 3px solid ${c.point};
-    border-radius: 8px;
-  }
-
-  &:focus-visible {
-    outline: none;
-    border: 3px solid ${c.point};
-    border-radius: 8px;
-  }
-`;
-
 const SLinkWrapper = styled.p`
   margin-top: 24px;
-`
-
-const SLink = styled(Link)`
-  color: ${c.secondary};
-  text-decoration: underline;
-
-  &:hover {
-    text-decoration: none;
-  }
 `;

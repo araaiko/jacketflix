@@ -5,9 +5,9 @@ import { FC, useContext, useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 
 /** 内部import */
+import type { User } from '../../types/Context/user';
 import { auth, db } from '../../firebase';
 import { UserContext } from '../../providers/UserProvider';
-import { User } from '../../types/Context/user';
 
 export const Auth: FC = () => {
   const navigate = useNavigate();

@@ -3,25 +3,20 @@ import { FC } from 'react';
 import styled from 'styled-components';
 
 /** 内部import */
-import type { MyListInfo } from '../../types/dataAndState/dataAndState';
-import { Header, MyListItems } from '../organisms';
+import { Contents404, Header } from '../organisms';
 
 /** types */
 type Props = {
   userName: string;
-  myList: MyListInfo[];
-  setMyList: React.Dispatch<MyListInfo[]>;
 };
 
-export const MyListScreen: FC<Props> = (props) => {
-  const { userName, myList, setMyList } = props;
-
-  console.log('配列', myList);
+export const Page404Screen: FC<Props> = (props) => {
+  const { userName } = props;
 
   return (
     <SBody>
       <Header userName={userName} />
-      <MyListItems myList={myList} setMyList={setMyList} />
+      <Contents404 />
     </SBody>
   );
 };
@@ -33,6 +28,11 @@ const SBody = styled.div`
   height: auto;
   padding-top: 100px;
   padding-bottom: 120px;
+  padding-left: 16px;
+  padding-right: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   @media (min-width: 640px) {
     padding-top: 120px;

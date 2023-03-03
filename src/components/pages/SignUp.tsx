@@ -2,8 +2,13 @@
 import { FC } from 'react';
 
 /** 内部import */
-import { SignUpScreen } from '../templates';
+import { AuthScreen } from '../templates';
+import { SignUpForm } from '../organisms';
 
 export const SignUp: FC = () => {
-  return <SignUpScreen />;
+  return (
+    <AuthScreen logo={'JACKETFLIX'}>
+      <SignUpForm />
+    </AuthScreen>
+  );
 };

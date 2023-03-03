@@ -2,19 +2,25 @@
 import { FC, useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { HeartIcon, ExitIcon } from '@radix-ui/react-icons';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 
 /** 内部import */
-import { colorVariables as c } from '../../style';
 import { auth } from '../../firebase';
 import { UserContext } from '../../providers/UserProvider';
+import { LogoBase, LogoWithLink } from '../atoms';
 
 /** types */
 type Props = {
   home?: boolean;
   userName: string;
 };
+
+type MenuItems = Array<{
+  menuName: string;
+  icon: JSX.Element;
+  onClick: () => void;
+}>;
 
 export const Header: FC<Props> = (props) => {
   const { home = false, userName } = props;
@@ -38,6 +44,20 @@ export const Header: FC<Props> = (props) => {
     navigate('/mylist');
   };
 
+  // メニュー項目（map関数でイテレート）
+  const menuItems: MenuItems = [
+    {
+      menuName: 'MyList',
+      icon: <HeartIcon />,
+      onClick: onClickToMyList,
+    },
+    {
+      menuName: 'SignOut',
+      icon: <ExitIcon />,
+      onClick: onClickToSignOut,
+    },
+  ];
+
   useEffect(() => {
     const handleShow = (): void => {
       if (window.scrollY > 100) {
@@ -56,52 +76,28 @@ export const Header: FC<Props> = (props) => {
   return (
     <SHeader show={show}>
       {/* logo */}
-      {home ? (
-        <SLogo>JACKETFLIX</SLogo>
-      ) : (
-        <SLogo>
-          <SLogoLink to={'/'}>JACKETFLIX</SLogoLink>
-        </SLogo>
-      )}
+      {home ? <LogoBase>JACKETFLIX</LogoBase> : <LogoWithLink>JACKETFLIX</LogoWithLink>}
 
       <SNav>
         {/* user name */}
         <SNavItem>Hi! {userName}</SNavItem>
 
-        {/* my list */}
-        <SNavItem hover onClick={onClickToMyList}>
-          <SIconWrap>
-            <HeartIcon />
-          </SIconWrap>
-          MyList
-        </SNavItem>
-
-        {/* log out */}
-        <SNavItem hover onClick={onClickToSignOut}>
-          <SIconWrap>
-            <ExitIcon />
-          </SIconWrap>
-          Logout
-        </SNavItem>
+        {menuItems.map((item, i) => (
+          <SNavItem hover onClick={item.onClick} key={i}>
+            <SIconWrap>{item.icon}</SIconWrap>
+            {item.menuName}
+          </SNavItem>
+        ))}
       </SNav>
 
       {/* SP 下部固定 */}
       <SSpNav>
-        {/* my list */}
-        <SSpNavItem onClick={onClickToMyList}>
-          <SIconWrap>
-            <HeartIcon />
-          </SIconWrap>
-          MyList
-        </SSpNavItem>
-
-        {/* log out */}
-        <SSpNavItem onClick={onClickToSignOut}>
-          <SIconWrap>
-            <ExitIcon />
-          </SIconWrap>
-          Logout
-        </SSpNavItem>
+        {menuItems.map((item, i) => (
+          <SSpNavItem onClick={item.onClick} key={i}>
+            <SIconWrap>{item.icon}</SIconWrap>
+            {item.menuName}
+          </SSpNavItem>
+        ))}
       </SSpNav>
     </SHeader>
   );
@@ -139,24 +135,6 @@ const SHeader = styled.header<SHeaderProps>`
   @media (min-width: 1024px) {
     padding-left: 32px;
     padding-right: 32px;
-  }
-`;
-
-const SLogo = styled.h1`
-  font-size: 24px;
-  color: ${c.point};
-
-  @media (min-width: 768px) {
-    font-size: 32px;
-  }
-`;
-
-const SLogoLink = styled(Link)`
-  color: ${c.point};
-  transition: opacity 0.3s ease;
-
-  &:hover {
-    opacity: 0.7;
   }
 `;
 

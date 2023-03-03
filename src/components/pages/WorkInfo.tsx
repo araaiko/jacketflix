@@ -90,7 +90,7 @@ export const WorkInfo: FC = () => {
       const request = await instance.get<FetchVideoData>(fetchVideoUrl);
       setVideoId(request.data.results[0]?.key);
     };
-    // お気に入り登録済みかどうか確認
+    // myListに登録済みかどうか確認
     const checkAddedMyList = async (): Promise<void> => {
       const workInfoIds: string[] = [];
 
@@ -101,7 +101,6 @@ export const WorkInfo: FC = () => {
           workInfoIds.push(dataId);
         });
       });
-      // console.log('配列', workInfoIds);
 
       if (workInfoIds.includes(workInfoId)) {
         setMyListBtn({
@@ -115,6 +114,13 @@ export const WorkInfo: FC = () => {
     void checkAddedMyList();
   }, []);
 
-  // console.log(videoId);
-  return <DetailPage data={data} videoId={videoId} onClick1={onClickToAddMyList} onClick1Style={myListBtn} />;
+  return (
+    <DetailPage
+      userName={user.username}
+      data={data}
+      myListBtn={myListBtn}
+      onClick1={onClickToAddMyList}
+      videoId={videoId}
+    />
+  );
 };
