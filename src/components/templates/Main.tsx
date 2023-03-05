@@ -1,5 +1,5 @@
 /** 外部import */
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import styled from 'styled-components';
 
 /** 内部import */
@@ -26,7 +26,7 @@ type Props = {
   mediaTypeMovie: string;
 };
 
-export const Main: FC<Props> = (props) => {
+export const Main: FC<Props> = memo((props) => {
   const {
     userName,
     netflixOriginals,
@@ -63,7 +63,9 @@ export const Main: FC<Props> = (props) => {
       <MoviesList data={romanceMovies} title={categoryTitle7} mediaType={mediaTypeMovie} />
     </SBody>
   );
-};
+});
+
+Main.displayName = 'Main';
 
 /** style */
 const SBody = styled.div`

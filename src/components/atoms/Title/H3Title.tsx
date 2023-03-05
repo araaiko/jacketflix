@@ -1,5 +1,5 @@
 /** 外部import */
-import { FC, memo, ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 import styled from 'styled-components';
 
 type Props = {
@@ -7,12 +7,10 @@ type Props = {
   fontSize: string;
 };
 
-export const H3Title: FC<Props> = memo((props) => {
+export const H3Title: FC<Props> = (props) => {
   const { children, fontSize } = props;
   return <STitle fz={fontSize}>{children}</STitle>;
-});
-
-H3Title.displayName = 'H3Title';
+};
 
 /** style */
 type STitleProps = {

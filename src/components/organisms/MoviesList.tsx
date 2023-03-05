@@ -1,5 +1,5 @@
 /** 外部import */
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import styled from 'styled-components';
 
 /** 内部import */
@@ -12,7 +12,7 @@ type Props = {
   mediaType: string;
 };
 
-export const MoviesList: FC<Props> = (props) => {
+export const MoviesList: FC<Props> = memo((props) => {
   const { data, title, mediaType } = props;
 
   return (
@@ -24,7 +24,9 @@ export const MoviesList: FC<Props> = (props) => {
       <ItemList movies={data} mediaType={mediaType} itemHeight={'250px'} />
     </SBody>
   );
-};
+});
+
+MoviesList.displayName = 'MoviesList';
 
 /** style */
 const SBody = styled.div`

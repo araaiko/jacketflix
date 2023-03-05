@@ -1,3 +1,3 @@
 export const zIndex = {
-  header: '99999'
+  header: '99999',
 };

@@ -1,7 +1,7 @@
 /** 外部import */
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
-import { ChangeEvent, FC, useCallback, useContext, useState } from 'react';
+import { ChangeEvent, FC, memo, useCallback, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -16,7 +16,7 @@ import { AuthButton } from '../molecules';
 /** types */
 type SignInParams = (email: string, password: string) => void;
 
-export const SignInForm: FC = () => {
+export const SignInForm: FC = memo(() => {
   const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
 
@@ -159,7 +159,9 @@ export const SignInForm: FC = () => {
       </SFormWrapper>
     </>
   );
-};
+});
+
+SignInForm.displayName = 'SignInForm';
 
 /** style */
 const STitleWrapper = styled.div`

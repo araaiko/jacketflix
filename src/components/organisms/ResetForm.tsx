@@ -1,6 +1,6 @@
 /** 外部import */
 import { sendPasswordResetEmail } from 'firebase/auth';
-import { ChangeEvent, FC, useCallback, useState } from 'react';
+import { ChangeEvent, FC, memo, useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -13,7 +13,7 @@ import { AuthButton } from '../molecules';
 /** types */
 type ResetParams = (email: string) => void;
 
-export const ResetForm: FC = () => {
+export const ResetForm: FC = memo(() => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [btnName, setBtnName] = useState('リセットする');
@@ -91,7 +91,9 @@ export const ResetForm: FC = () => {
       </SFormWrapper>
     </>
   );
-};
+});
+
+ResetForm.displayName = 'ResetForm';
 
 /** style */
 const STitleWrapper = styled.div`

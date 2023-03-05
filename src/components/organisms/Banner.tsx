@@ -1,5 +1,5 @@
 /** 外部import */
-import { FC, useEffect, useState } from 'react';
+import { FC, memo, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,7 +16,7 @@ type Props = {
 };
 type Truncate = (str: string | undefined, n: number) => string | undefined;
 
-export const Banner: FC<Props> = (props) => {
+export const Banner: FC<Props> = memo((props) => {
   const { data, mediaType } = props;
   const navigate = useNavigate();
   const [movie, setMovie] = useState<MovieInfo | null>(null);
@@ -59,7 +59,9 @@ export const Banner: FC<Props> = (props) => {
       )}
     </>
   );
-};
+});
+
+Banner.displayName = 'Banner';
 
 /** style */
 type SBannerProps = {

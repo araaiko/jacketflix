@@ -1,5 +1,5 @@
 /** 外部import */
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import styled from 'styled-components';
 
 /** 内部import */
@@ -14,7 +14,7 @@ type Props = {
   onClick3: () => void;
 };
 
-export const ThreeButtons: FC<Props> = (props) => {
+export const ThreeButtons: FC<Props> = memo((props) => {
   const { btnName1, btnName2, btnName3, onClick1, onClick2, onClick3 } = props;
 
   return (
@@ -30,7 +30,9 @@ export const ThreeButtons: FC<Props> = (props) => {
       </SButtonWrapper>
     </SButtonsWrapper>
   );
-};
+});
+
+ThreeButtons.displayName = 'ThreeButtons';
 
 /** style */
 const SButtonsWrapper = styled.div`

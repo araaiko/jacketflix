@@ -1,12 +1,12 @@
 /** 外部import */
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 /** 内部import */
 import { H2Title, PointButton, PrimaryText } from '../atoms';
 
-export const Contents404: FC = () => {
+export const Contents404: FC = memo(() => {
   const navigate = useNavigate();
 
   const onClickToTop = (): void => {
@@ -33,7 +33,9 @@ export const Contents404: FC = () => {
       </SButtonWrapper>
     </div>
   );
-};
+});
+
+Contents404.displayName = 'Contents404';
 
 /** style */
 const STitleWrapper = styled.div`

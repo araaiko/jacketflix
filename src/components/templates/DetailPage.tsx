@@ -1,5 +1,5 @@
 /** 外部import */
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import styled from 'styled-components';
 
 /** 内部import */
@@ -16,7 +16,7 @@ type Props = {
   onClick1: () => void;
 };
 
-export const DetailPage: FC<Props> = (props) => {
+export const DetailPage: FC<Props> = memo((props) => {
   const { userName, data, myListBtn, videoId, onClick1 } = props;
 
   return (
@@ -32,7 +32,9 @@ export const DetailPage: FC<Props> = (props) => {
       )}
     </SBody>
   );
-};
+});
+
+DetailPage.displayName = 'DetailPage';
 
 /** style */
 const SBody = styled.div`
