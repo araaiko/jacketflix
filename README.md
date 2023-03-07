@@ -9,6 +9,84 @@
 ・styled-components　^5.3.6\
 その他についてはpackage.jsonをご確認ください。
 
+## ディレクトリ構成について
+
+### Atomic Design
+
+本件はAtomic Designを採用しています。\
+主なルールは以下を参考にしています。\
+https://info.drobe.co.jp/blog/engineering/react-component-atomic-design \
+
+その他の独自ルールは以下の通りです。
+
+#### 外部データとのやり取りについて
+
+外部データについてはPagesかOrganismsにまとめています。\
+基本はPagesにまとめるようにしていますが、一部、Organismsに記載したほうが見通しが良いもの（onClick等のイベントリスナー経由で外部データとやり取りする場合など）に限ってはOrganismsにまとめました。
+
+#### コンポーネント分割について
+
+・ul, liなど、HTMLの都合上切り分けずにまとめておいた方が使い勝手が良い、ミスが起こりにくい要素については、ulとliで分割せず、1セットのコンポーネントとしてまとめています。\
+
+・map関数を使用している都合上、どうしても汎用的にできない要素については、無理にAtomsにせず、Organismsに格納しています。
+
+### Atomic Design以外のディレクトリ構成について
+
+#### api
+
+axiosの設定やrequest URLをまとめています。
+
+#### firebase
+
+Firebaseのconfigをまとめています。
+
+#### function
+
+複数のファイルで使用する、汎用的な関数をまとめています。\
+※本件でのみ使うものに限る
+
+#### img
+
+画像を格納しています。
+
+#### lib
+
+本件に限らず、どのプロジェクトでも使える関数をまとめています。
+
+#### providers
+
+後述するContextの各設定をまとめています。
+
+#### router
+
+React Routerの設定をまとめています。
+
+#### style
+
+リセットCSSや共通CSSを記述したGlobalStyleを格納しています。\
+また、z-indexやカラー変数もまとめています。
+
+#### types
+
+複数のファイルで使用する、共通の型定義をまとめています。
+
+## グローバルStateについて
+
+グローバルStateには、Contextを使用しています。\
+現在はユーザー情報のみ保持しています。
+
+## styled-componentsについて
+
+本件ではstyled-componentsを使用しています。\
+styled-componentsは先頭にSを付けて区別できるようにしています。\
+例) `const STextWrapper = styled.div``;`
+
+## 使用アイコンについて
+
+ヘッダー等で使用している各アイコンはRadix Iconsをお借りしています。（https://icons.radix-ui.com/）
+
+
+
 ## Available Scripts
 
 In the project directory, you can run:
