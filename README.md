@@ -1,6 +1,13 @@
-# Getting Started with Create React App
+# JACKETFLIXの環境およびディレクトリ構成について
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+本件はcreate-react-appで構築しました。(https://github.com/facebook/create-react-app).
+主な環境は以下の通りです。
+・React ^18.2.0
+・TypeScript ^4.9.4
+・Firebase ^9.17.1
+・axios ^1.2.3
+・styled-components ^5.3.6
+その他についてはpackage.jsonをご確認ください。
 
 ## Available Scripts
 
