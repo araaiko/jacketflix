@@ -92,6 +92,7 @@ export const GlobalStyle = createGlobalStyle`
     background-color: ${c.primary};
     color: ${c.secondary};
     line-height: 1.3;
+    font-family: 'Hiragino Kaku Gothic ProN','ヒラギノ角ゴ ProN W3','メイリオ', 'Meiryo', sans-serif;
   }
 
   button,

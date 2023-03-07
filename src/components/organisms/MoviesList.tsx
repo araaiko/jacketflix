@@ -18,7 +18,9 @@ export const MoviesList: FC<Props> = memo((props) => {
 
   return (
     <SBody>
-      <H2Title fontSize={'24px'}>{title}</H2Title>
+      <SH2TitleWrapper>
+        <H2Title fontSize={'24px'}>{title}</H2Title>
+      </SH2TitleWrapper>
       <SScrollHintWrapper>
         <ScrollHint>scroll ▶︎</ScrollHint>
       </SScrollHintWrapper>
@@ -31,13 +33,16 @@ MoviesList.displayName = 'MoviesList';
 
 /** style */
 const SBody = styled.div`
-  margin-left: 20px;
   position: relative;
 
   &:nth-child(n + 2) {
     margin-top: 50px;
   }
 `;
+
+const SH2TitleWrapper = styled.div`
+  margin-left: 20px;
+`
 
 const SScrollHintWrapper = styled.div`
   position: absolute;

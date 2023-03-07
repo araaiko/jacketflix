@@ -49,6 +49,7 @@ const SList = styled.ul`
   display: flex;
   overflow-y: hidden;
   overflow-x: scroll;
+  padding-left: 20px;
   padding-right: 20px;
   margin-top: 0;
 
@@ -57,7 +58,7 @@ const SList = styled.ul`
   }
 
   @media (min-width: 768px) {
-    padding-left: 20px;
+    padding-left: 40px;
   }
 `;
 

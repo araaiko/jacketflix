@@ -127,7 +127,7 @@ const SInfoTextWrapper = styled(SInfoItem)`
 const STextWrapper = styled.div`
   margin-top: 24px;
   width: 100%;
-  max-width: 600px;
+  /* max-width: 600px; */
 
   @media (min-width: 768px) {
     margin-top: 32px;
