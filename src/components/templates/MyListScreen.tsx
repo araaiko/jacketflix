@@ -17,8 +17,6 @@ type Props = {
 export const MyListScreen: FC<Props> = memo((props) => {
   const { userName, myList, setMyList, isLoading } = props;
 
-  console.log('配列', myList);
-
   return (
     <SBody>
       <Header userName={userName} />
