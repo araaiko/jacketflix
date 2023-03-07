@@ -12,6 +12,7 @@ export { LogoWithLink } from './Logo/LogoWithLink';
 export { Img } from './Img';
 export { Input } from './Input';
 export { ItemList } from './ItemList';
+export { Loading } from './Loading';
 export { PrimaryText } from './PrimaryText';
 export { ScrollHint } from './ScrollHint';
 export { TextLink } from './TextLink';

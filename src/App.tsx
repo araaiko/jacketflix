@@ -5,7 +5,7 @@ import React, { FC, useEffect } from 'react';
 import { GlobalStyle } from './style';
 import { Router } from './router/Router';
 import { changeViewport } from './lib/changeViewport';
-import { UserProvider } from './providers/UserProvider'; 
+import { UserProvider } from './providers/UserProvider';
 
 export const App: FC = () => {
   useEffect(() => {

@@ -5,6 +5,7 @@ import styled from 'styled-components';
 /** 内部import */
 import type { FetchDetailData } from '../../types/api/fetchData';
 import type { BtnState } from '../../types/dataAndState/dataAndState';
+import { Loading } from '../atoms';
 import { Header, Trailer, TwoColumnInfo } from '../organisms';
 
 /** types */
@@ -14,21 +15,31 @@ type Props = {
   myListBtn: BtnState;
   videoId: string;
   onClick1: () => void;
+  isLoading1: boolean;
+  isLoading2: boolean;
 };
 
 export const DetailPage: FC<Props> = memo((props) => {
-  const { userName, data, myListBtn, videoId, onClick1 } = props;
+  const { userName, data, myListBtn, videoId, onClick1, isLoading1, isLoading2 } = props;
 
   return (
     <SBody>
       <Header userName={userName} />
       {/* 作品情報 */}
-      {data !== null && <TwoColumnInfo data={data} onClick1={onClick1} myListBtn={myListBtn} />}
+      {isLoading1 ? (
+        <Loading />
+      ) : (
+        data !== null && <TwoColumnInfo data={data} onClick1={onClick1} myListBtn={myListBtn} />
+      )}
       {/* 動画 */}
-      {videoId !== '' && (
-        <STrailerWrapper>
-          <Trailer src={`https://www.youtube.com/embed/${videoId}`} />
-        </STrailerWrapper>
+      {isLoading2 ? (
+        <Loading />
+      ) : (
+        videoId !== '' && (
+          <STrailerWrapper>
+            <Trailer src={`https://www.youtube.com/embed/${videoId}`} />
+          </STrailerWrapper>
+        )
       )}
     </SBody>
   );

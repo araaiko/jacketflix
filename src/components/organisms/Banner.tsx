@@ -1,29 +1,32 @@
 /** 外部import */
-import { FC, memo, useEffect, useState } from 'react';
+import { FC, memo, startTransition, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
 /** 内部import */
 import type { MovieInfo } from '../../types/api/fetchData';
 import { colorVariables as c } from '../../style';
-import { H2Title, PrimaryText } from '../atoms';
+import { H2Title, Loading, PrimaryText } from '../atoms';
 import { TwoButtons } from '../molecules';
 import { onClickToWorkInfo, onClickToNetflix } from '../../function/commonOnClick';
 
 type Props = {
   data: MovieInfo[];
   mediaType: string;
+  isLoading: boolean;
 };
 type Truncate = (str: string | undefined, n: number) => string | undefined;
 
 export const Banner: FC<Props> = memo((props) => {
-  const { data, mediaType } = props;
+  const { data, mediaType, isLoading } = props;
   const navigate = useNavigate();
   const [movie, setMovie] = useState<MovieInfo | null>(null);
 
   // 親から値(props)が渡される前に初回レンダリングが実行されるため、props(data)が更新される度に走るよう記述
   useEffect(() => {
-    setMovie(data[Math.floor(Math.random() * data.length - 1)]);
+    startTransition(() => {
+      setMovie(data[Math.floor(Math.random() * data.length - 1)]);
+    });
   }, [data]);
 
   // あらすじの一部省略
@@ -35,12 +38,11 @@ export const Banner: FC<Props> = memo((props) => {
 
   return (
     <>
+      {isLoading && <Loading />}
       {movie !== null && (
         <SBanner bgImg={`https://image.tmdb.org/t/p/original/${movie?.backdrop_path ?? ''}`}>
           <SInfoWrapper>
-            <H2Title fontSize={'clamp(32px, 6vw, 48px)'}>
-              {movie?.title ?? movie?.name ?? movie?.original_name}
-            </H2Title>
+            <H2Title fontSize={'clamp(32px, 6vw, 48px)'}>{movie?.title ?? movie?.name ?? movie?.original_name}</H2Title>
             <STwoButtonsWrapper>
               <TwoButtons
                 btnName1={'作品情報を見る'}

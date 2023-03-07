@@ -11,17 +11,18 @@ type Props = {
   userName: string;
   myList: MyListInfo[];
   setMyList: React.Dispatch<MyListInfo[]>;
+  isLoading: boolean;
 };
 
 export const MyListScreen: FC<Props> = memo((props) => {
-  const { userName, myList, setMyList } = props;
+  const { userName, myList, setMyList, isLoading } = props;
 
   console.log('配列', myList);
 
   return (
     <SBody>
       <Header userName={userName} />
-      <MyListItems myList={myList} setMyList={setMyList} />
+      <MyListItems myList={myList} setMyList={setMyList} isLoading={isLoading} />
     </SBody>
   );
 });

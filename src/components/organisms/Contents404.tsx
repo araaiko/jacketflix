@@ -1,5 +1,5 @@
 /** 外部import */
-import { FC, memo } from 'react';
+import { FC, memo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -9,9 +9,9 @@ import { H2Title, PointButton, PrimaryText } from '../atoms';
 export const Contents404: FC = memo(() => {
   const navigate = useNavigate();
 
-  const onClickToTop = (): void => {
+  const onClickToTop = useCallback((): void => {
     navigate('/');
-  };
+  }, []);
   
   return (
     <div>

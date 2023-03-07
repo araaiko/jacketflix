@@ -1,5 +1,5 @@
 /** 外部import */
-import { FC, useContext, useEffect, useState } from 'react';
+import { FC, startTransition, useContext, useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import { collection, doc, setDoc, getDocs } from 'firebase/firestore';
 
@@ -30,6 +30,8 @@ export const WorkInfo: FC = () => {
   const [data, setData] = useState<FetchDetailData | null>(null);
   const [videoId, setVideoId] = useState<string>(''); // YouTube
   const [myListBtn, setMyListBtn] = useState<BtnState>({ text: 'MyListに登録する', disabled: false });
+  const [isLoading1, setIsLoading1] = useState(true);
+  const [isLoading2, setIsLoading2] = useState(true);
 
   // お気に入り登録
   const onClickToAddMyList = (): void => {
@@ -84,11 +86,17 @@ export const WorkInfo: FC = () => {
 
     const fetchData = async (): Promise<void> => {
       const request = await instance.get<FetchDetailData>(fetchUrl);
-      setData(request.data);
+      startTransition(() => {
+        setData(request.data);
+      });
+      setIsLoading1(false);
     };
     const fetchVideoId = async (): Promise<void> => {
       const request = await instance.get<FetchVideoData>(fetchVideoUrl);
-      setVideoId(request.data.results[0]?.key);
+      startTransition(() => {
+        setVideoId(request.data.results[0]?.key);
+      });
+      setIsLoading2(false);
     };
     // myListに登録済みかどうか確認
     const checkAddedMyList = async (): Promise<void> => {
@@ -121,6 +129,8 @@ export const WorkInfo: FC = () => {
       myListBtn={myListBtn}
       onClick1={onClickToAddMyList}
       videoId={videoId}
+      isLoading1={isLoading1}
+      isLoading2={isLoading2}
     />
   );
 };
