@@ -1,5 +1,5 @@
 /** 外部import */
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import styled from 'styled-components';
 
 /** 内部import */
@@ -10,7 +10,7 @@ type Props = {
   userName: string;
 };
 
-export const Page404Screen: FC<Props> = (props) => {
+export const Page404Screen: FC<Props> = memo((props) => {
   const { userName } = props;
 
   return (
@@ -19,7 +19,9 @@ export const Page404Screen: FC<Props> = (props) => {
       <Contents404 />
     </SBody>
   );
-};
+});
+
+Page404Screen.displayName = 'Page404Screen';
 
 /** style */
 const SBody = styled.div`

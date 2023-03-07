@@ -1,5 +1,5 @@
 /** 外部import */
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import styled from 'styled-components';
 
 /** 内部import */
@@ -17,7 +17,7 @@ type Props = {
   onClick1: () => void;
 };
 
-export const TwoColumnInfo: FC<Props> = (props) => {
+export const TwoColumnInfo: FC<Props> = memo((props) => {
   const { data, myListBtn, onClick1 } = props;
 
   return (
@@ -47,7 +47,9 @@ export const TwoColumnInfo: FC<Props> = (props) => {
       </SInfoTextWrapper>
     </SInfoItems>
   );
-};
+});
+
+TwoColumnInfo.displayName = 'TwoColumnInfo';
 
 /** style */
 const SInfoItems = styled.div`

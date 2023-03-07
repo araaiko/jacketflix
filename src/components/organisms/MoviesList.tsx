@@ -1,19 +1,20 @@
 /** 外部import */
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import styled from 'styled-components';
 
 /** 内部import */
 import type { MovieInfo } from '../../types/api/fetchData';
-import { H2Title, ItemList, ScrollHint } from '../atoms';
+import { H2Title, ItemList, Loading, ScrollHint } from '../atoms';
 
 type Props = {
   data: MovieInfo[];
   title: string;
   mediaType: string;
+  isLoading: boolean;
 };
 
-export const MoviesList: FC<Props> = (props) => {
-  const { data, title, mediaType } = props;
+export const MoviesList: FC<Props> = memo((props) => {
+  const { data, title, mediaType, isLoading } = props;
 
   return (
     <SBody>
@@ -21,10 +22,12 @@ export const MoviesList: FC<Props> = (props) => {
       <SScrollHintWrapper>
         <ScrollHint>scroll ▶︎</ScrollHint>
       </SScrollHintWrapper>
-      <ItemList movies={data} mediaType={mediaType} itemHeight={'250px'} />
+      {isLoading ? <Loading /> : <ItemList movies={data} mediaType={mediaType} itemHeight={'250px'} />}
     </SBody>
   );
-};
+});
+
+MoviesList.displayName = 'MoviesList';
 
 /** style */
 const SBody = styled.div`

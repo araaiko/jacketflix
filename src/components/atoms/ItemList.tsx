@@ -1,5 +1,5 @@
 /** 外部import */
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,7 +13,7 @@ type Props = {
   mediaType: string;
 };
 
-export const ItemList: FC<Props> = (props) => {
+export const ItemList: FC<Props> = memo((props) => {
   const { movies, itemHeight, mediaType } = props;
   const navigate = useNavigate();
 
@@ -35,7 +35,9 @@ export const ItemList: FC<Props> = (props) => {
       ))}
     </SList>
   );
-};
+});
+
+ItemList.displayName = 'ItemList';
 
 /** style */
 type SItemProps = {

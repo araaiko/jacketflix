@@ -1,5 +1,5 @@
 /** 外部import */
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import styled from 'styled-components';
 
 /** 内部import */
@@ -11,20 +11,23 @@ type Props = {
   userName: string;
   myList: MyListInfo[];
   setMyList: React.Dispatch<MyListInfo[]>;
+  isLoading: boolean;
 };
 
-export const MyListScreen: FC<Props> = (props) => {
-  const { userName, myList, setMyList } = props;
+export const MyListScreen: FC<Props> = memo((props) => {
+  const { userName, myList, setMyList, isLoading } = props;
 
   console.log('配列', myList);
 
   return (
     <SBody>
       <Header userName={userName} />
-      <MyListItems myList={myList} setMyList={setMyList} />
+      <MyListItems myList={myList} setMyList={setMyList} isLoading={isLoading} />
     </SBody>
   );
-};
+});
+
+MyListScreen.displayName = 'MyListScreen';
 
 /** style */
 const SBody = styled.div`

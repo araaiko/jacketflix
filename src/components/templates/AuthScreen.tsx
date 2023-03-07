@@ -1,5 +1,5 @@
 /** 外部import */
-import { FC, ReactNode } from 'react';
+import { FC, memo, ReactNode } from 'react';
 import styled from 'styled-components';
 
 /** 内部import */
@@ -11,7 +11,7 @@ type Props = {
   children: ReactNode;
 };
 
-export const AuthScreen: FC<Props> = (props) => {
+export const AuthScreen: FC<Props> = memo((props) => {
   const { logo, children } = props;
 
   return (
@@ -22,7 +22,9 @@ export const AuthScreen: FC<Props> = (props) => {
       </SInfoWrapper>
     </SBody>
   );
-};
+});
+
+AuthScreen.displayName = 'AuthScreen';
 
 /** style */
 const SBody = styled.div`

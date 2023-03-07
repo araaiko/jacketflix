@@ -1,6 +1,6 @@
 /** 外部import */
 import { collection, getDocs } from 'firebase/firestore';
-import { FC, useContext, useEffect, useState } from 'react';
+import { FC, startTransition, useContext, useEffect, useState } from 'react';
 
 /** 内部import */
 import type { MyListInfo } from '../../types/dataAndState/dataAndState';
@@ -12,6 +12,7 @@ export const MyList: FC = () => {
   const { user } = useContext(UserContext);
   const uid = user.uid;
   const [myList, setMyList] = useState<MyListInfo[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   // React.StrictModeによる再レンダリングの回避用
   let oneTimeMountEffect = false;
 
@@ -23,7 +24,10 @@ export const MyList: FC = () => {
         void getDocs(collection(db, 'users', uid, 'myList')).then((snapshots) => {
           snapshots.forEach((snapshot) => {
             const data = snapshot.data() as MyListInfo;
-            setMyList((prevState) => [...prevState, data]);
+            startTransition(() => {
+              setMyList((prevState) => [...prevState, data]);
+            });
+            setIsLoading(false);
           });
         });
       }
@@ -34,11 +38,5 @@ export const MyList: FC = () => {
     };
   }, []);
 
-  return (
-    <MyListScreen
-      userName={user.username}
-      myList={myList}
-      setMyList={setMyList}
-    />
-  );
+  return <MyListScreen userName={user.username} myList={myList} setMyList={setMyList} isLoading={isLoading} />;
 };

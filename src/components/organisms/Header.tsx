@@ -1,12 +1,12 @@
 /** 外部import */
-import { FC, useState, useEffect, useContext } from 'react';
+import { FC, useState, useEffect, useContext, memo } from 'react';
 import styled from 'styled-components';
 import { HeartIcon, ExitIcon } from '@radix-ui/react-icons';
 import { useNavigate } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 
 /** 内部import */
-import { colorVariables as c, zIndex as z} from '../../style';
+import { colorVariables as c, zIndex as z } from '../../style';
 import { auth } from '../../firebase';
 import { UserContext } from '../../providers/UserProvider';
 import { LogoBase, LogoWithLink } from '../atoms';
@@ -23,7 +23,7 @@ type MenuItems = Array<{
   onClick: () => void;
 }>;
 
-export const Header: FC<Props> = (props) => {
+export const Header: FC<Props> = memo((props) => {
   const { home = false, userName } = props;
   const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
@@ -102,7 +102,9 @@ export const Header: FC<Props> = (props) => {
       </SSpNav>
     </SHeader>
   );
-};
+});
+
+Header.displayName = 'Header';
 
 /** style */
 type SHeaderProps = {

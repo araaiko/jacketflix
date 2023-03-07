@@ -1,5 +1,5 @@
 /** 外部import */
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import styled from 'styled-components';
 
 /** 内部import */
@@ -13,7 +13,7 @@ type Props = {
   disabled1?: boolean;
 };
 
-export const TwoButtons: FC<Props> = (props) => {
+export const TwoButtons: FC<Props> = memo((props) => {
   const { btnName1, btnName2, onClick1, onClick2, disabled1 = false } = props;
 
   return (
@@ -28,7 +28,9 @@ export const TwoButtons: FC<Props> = (props) => {
       </SButtonWrapper>
     </SButtonsWrapper>
   );
-};
+});
+
+TwoButtons.displayName = 'TwoButtons';
 
 /** style */
 const SButtonsWrapper = styled.div`

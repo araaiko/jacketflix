@@ -1,6 +1,6 @@
 /** 外部import */
 import { deleteDoc, doc } from 'firebase/firestore';
-import { FC, memo, useContext } from 'react';
+import { FC, memo, startTransition, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -9,17 +9,18 @@ import type { MyListInfo } from '../../types/dataAndState/dataAndState';
 import { db } from '../../firebase';
 import { onClickToNetflix, onClickToWorkInfo } from '../../function/commonOnClick';
 import { UserContext } from '../../providers/UserProvider';
-import { Img, H3Title, H2Title, PrimaryText } from '../atoms';
+import { Img, H3Title, H2Title, PrimaryText, Loading } from '../atoms';
 import { ThreeButtons } from '../molecules';
 
 /** types */
 type Props = {
   myList: MyListInfo[];
   setMyList: React.Dispatch<MyListInfo[]>;
+  isLoading: boolean;
 };
 
 export const MyListItems: FC<Props> = memo((props) => {
-  const { myList, setMyList } = props;
+  const { myList, setMyList, isLoading } = props;
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const uid = user.uid;
@@ -45,7 +46,9 @@ export const MyListItems: FC<Props> = memo((props) => {
   const onClickToRemoveMyList = async (myListId: string): Promise<void> => {
     await deleteDoc(doc(db, 'users', uid, 'myList', myListId));
 
-    setMyList(myList.filter((item) => item.my_list_id !== myListId));
+    startTransition(() => {
+      setMyList(myList.filter((item) => item.my_list_id !== myListId));
+    });
   };
 
   return (
@@ -54,7 +57,11 @@ export const MyListItems: FC<Props> = memo((props) => {
         <H2Title fontSize={'clamp(32px, 5.2vw, 40px)'}>MyList</H2Title>
       </STitleWrapper>
       <SItemsWrapper>
-        {myList.length !== 0 ? (
+        {isLoading ? (
+          <SLoadingWrapper>
+            <Loading />
+          </SLoadingWrapper>
+        ) : myList.length !== 0 ? (
           <SItems>
             {myList.map((item, i) => (
               <SItem key={i}>
@@ -159,6 +166,18 @@ const SItemTitleWrapper = styled.div`
   text-align: center;
   @media (min-width: 640px) {
     margin-top: 5%;
+  }
+`;
+
+const SLoadingWrapper = styled.div`
+  height: calc(100vh - 100px - 120px - 52px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+
+  @media (min-width: 640px) {
+    height: calc(100vh - 120px - 120px - 52px);
   }
 `;
 
