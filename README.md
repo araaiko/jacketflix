@@ -15,7 +15,7 @@
 
 本件はAtomic Designを採用しています。\
 主なルールは以下を参考にしています。\
-https://info.drobe.co.jp/blog/engineering/react-component-atomic-design \
+https://info.drobe.co.jp/blog/engineering/react-component-atomic-design
 
 その他の独自ルールは以下の通りです。
 
@@ -26,7 +26,7 @@ https://info.drobe.co.jp/blog/engineering/react-component-atomic-design \
 
 #### コンポーネント分割について
 
-・ul, liなど、HTMLの都合上切り分けずにまとめておいた方が使い勝手が良い、ミスが起こりにくい要素については、ulとliで分割せず、1セットのコンポーネントとしてまとめています。\
+・ul, liなど、HTMLの都合上切り分けずにまとめておいた方が使い勝手が良い、ミスが起こりにくい要素については、ulとliで分割せず、1セットのコンポーネントとしてまとめています。
 
 ・map関数を使用している都合上、どうしても汎用的にできない要素については、無理にAtomsにせず、Organismsに格納しています。
 
