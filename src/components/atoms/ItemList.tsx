@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
 /** 内部import */
+import { colorVariables as c } from '../../style';
 import type { MovieInfo } from '../../types/api/fetchData';
 import { onClickToWorkInfo } from '../../function/commonOnClick';
 
@@ -55,6 +56,23 @@ const SList = styled.ul`
 
   &::-webkit-scrollbar {
     display: none;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &::-webkit-scrollbar {
+      display: block;
+      width: 10px;
+    }
+    &::-webkit-scrollbar-track {
+      background: ${c.neutral};
+      /* border-radius: 10px; */
+    }
+    &::-webkit-scrollbar-thumb {
+      background: ${c.point};
+      border-radius: 10px;
+      border: 3px solid ${c.neutral};
+    }
+    scrollbar-color: ${c.point} ${c.neutral};
   }
 
   @media (min-width: 768px) {

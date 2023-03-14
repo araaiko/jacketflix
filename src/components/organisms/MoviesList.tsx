@@ -42,7 +42,7 @@ const SBody = styled.div`
 
 const SH2TitleWrapper = styled.div`
   margin-left: 20px;
-`
+`;
 
 const SScrollHintWrapper = styled.div`
   position: absolute;
