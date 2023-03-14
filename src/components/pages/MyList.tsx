@@ -27,8 +27,8 @@ export const MyList: FC = () => {
             startTransition(() => {
               setMyList((prevState) => [...prevState, data]);
             });
-            setIsLoading(false);
           });
+          setIsLoading(false);
         });
       }
     }
